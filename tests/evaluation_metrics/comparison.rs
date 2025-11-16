@@ -264,7 +264,9 @@ fn generate_comparison_sboms(
         .output()
         .expect("Failed to execute crc");
 
-        Command::new("/home/nerving/Thesis/ArielOSBOM/target/release/arielosbom")
+        Command::new("cargo")
+        .arg("run")
+        .arg("--")
         .arg("-r")
         .arg(format!("{}", project_path))
         .arg("-o")
@@ -277,12 +279,12 @@ fn generate_comparison_sboms(
     Command::new("mv")
         .arg(format!("./syft_{}.json", syft_version))
         .arg(format!("{}", RESULT_PATH))
-        .spawn()
+        .output()
         .expect("Failed to move syft output to results directory");
     Command::new("mv")
         .arg(format!("{}crc_{}.json", project_path, crc_version))
         .arg(format!("{}", RESULT_PATH))
-        .spawn()
+        .output()
         .expect("Failed to move crc output to results directory");
     Command::new("mv")
         .arg("./arielosbom_eval.json")
