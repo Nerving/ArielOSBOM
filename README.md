@@ -44,21 +44,47 @@ Current cli arguments:
     -l, --lock-path     <PATH>              (ignore)
 ```
 
+### Detailed
+
+Installation:
+- Clone the repo: 
+
+`git clone https://github.com/Nerving/ArielOSBOM.git`
+- Install cargo-bloat: 
+
+`cargo install cargo-bloat`
+- Install nightly toolchain and set it as default:
+
+`rustup toolchain install nightly`, `rustup default nightly`
+
+
+Execution:
+- Run the build for which to create the SBOM (in your project directory):
+
+`laze build -b <board>`
+- Run ArielOSBOM (where the repo was cloned to) with your project root path as cli argument:
+
+`cargo run -- -r <PATH> [other optional arguments, e.g. -o <FILE_NAME>]`
+
+- The output file will be put into the ArielOSBOM root directory.
+
 ## To-Do / future considerations
 
 - complete info for missing SBOM fields (and make it BSI compliant)
     - metadata: additional SPDX/Cyclone-DX specific information
-    - components
-        - deal with non-Rust stuff (included binaries etc.)
-        - narrow down cargo metadata to architecture-target (less false positives)
+    - provide output directly into at least one of SPDX/Cyclone-DX
+    - determine which additional component identifiers (besides component hash) to use
+- components
+    - deal with non-Rust stuff (included binaries etc.)
+    - more accurate Rust component recognition
         - analysis of build scripts for more accurate dependency results (less false positives)
-        - determine which additional identifiers (besides component hash) to use
+        - correct/full cargo-bloat analysis
 - extract and include ArielOS/domain specific relevant information
     - device specifications
     - storage/memory footprint
     - supported features/protocols
     - anything else?
-- provide output directly into at least one of SPDX/Cyclone-DX
+
 - alternative data gathering in case cargo metadata fails
 - some niceties:
     - generate for multiple devices, multiple BOM/file formats at once
