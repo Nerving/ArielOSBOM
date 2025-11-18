@@ -44,9 +44,9 @@ Current cli arguments:
     -l, --lock-path     <PATH>              (ignore)
 ```
 
-### Detailed
+### Example (ArielOS Coap Test)
 
-Installation:
+Installation + Setup:
 - Clone the repo: 
 
 `git clone https://github.com/Nerving/ArielOSBOM.git`
@@ -57,14 +57,18 @@ Installation:
 
 `rustup toolchain install nightly`, `rustup default nightly`
 
+- Clone the ArielOS main repo:
+
+`git clone https://github.com/ariel-os/ariel-os.git`
+
 
 Execution:
-- Run the build for which to create the SBOM (in your project directory):
+- Run the build for /tests/coap in the ArielOS repo root:
 
-`laze build -b <board>`
-- Run ArielOSBOM (where the repo was cloned to) with your project root path as cli argument:
+`laze -C tests/coap build -b <board>`
+- Run ArielOSBOM (where its repo was cloned to) with your project root path and the relative path to the test case's Cargo.toml because it is not in the root directory as cli arguments:
 
-`cargo run -- -r <PATH> [other optional arguments, e.g. -o <FILE_NAME>]`
+`cargo run -- -r <PATH> -m ./tests/coap/Cargo.toml`
 
 - The output file will be put into the ArielOSBOM root directory.
 
