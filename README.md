@@ -40,8 +40,8 @@ Current cli arguments:
     -o, --output-name   <FILE_NAME>         File name of the generated SBOM [default: arielosbom]
         --bloat-filter  <BOOL>              Whether to generate and use cargo bloat data to filter cargo metadata [default: true]
 
-    -m, --manifest-path <PATH>              (ignore)              
-    -l, --lock-path     <PATH>              (ignore)
+    -m, --manifest-path <PATH>              Path if the project's manifest path does not lie at the root path, e.g. tests/examples in the ArielOS repo [default: ./Cargo.toml]
+    -l, --lock-path     <PATH>              Path if the project's lock file path does not lie at the root path [default: ./Cargo.lock]          
 ```
 
 ### Example (ArielOS Coap Test)
