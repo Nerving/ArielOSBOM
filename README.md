@@ -38,8 +38,8 @@ Current cli arguments:
     -f, --file-format   <FILE_EXTENSION>    Data format of the generated SBOM [default: json] (only .json so far)
     -o, --output-name   <FILE_NAME>         File name of the generated SBOM [default: arielosbom]
 
-    -m, --manifest-path <PATH>              Path if the project's manifest path does not lie at the root path, e.g. tests/examples in the ArielOS repo [default: ./Cargo.toml]
-    -l, --lock-path     <PATH>              Path if the project's lock file path does not lie at the root path [default: ./Cargo.lock]          
+    -m, --manifest-path <PATH>              Path if the project's manifest does not lie at the root path, e.g. tests/examples in the ArielOS repo [default: ./Cargo.toml]
+    -l, --lock-path     <PATH>              Path if the project's lock file does not lie at the root path [default: ./Cargo.lock]          
 ```
 
 ### Example (ArielOS Coap Test)
@@ -77,7 +77,7 @@ Execution:
 - components
     - deal with non-Rust stuff (included binaries etc.)
     - more accurate Rust component recognition
-        - verification of crates definitely presents via binary analysis
+        - verification of crates definitely present via binary analysis (start exists, needs to be added and expanded)
 - extract and include ArielOS/domain specific relevant information
     - device specifications
     - storage/memory footprint

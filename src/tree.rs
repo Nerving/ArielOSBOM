@@ -2,13 +2,13 @@ use cargo_metadata::{Metadata, Node, Package};
 
 use std::{
     collections::HashSet,
-    fs::File,
-    io::{BufRead, BufReader},
     path::Path,
     process::Command,
 };
 
-fn parse_envs(input: &str) -> Vec<String> {
+use crate::ArielOsBuildCommand;
+
+/* fn parse_envs(input: &str) -> Vec<String> {
     // TODO maybe: comment out why "/' and \ are treated the way they are (tldr: for environment variables to be properly recognized by Command)
 
     let characters = input.chars();
@@ -143,25 +143,14 @@ fn extract_build_command(project_path: &Path) -> String {
         }
 
         return lines[3].to_string();
-    }
+} */
 
-fn generate_cargo_tree_output(project_path: &Path) -> Vec<u8> {
-
-        let build_command = extract_build_command(&project_path);
-
-        let command_split: Vec<&str> = build_command.split(" cargo ").collect();
-
-        let mut right_split = command_split[1].split(" ");
-
-        // should always start with OPENOCD_[...], unless other funky stuff can happen at build?
-        let envs: Vec<String> = parse_envs(command_split[0].rsplit_once("&&").unwrap().1);
+fn generate_cargo_tree_output(project_path: &Path, envs: &Vec<String>, features: &String) -> Vec<u8> {
 
         let envs_key_value: Vec<(&str, &str)> = envs
             .iter()
             .map(|key_arg| key_arg.split_once('=').unwrap())
             .collect();
-
-        let features = right_split.find(|string| string.contains("--features")).unwrap();
 
         let command_output = Command::new("cargo")
                 .envs(envs_key_value)
@@ -176,9 +165,9 @@ fn generate_cargo_tree_output(project_path: &Path) -> Vec<u8> {
         return command_output;
 }
 
-pub fn generate_cargo_tree_data(project_path: &Path) -> HashSet<String> {
+pub fn generate_cargo_tree_data(project_path: &Path, build_command: &ArielOsBuildCommand) -> HashSet<String> {
 
-    let tree_data = match String::from_utf8(generate_cargo_tree_output(project_path)) {
+    let tree_data = match String::from_utf8(generate_cargo_tree_output(project_path, &build_command.envs, &build_command.features)) {
         Ok(data) => data,
         Err(_) => panic!("Could not convert cargo tree output from UTF8 to str.")
     };
@@ -204,7 +193,6 @@ pub fn filter_cargo_metadata(tree_set: HashSet<String>, mut metadata: Metadata) 
 
     let mut package_id_set: HashSet<String> = HashSet::new();
 
-    // missing 6 crates here, TODO; reason: missing features in metadata command
     for package in &metadata.packages {
         if tree_set.contains(&format!("{} v{}", package.name, package.version.to_string())) {
             new_package_vec.push(package.clone());
