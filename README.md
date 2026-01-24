@@ -11,11 +11,10 @@ The goal of this project is to create/lay the groundwork for an SBOM generator f
 Kind of a first skeleton. Like other tools it only addresses Cargo related components so far. By using [cargo-bloat](https://crates.io/crates/cargo-bloat) to determine what actually lands in the final code, the amount of false positives can be reduced.
 
 As of now the tool does the following:
-- run cargo bloat with the latest laze build command to get info on crates/functions 
-- run cargo metadata for info on all crates
-- (if wanted) from cargo metadata filter only:
-    - crates in the final executable
-    - crates related to build dependencies of the crates represented in the executable
+- extract build information from the last laze build command
+- generate cargo-tree data for component baseline
+- run cargo metadata for info crate metadata
+- filter only the crates listed by cargo tree
 - take available relevant information from (filtered) cargo metadata
 - write output to file, no SPDX/Cyclone-DX so far
 
@@ -23,7 +22,7 @@ As of now the tool does the following:
 
 ### Installation
 
-- clone the repo and install [cargo-bloat](https://crates.io/crates/cargo-bloat)
+- install the [build prerequisites] needed to build ArielOS projects
 - if not done already, install nightly toolchain: `rustup toolchain install nightly`
 
 ### Execution
@@ -38,7 +37,6 @@ Current cli arguments:
     -b, --bom-formats   <BOM_FORMAT>        BOM formats to generate [default: Raw] (only Raw so far, later SPDX and/or Cyclone-DX)
     -f, --file-format   <FILE_EXTENSION>    Data format of the generated SBOM [default: json] (only .json so far)
     -o, --output-name   <FILE_NAME>         File name of the generated SBOM [default: arielosbom]
-        --bloat-filter  <BOOL>              Whether to generate and use cargo bloat data to filter cargo metadata [default: true]
 
     -m, --manifest-path <PATH>              Path if the project's manifest path does not lie at the root path, e.g. tests/examples in the ArielOS repo [default: ./Cargo.toml]
     -l, --lock-path     <PATH>              Path if the project's lock file path does not lie at the root path [default: ./Cargo.lock]          
@@ -47,12 +45,10 @@ Current cli arguments:
 ### Example (ArielOS Coap Test)
 
 Installation + Setup:
-- Clone the repo: 
+- Clone the repo to a location of your choosing: 
 
 `git clone https://github.com/Nerving/ArielOSBOM.git`
-- Install cargo-bloat: 
 
-`cargo install cargo-bloat`
 - Install nightly toolchain and set it as default:
 
 `rustup toolchain install nightly`, `rustup default nightly`
@@ -81,8 +77,7 @@ Execution:
 - components
     - deal with non-Rust stuff (included binaries etc.)
     - more accurate Rust component recognition
-        - analysis of build scripts for more accurate dependency results (less false positives)
-        - correct/full cargo-bloat analysis
+        - verification of crates definitely presents via binary analysis
 - extract and include ArielOS/domain specific relevant information
     - device specifications
     - storage/memory footprint

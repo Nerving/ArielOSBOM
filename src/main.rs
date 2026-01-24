@@ -1,24 +1,24 @@
-mod bloat;
+//mod bloat;
 mod component;
 mod cliarg;
 mod sbom;
+mod tree;
 
 use crate::{
-        bloat::{BloatOutput}, 
-        cliarg::{Args}
+        cliarg::{Args},
+        sbom::{SBOM, BomFormat},
+        tree::{generate_cargo_tree_data},
 };
 
 use cargo_lock::{Lockfile, Error as LockError};
 use cargo_metadata::{Error as MetadataError, Metadata, MetadataCommand};
 use clap::{Parser};
 
-use crate::sbom::{SBOM, BomFormat};
-
 use std::path::{Path};
 
 
 
-
+// add build command extraction here
 
 fn generate_cargo_metadata(root_path: &Path, manifest_path: &Path) -> Result<Metadata, MetadataError> {
         let mut metadata_command = MetadataCommand::default();
@@ -45,9 +45,8 @@ fn main() {
         // just one for now, potentially for different devices in the future
         let mut sboms = SBOM::new(BomFormat::Raw);
 
+        let tree_data = generate_cargo_tree_data(&cli_args.project_root_path);
 
-        let bloat_data = BloatOutput::generate(&cli_args.project_root_path);
-        
         // will need error handling in case metadata fails -> manual data gathering then?
         let metadata = match generate_cargo_metadata(&cli_args.project_root_path, &cli_args.project_manifest_path) { 
                 Ok(metadata) => metadata,
@@ -59,15 +58,14 @@ fn main() {
                 Err(e)=> panic!("Error loading Cargo.lock data:\n{e:?}"),
         };
 
-        // stripping for: executable and everything build related
+        // filtering for: only crates that were actually compiled
 
-        let stripped_metadata: Metadata = match cli_args.bloat_filter {
-                true => bloat_data.filter_cargo_metadata(metadata),
-                false => metadata
-        };
+        let filtered_metadata: Metadata = tree::filter_cargo_metadata(tree_data, metadata);
+
+        println!("packages: {}, dependencies: {}", filtered_metadata.packages.len(), filtered_metadata.resolve.as_ref().unwrap().nodes.len());
 
         // extract information from cargo metadata
-        sboms.convert_cargo_metadata_packages_to_components(&stripped_metadata, &lock_data);
+        sboms.convert_cargo_metadata_packages_to_components(&filtered_metadata, &lock_data);
 
         // TODO:
                 // complete missing info

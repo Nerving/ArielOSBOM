@@ -82,16 +82,6 @@ pub struct Args {
         required = false
     )]
     pub output_name: String,    // again potentially Vec if multiple in future
-
-    #[arg(
-        id = "bloat_filter",
-        value_name = "BOOL",
-        default_value = "true",
-        //short = 'b',
-        long = "bloat-filter",
-        required = false
-    )]
-    pub bloat_filter: bool,
 }
 
 // impls for clap parsing
