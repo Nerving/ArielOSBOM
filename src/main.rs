@@ -9,14 +9,12 @@ use crate::{
         tree::{generate_cargo_tree_data, filter_cargo_metadata},
 };
 
-use cargo_lock::{Lockfile, Error as LockError};
+use cargo_lock::{Lockfile, Error as LockError, Package as LockPackage};
 use cargo_metadata::{Error as MetadataError, Metadata, MetadataCommand};
 use clap::{Parser};
 
 use std::{
-        fs::{File},
-        io::{BufRead, BufReader},
-        path::{Path},
+        collections::HashSet, fs::File, io::{BufRead, BufReader}, path::Path
 };
 
 fn extract_build_command(project_path: &Path) -> String {
@@ -194,8 +192,15 @@ fn generate_cargo_metadata(root_path: &Path, manifest_path: &Path, features: &St
         metadata_command.exec()
 }
 
-fn generate_carg_lock_data(lock_path: &Path) -> Result<Lockfile, LockError> {
-        Lockfile::load(lock_path)
+fn generate_cargo_lock_data(root_path: &Path, lock_path: &Path) -> Result<Lockfile, LockError> {
+        Lockfile::load(format!("{}{}", root_path.display(), lock_path.display()))
+}
+
+fn extract_missing_checksums(checklist: HashSet<&String>, import_lockdata: Vec<LockPackage>) -> Vec<LockPackage> {
+    import_lockdata
+        .into_iter()
+        .filter(|package| checklist.contains(&format!("{} v{}", package.name.as_str(), package.version)))
+        .collect::<Vec<LockPackage>>()
 }
 
 
@@ -223,10 +228,32 @@ fn main() {
                 Err(e) => panic!("Error generating cargo metadata:\n{e:?}"),
         };
 
-        let lock_data = match generate_carg_lock_data(&cli_args.project_lock_path) {
+        let mut lock_data = match generate_cargo_lock_data(&cli_args.project_root_path, &cli_args.project_lock_path) {
                 Ok(lock_data) => lock_data,
                 Err(e)=> panic!("Error loading Cargo.lock data:\n{e:?}"),
         };
+
+        let additional_lock_data = match generate_cargo_lock_data(
+            &cli_args.project_root_path.join(cli_args.arielos_import_path),
+            &cli_args.project_lock_path) {
+                Ok(lock_data) => lock_data,
+                Err(e) => panic!("Error loading ArielOS import Cargo.lock data:\n{e:?}")
+            };
+
+        let lock_data_map: HashSet<String> = lock_data.packages
+            .iter()
+            .map(|package| format!("{} v{}", package.name.as_str(), package.version))
+            .collect();
+
+        let missing_checksum_list: HashSet<&String> = HashSet::from_iter(
+            tree_data
+                .iter()
+                .filter(|entry|
+                    !lock_data_map.contains(*entry)
+                )
+        );
+
+        lock_data.packages.append(&mut extract_missing_checksums(missing_checksum_list, additional_lock_data.packages));
 
         // filtering for: only crates that were actually compiled
 

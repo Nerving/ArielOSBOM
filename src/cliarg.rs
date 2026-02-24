@@ -26,7 +26,7 @@ pub struct Args {
         default_value = "./", 
         short = 'r', 
         long = "root-path",
-        required = false,
+        required = true,
     )]
     pub project_root_path: PathBuf,
 
@@ -51,6 +51,15 @@ pub struct Args {
         required = false,
     )]
     pub project_lock_path: PathBuf,
+
+    #[arg(
+        id = "arielos_import_path",
+        value_name = "PATH",
+        default_value = "./build/imports/ariel-os/",
+        long = "import-path",
+        required = false,
+    )]
+    pub arielos_import_path: PathBuf,
 
     #[arg(
         id = "BOM_formats",
