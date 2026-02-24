@@ -56,6 +56,7 @@ pub struct Args {
         id = "arielos_import_path",
         value_name = "PATH",
         default_value = "./build/imports/ariel-os/",
+        short = 'i',
         long = "import-path",
         required = false,
     )]
