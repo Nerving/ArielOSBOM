@@ -8,7 +8,7 @@ use std::{
 
 use crate::ArielOsBuildCommand;
 
-fn generate_cargo_tree_output(project_path: &Path, envs: &Vec<String>, features: &String) -> Vec<u8> {
+fn generate_cargo_tree_output(project_path: &Path, manifest_path: &Path, envs: &Vec<String>, features: &String) -> Vec<u8> {
 
         let envs_key_value: Vec<(&str, &str)> = envs
             .iter()
@@ -21,6 +21,8 @@ fn generate_cargo_tree_output(project_path: &Path, envs: &Vec<String>, features:
                 .arg("tree")
                 .arg("--prefix")
                 .arg("none")
+                .arg("--manifest-path")
+                .arg(manifest_path)
                 .arg(&features)
                 .output()
                 .expect("Something failed with cargo tree")
@@ -28,9 +30,9 @@ fn generate_cargo_tree_output(project_path: &Path, envs: &Vec<String>, features:
         return command_output;
 }
 
-pub fn generate_cargo_tree_data(project_path: &Path, build_command: &ArielOsBuildCommand) -> HashSet<String> {
+pub fn generate_cargo_tree_data(project_path: &Path, manifest_path: &Path, build_command: &ArielOsBuildCommand) -> HashSet<String> {
 
-    let tree_data = match String::from_utf8(generate_cargo_tree_output(project_path, &build_command.envs, &build_command.features)) {
+    let tree_data = match String::from_utf8(generate_cargo_tree_output(project_path, manifest_path, &build_command.envs, &build_command.features)) {
         Ok(data) => data,
         Err(_) => panic!("Could not convert cargo tree output from UTF8 to str.")
     };
@@ -69,12 +71,24 @@ pub fn filter_cargo_metadata(tree_set: HashSet<String>, mut metadata: Metadata) 
         let name: &str;
         let version: &str;
 
+        // case cargo; registry+https:...; also some git cases
         if node.id.repr.contains("@") {
             let node_split = node.id.repr.rsplit_once("#").unwrap().1;
             (name, version) = node_split.split_once("@").unwrap();
         }
         else {
-            (name, version) = node.id.repr.rsplit_once("/").unwrap().1.split_once("#").unwrap();
+            // case for some git imports; git+https:...
+            if node.id.repr.contains("git+") {
+                (name, version) = (
+                    node.id.repr.rsplit_once("/").unwrap().1.split_once("?").unwrap().0,
+                    node.id.repr.rsplit_once("#").unwrap().1
+                );
+
+            }
+            else {
+                // case local import; path+file:...
+                (name, version) = node.id.repr.rsplit_once("/").unwrap().1.split_once("#").unwrap();
+            }
         }
 
         if tree_set.contains(

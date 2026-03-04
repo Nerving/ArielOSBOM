@@ -220,7 +220,7 @@ fn main() {
 
         let build_command: ArielOsBuildCommand = parse_build_command(extracted_build_command);
 
-        let tree_data = generate_cargo_tree_data(&cli_args.project_root_path, &build_command);
+        let tree_data = generate_cargo_tree_data(&cli_args.project_root_path, &cli_args.project_manifest_path, &build_command);
 
         // will need error handling in case metadata fails -> manual data gathering then?
         let metadata = match generate_cargo_metadata(&cli_args.project_root_path, &cli_args.project_manifest_path, &build_command.features) { 
