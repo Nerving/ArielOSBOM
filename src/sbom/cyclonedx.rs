@@ -42,6 +42,7 @@ impl CycloneDxSbomV1_7 {
                 tools: vec![
                     CycloneDxComponentV1_7::generate_tool_component()
                 ], 
+                manufacturer: CycloneDxManufacturerV1_7::generate_tool_component_manufacturer(),
             }, 
             components: vec![], 
             dependencies: vec![],
@@ -91,6 +92,7 @@ enum CycloneDxSpecVersion {
 struct CycloneDxMetadataV1_7 {
     timestamp: Option<DateTime<Local>>,
     tools: Vec<CycloneDxComponentV1_7>,
+    manufacturer: CycloneDxManufacturerV1_7,
     //component: CycloneDxComponentV1_7,
     //properties: Vec<CycloneDxPropertyV1_7,
 }
