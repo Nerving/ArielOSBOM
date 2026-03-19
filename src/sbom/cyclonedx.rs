@@ -128,7 +128,6 @@ struct CycloneDxComponentV1_7 {
 
     // to address (for BSI): 
         // filename, SHA-512 hash (of what specifically?)
-        // potentially cpe
         // exec/arch/struc property (default for library: arch/struc; main application: exec)
         // hash source code
         // uri deployable/security text

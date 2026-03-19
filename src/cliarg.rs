@@ -27,8 +27,46 @@ pub struct Args {
         short = 'r', 
         long = "root-path",
         required = true,
+        help = "Path to project root",
     )]
     pub project_root_path: PathBuf,
+
+    #[arg(
+        id = "BOM_formats",
+        value_name = "BOM_FORMAT",
+        num_args = 1..3,    // can be more in future
+        default_value = "raw",
+        short = 'b',
+        long = "bom-formats",
+        required = false,
+        help = "BOM formats to generate (space-separated)",
+        long_help = "BOM formats to generate (space-separated)\nPossible values (case-insensitive):\n\t- raw:\t\t\toutput of the raw aggregated information\n\t- spdx:\t\t\tno SPDX support currently\n\t- cdx/cyclonedx/cyclone-dx:\tCycloneDX version 1.7"
+    )]
+    pub bom_formats: Vec<BomFormat>,
+
+    #[arg (
+        id = "file_format",
+        value_name = "FILE_EXTENSION",
+        default_value = "json",
+        short = 'f',
+        long = "file-format",
+        required = false,
+        help = "File format of the generated SBOM",
+        long_help = "File format of the generated SBOM\nPossible values (case-insensitive):\n\t-json",
+    )]
+    pub file_format: FileFormat, // potentially Vec later if needed, same as BOM_formats    
+
+    #[arg(
+        id = "output_name",
+        value_name = "FILE_NAME",
+        default_value = "arielosbom",
+        short = 'o',
+        long = "output-name",
+        required = false,
+        help = "File name of the generated SBOM(s)",
+        long_help = "File name of the generated SBOM(s)\nDepending on the chosen SBOM format, the full file name will be <FILE_NAME>.<BOM_FORMAT>.<FILE_EXTENSION>"
+    )]
+    pub output_name: String,    // again potentially Vec if multiple in future
 
     //remove?
     #[arg(
@@ -38,6 +76,7 @@ pub struct Args {
         short = 'm',
         long = "manifest-path",
         required = false,
+        help = "Path to the build's manifest file relative to its root",
     )]
     pub project_manifest_path: PathBuf,
 
@@ -49,6 +88,7 @@ pub struct Args {
         short = 'l',
         long = "lock-path",
         required = false,
+        help = "Path to the project's lock file relative to its root",
     )]
     pub project_lock_path: PathBuf,
 
@@ -59,39 +99,9 @@ pub struct Args {
         short = 'i',
         long = "import-path",
         required = false,
+        help = "Path to the project's ArielOS import directory relative to its root",
     )]
     pub arielos_import_path: PathBuf,
-
-    #[arg(
-        id = "BOM_formats",
-        value_name = "BOM_FORMAT",
-        num_args = 1..3,    // for future if to generate in multiple formats
-        default_value = "Raw",
-        short = 'b',
-        long = "bom-formats",
-        required = false,
-    )]
-    pub bom_formats: Vec<BomFormat>,
-
-    #[arg (
-        id = "file_format",
-        value_name = "FILE_EXTENSION",
-        default_value = "json",
-        short = 'f',
-        long = "file-format",
-        required = false
-    )]
-    pub file_format: FileFormat, // potentially Vec later if needed, same as BOM_formats
-
-    #[arg(
-        id = "output_name",
-        value_name = "FILE_NAME",
-        default_value = "arielosbom",
-        short = 'o',
-        long = "output-name",
-        required = false
-    )]
-    pub output_name: String,    // again potentially Vec if multiple in future
 }
 
 // impls for clap parsing

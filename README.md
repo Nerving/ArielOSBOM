@@ -8,7 +8,7 @@ The goal of this project is to create/lay the groundwork for an SBOM generator f
 
 ## Current state
 
-Generates an SBOM of an ArielOS project at the scope of the last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information for all components that were compiled during the build process. 
+Generates an SBOM of an ArielOS project at the scope of the last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information for all Rust components that were compiled during the build process. 
 
 As of now the tool does the following:
 - extract build information from the last laze build command
@@ -16,14 +16,14 @@ As of now the tool does the following:
 - run cargo metadata for info crate metadata
 - filter only the crates listed by cargo tree
 - take available relevant information from (filtered) cargo metadata
-- write output to file, no SPDX/Cyclone-DX so far
+- write output to file, in "raw format" for own further use or as Cyclone-DX (currently only version 1.7); no SPDX so far
 
 ## Usage
 
 ### Installation
 
 - simply clone this repository to a location of your choosing
-- install the [build prerequisites](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#installing-the-build-prerequisites) needed to build ArielOS projects
+- install the [build prerequisites](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#installing-the-build-prerequisites) needed for ArielOS
 - if not done already, install nightly toolchain: `rustup toolchain install nightly`
 
 ### Execution
@@ -31,56 +31,70 @@ As of now the tool does the following:
 - run the build process for which you want to generate the SBOM first (program takes latest command from ./builds/build-local.ninja) 
 - only works using nightly toolchain right now (otherwise cargo metadata fails for ArielOS projects)
 - provide the project's root path via the command line (`-r <PATH>`)
-- if your build to document is not the root project, provide the manifest to the desired build as well (`-m <PATH>`)
+- provide after arguments as desired/necessary
 
 Current cli arguments:
 ```
-    -r, --root-path     <PATH>              Path to project root [default: ./] REQUIRED
-    -b, --bom-formats   <BOM_FORMAT>        BOM formats to generate [default: Raw] (only Raw so far, later SPDX and/or Cyclone-DX)
-    -f, --file-format   <FILE_EXTENSION>    Data format of the generated SBOM [default: json] (only .json so far)
-    -o, --output-name   <FILE_NAME>         File name of the generated SBOM [default: arielosbom]
+    -r, --root-path <PATH>
+        Path to project root
+        
+        [default: ./]
 
-    -m, --manifest-path <PATH>              Path to the build's manifest file relative to its root [default: ./Cargo.toml]
-    -l, --lock-path     <PATH>              Path to the project's lock file relative to its root [default: ./Cargo.lock]   
-    -i  --import-path   <PATH>              Path to the project's ArielOS import directory relative to its root [default: ./build/imports/ariel-os/]
+    -b, --bom-formats <BOM_FORMAT>...
+            BOM formats to generate (space separated)
+            Possible values (case-insensitive):
+                - raw:			output of the raw aggregated information
+                - spdx:			no SPDX support currently
+                - cdx/cyclonedx/cyclone-dx:	CycloneDX version 1.7
+            
+            [default: raw]
+
+    -f, --file-format <FILE_EXTENSION>
+            File format of the generated SBOM
+            Possible values (case-insensitive):
+                -json
+            
+            [default: json]
+
+    -o, --output-name <FILE_NAME>
+            File name of the generated SBOM(s)
+            Depending on the chosen SBOM format, the full file name will be <FILE_NAME>.<BOM_FORMAT>.<FILE_EXTENSION>
+            
+            [default: arielosbom]
+
+    -m, --manifest-path <PATH>
+            Path to the build's manifest file relative to its root
+            
+            [default: ./Cargo.toml]
+
+    -l, --lock-path <PATH>
+            Path to the project's lock file relative to its root
+            
+            [default: ./Cargo.lock]
+
+    -i, --import-path <PATH>
+            Path to the project's ArielOS import directory relative to its root
+            
+            [default: ./build/imports/ariel-os/]
+
+    -h, --help
+            Print help (see a summary with '-h')
 ```
-
-### Example (ArielOS Coap Test)
+### Example (out-of-tree ArielOS projects)
 
 Installation + Setup:
 - Clone the repo to a location of your choosing: 
 
 `git clone https://github.com/Nerving/ArielOSBOM.git`
 
-- Install nightly toolchain and set it as default:
+- Install nightly toolchain if needed and set it as default:
 
 `rustup toolchain install nightly`, `rustup default nightly`
 
-- Clone the ArielOS main repo:
-
-`git clone https://github.com/ariel-os/ariel-os.git`
-
+- Have your own project [set up from a template repository](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#starting-an-application-project-from-a-template-repository)
 
 Execution:
-- Run the build for /tests/coap in the ArielOS repo root:
-
-`laze -C tests/coap build -b <board>`
-- Run ArielOSBOM (where its repo was cloned to) with your project root path and the relative path to the test case's Cargo.toml, because it is not in the root directory, as cli arguments. Since we are in the original ArielOS repository, we do not have an import, so we only have the lock file at the root:
-
-`cargo run -- -r <PATH> -m ./tests/coap/Cargo.toml --import-path ./`
-
-- The output file will be put into the ArielOSBOM root directory.
-
-### Alternative example for out-of-tree ArielOS projects
-
-Installation + Setup:
-- as before except:
-
-- ~~Clone the ArielOS main repo:~~ Have your own project [set up from a template repository](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#starting-an-application-project-from-a-template-repository)
-
-
-Execution:
-- Run the build for your project:
+- Run the build for your project at your project's root directory:
 
 `laze build -b <board>`
 
@@ -88,21 +102,40 @@ Execution:
 
 `cargo run -- -r <PATH>`
 
-- The output file will be put into the ArielOSBOM root directory.
+- The output file will be put into the the ./output directory.
+
+### Example (ArielOS Coap Test, non-project-root)
+
+Installation + Setup:
+- as before except:
+
+- ~~Have your own project set up from a template repository~~ Clone the ArielOS main repo:
+
+`git clone https://github.com/ariel-os/ariel-os.git`
+
+
+Execution:
+- Run the build for /tests/coap/ in the ArielOS repo root:
+
+`laze -C tests/coap build -b <board>`
+- Run ArielOSBOM (where its repo was cloned to) with your project root path and the relative path to the test case's Cargo.toml, because it is not in the root directory, as cli arguments. Since we are in the original ArielOS repository, we do not have an import, so we only have the lock file at the root:
+
+`cargo run -- -r <PATH_TO_MAIN_REPO> -m ./tests/coap/Cargo.toml --import-path ./`
+
+- The output file will be put into the ./output directory.
+
 
 ## To-Do
 
 - complete info for missing SBOM fields (and make it BSI compliant)
-    - metadata: additional SPDX/Cyclone-DX specific information
-    - provide output directly into at least one of SPDX/Cyclone-DX
-    - determine which additional component identifiers (besides component hash) to use
+    - missing BSI compliance aspects 
+    - purl, additional identifiers?
 
 - some niceties:
-    - generate for multiple devices, multiple BOM/file formats at once
+    - generation for multiple boards at once; generation without needing to access the last build command (aka getting necessary info from laze directly) 
     - make the actual code nicer lol
 
-- redo evaluation metric test (potentially oot?)
-- add
+- redo tests for evaluation metrics
 
 - placeholder
 
