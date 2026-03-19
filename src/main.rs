@@ -4,9 +4,9 @@ mod sbom;
 mod tree;
 
 use crate::{
-        cliarg::{Args},
-        sbom::{SBOM, BomFormat},
-        tree::{generate_cargo_tree_data, filter_cargo_metadata},
+        cliarg::Args,
+        sbom::{RawSbom, cyclonedx::{CycloneDxSbomV1_7}, write_sbom_to_file},
+        tree::{filter_cargo_metadata, generate_cargo_tree_data},
 };
 
 use cargo_lock::{Lockfile, Error as LockError, Package as LockPackage};
@@ -205,7 +205,6 @@ fn extract_missing_checksums(checklist: HashSet<&String>, import_lockdata: Vec<L
 
 
 fn main() {
-
         let cli_args = Args::parse();
 
         if !(cli_args.project_root_path.exists()) { panic!("Cannot find project root path:\n{:?}", cli_args.project_root_path); }
@@ -213,8 +212,8 @@ fn main() {
         // TODO: handle stuff that might have to be handled first by CLI arguments
                 // e.g. setting up logging; or "environment" for/if SBOMs to be created
 
-        // just one for now, potentially for different devices in the future
-        let mut sboms = SBOM::new(BomFormat::Raw);
+        // just one for now, potentially for different devices(/projects?) in the future
+        let mut sboms = RawSbom::new();
 
         let extracted_build_command = extract_build_command(&cli_args.project_root_path);
 
@@ -259,8 +258,6 @@ fn main() {
 
         let filtered_metadata: Metadata = filter_cargo_metadata(tree_data, metadata);
 
-        println!("packages: {}, dependencies: {}", filtered_metadata.packages.len(), filtered_metadata.resolve.as_ref().unwrap().nodes.len());
-
         // extract information from cargo metadata
         sboms.convert_cargo_metadata_packages_to_components(&filtered_metadata, &lock_data);
 
@@ -268,7 +265,8 @@ fn main() {
                 // complete missing info
                 // non-Metadata/-Rust stuff
 
-        sboms.write_to_file(&cli_args.output_name);
-
+        for bom_format in &cli_args.bom_formats {
+            write_sbom_to_file(&mut sboms, bom_format, &cli_args.output_name);
+        }
 }
 

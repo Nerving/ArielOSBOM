@@ -1,8 +1,9 @@
 use crate::component::{Component, Dependency};
+use crate::CycloneDxSbomV1_7;
 
 use cargo_lock::{Checksum, Lockfile};
 use cargo_metadata::{DependencyKind, Metadata};
-use chrono::{NaiveDateTime, Utc};
+use chrono::{DateTime, Local};
 use serde::{Serialize, Deserialize};
 
 use std::{
@@ -12,33 +13,23 @@ use std::{
     io::{Write},
 };
 
+pub mod cyclonedx;
+
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
-pub struct SBOM {
-
-    #[serde(skip_serializing)]
-    pub bom_format: BomFormat,
-
-    //pub file_format: FileFormat, outside of actual bom because base content should be independent of format?
-
+pub struct RawSbom {
     pub bom_metadata: BomMetadata,
-
     pub components: Vec<Component>,
-
-    // maybe add dependencies as its own Vec<> later afterall for simpler serializing according to other formats as well
-        // otherwise maybe diff struct for the other formats if that makes sense/is the better idea, will see
-
     #[serde(skip_serializing)]
-    component_map: HashMap<String, usize>
+    component_map: HashMap<String, usize>   // not even used anymore
 }
 
-impl SBOM {
+impl RawSbom {
 
-    pub fn new(format: BomFormat) -> SBOM {
-        SBOM {
-            bom_format: format,
+    pub fn new() -> RawSbom {
+        RawSbom {
             bom_metadata: BomMetadata { 
-                creator: "ArielOSBOM".into(),
-                timestamp: Utc::now().naive_utc(),
+                creator: "ArielOSBOM (provisional name)".into(),
+                timestamp: None,
              },
             components: vec![],
             component_map: HashMap::new()
@@ -81,13 +72,14 @@ impl SBOM {
         }
     }
 
-    // file format as input later maybe to loop through calls of this function?
-    pub fn write_to_file(&self, file_name: &str) {
+    pub fn write_to_file(&mut self, file_name: &str) {
         let file_format = FileFormat::Json;
-        let mut file = match File::create(format!("./{}.{}", file_name, file_format)) {
+        let mut file = match File::create(format!("./output/{}.raw.{}", file_name, file_format)) {
             Ok(file) => file,
             Err(e) => panic!("Could not create file: {}.{}: {}", file_name, file_format, e),
         };
+
+        self.bom_metadata.timestamp = Some(Local::now());
 
         file.write_all(serde_json::
                             to_string(&self)
@@ -101,7 +93,7 @@ impl SBOM {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct BomMetadata {
     creator: String,
-    timestamp: NaiveDateTime,
+    timestamp: Option<DateTime<Local>>,
     // target
     // other BomFormat related metadata
     // other general project related data? (features, protocols, program size, ...)
@@ -114,8 +106,6 @@ pub enum BomFormat {
     SPDX,
     CDX,
 }
-
- 
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum FileFormat {
@@ -131,5 +121,13 @@ impl std::fmt::Display for BomFormat {
                 BomFormat::CDX => "Cyclone-DX"
             }
         )
+    }
+}
+
+pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_name: &str) {
+    match bom_format {
+        BomFormat::Raw => sbom.write_to_file(&output_name),
+        BomFormat::SPDX => println!("No SPDX conversion currently"),
+        BomFormat::CDX => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name),
     }
 }

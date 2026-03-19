@@ -1,4 +1,3 @@
 /target
-arielosbom.json
-arielosbom_eval.json
+/output
 /tests/evaluation_metrics/results/
