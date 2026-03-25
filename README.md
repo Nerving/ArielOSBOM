@@ -1,14 +1,14 @@
-This repository is for the WIP project for my bachelor's thesis (Comp. Sci., FU Berlin) under the guidance of [Prof. Dr. Emmanuel Baccelli](https://emmanuelbaccelli.com/). 
+A build-level SBOM generator for Ariel OS based Rust projects.
 
 ## Motivation and Goals
 
-With increasing software supply chain attacks and security demands, Software Bills of Materials (SBOMs) have gained relevance in recent years. In the EU, the [Cyber Resilience Act (CRA)](https://eur-lex.europa.eu/eli/reg/2024/2847/oj) will be requiring suppliers to draw up and if necessary provide SBOMs for their software. As a FOSS project, ArielOS itself technically does not fall under the CRA, however as seen with [RIOT e.g.](https://github.com/RIOT-OS/RIOT/pull/21530) demand can exist for users of ArielOS, so providing tooling to support with that makes sense. 
+With increasing software supply chain attacks and security demands, Software Bills of Materials (SBOMs) have gained relevance in recent years. In the EU, the [Cyber Resilience Act (CRA)](https://eur-lex.europa.eu/eli/reg/2024/2847/oj) will be requiring suppliers to draw up and if necessary provide SBOMs for their software. As a FOSS project, Ariel OS itself technically does not fall under the CRA, however as seen with [RIOT e.g.](https://github.com/RIOT-OS/RIOT/pull/21530) demand can exist for users of Ariel OS, so providing tooling to support with that makes sense. 
 
 The goal of this project is to create/lay the groundwork for an SBOM generator for [Ariel OS](https://github.com/ariel-os/ariel-os) projects. Since the CRA does not go into much detail in terms of SBOM requirements, right now the current [BSI technical guideline for SBOMs](https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TR03183/BSI-TR-03183-2_v2_1_0.pdf) will instead be used as a reference and compliance for it be strived towards.
 
 ## Current state
 
-Generates an SBOM of an ArielOS project at the scope of the last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information for all Rust components that were compiled during the build process. 
+Generates an SBOM of an Ariel OS project at the scope of the last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information for all Rust components that were compiled during the build process. 
 
 As of now the tool does the following:
 - extract build information from the last laze build command
@@ -18,18 +18,54 @@ As of now the tool does the following:
 - take available relevant information from (filtered) cargo metadata
 - write output to file, in "raw format" for own further use or as Cyclone-DX (currently only version 1.7); no SPDX so far
 
+### What the tool currently does provide
+
+- build-level component recognition
+    - Rust components
+        - catalogues only all crates that are compiled during the building process
+        - takes features and environment variables into account
+    - information on
+        - component dependencies (in the build-specific context)
+        - name, version, license(s)\*, creator(s)\*, source repository link\*
+        - crate hashes via Cargo.lock if provided via crates.io
+- SBOM generation
+    - at the project root level and also for other workspace members (e. g. tests/examples)
+    - based on the last executed builder (automatic building soon)
+    - output formats
+        - raw data format that is used during component aggregation
+        - CycloneDX version 1.7 
+
+### What the tool currently does not provide (yet)
+
+- build-level component recognition
+    - no component recognition outside of Rust/Cargo context
+    - no alternative processing if cargo metadata fails, e.g. when not running in nightly context
+    - information marked with \* in the previous section if it is not provided by cargo metadata
+    - information on
+        - license information from LICENSE file(s) if present
+        - crate features
+        - additional component identifiers (purl, cpe, SWHID, ...)
+- program metadata
+    - intended device specifications, storage/memory footprint, supported features/protocls, ... (suggestions?)
+- SBOM generation
+    - (coming soon:) generating SBOMs (for multiple builders at once) without having to manually perform any builds
+    - output formats
+        - any SPDX version
+        - other (older) CycloneDX versions
+- (full BSI guideline compliance?)
+
 ## Usage
 
 ### Installation
 
 - simply clone this repository to a location of your choosing
-- install the [build prerequisites](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#installing-the-build-prerequisites) needed for ArielOS
+- install the [build prerequisites](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#installing-the-build-prerequisites) needed for Ariel OS
 - if not done already, install nightly toolchain: `rustup toolchain install nightly`
 
 ### Execution
 
 - run the build process for which you want to generate the SBOM first (program takes latest command from ./builds/build-local.ninja) 
-- only works using nightly toolchain right now (otherwise cargo metadata fails for ArielOS projects)
+- only works using nightly toolchain right now (otherwise cargo metadata fails for Ariel OS projects)
 - provide the project's root path via the command line (`-r <PATH>`)
 - provide after arguments as desired/necessary
 
@@ -124,37 +160,10 @@ Execution:
 
 - The output file will be put into the ./output directory.
 
-
-## To-Do
-
-- complete info for missing SBOM fields (and make it BSI compliant)
-    - missing BSI compliance aspects 
-    - purl, additional identifiers?
-
-- some niceties:
-    - generation for multiple boards at once; generation without needing to access the last build command (aka getting necessary info from laze directly) 
-    - make the actual code nicer lol
-
-- redo tests for evaluation metrics
-
-- placeholder
-
-## Future considerations
-
-- component recognition
-    - non-Rust components (binary blobs, ...)
-    - more accurate Rust component verification
-        - accurate check for each compiled component whether it actually affects the final executable or can be omitted as false positive
-        - goal: slim down the SBOM; potentially relevant for SBOM storage/processing/transmitting on devices in some distant future
-
-- alternative data gathering in case cargo metadata fails for whatever reason
-
-- extract and include ArielOS/domain specific relevant information
-    - device specifications
-    - storage/memory footprint
-    - supported features/protocols
-    - anything else?
-
-## questions/whatever
+## Contact
 
 For feedback of any sorts, I can also be messaged on Matrix: @lekilian:matrix.org
+
+--- 
+
+This repository is for the WIP project for my bachelor's thesis (Comp. Sci., FU Berlin) under the guidance of [Prof. Dr. Emmanuel Baccelli](https://emmanuelbaccelli.com/). 
