@@ -1,10 +1,3 @@
-// TODO:
-// target selection
-// multiple formats; multiple output names? match output name, BOM and file format in order?
-// include build deps yes/no, other irrelevant(?) deps yes/no?
-// log yes/no?
-// URI of where the SBOM will be accessible?
-
 use crate::sbom::{BomFormat, FileFormat};
 
 use clap::{Parser};
@@ -57,6 +50,19 @@ pub struct Args {
     pub file_format: FileFormat, // potentially Vec later if needed, same as BOM_formats    
 
     #[arg(
+        id = "builders",
+        value_name = "BUILDERS",
+        num_args = 0..16,
+        default_value = "none",
+        //short = 'b',
+        long = "builders",
+        required = false,
+        help = "Laze builder targets (max 16, space separated) to generate SBOMs for; if not provided, uses last build command",
+        //long_help = ""
+    )]
+    pub builders: Vec<String>,
+
+    #[arg(
         id = "output_name",
         value_name = "FILE_NAME",
         default_value = "arielosbom",
@@ -64,11 +70,10 @@ pub struct Args {
         long = "output-name",
         required = false,
         help = "File name of the generated SBOM(s)",
-        long_help = "File name of the generated SBOM(s)\nDepending on the chosen SBOM format, the full file name will be <FILE_NAME>.<BOM_FORMAT>.<FILE_EXTENSION>"
+        long_help = "File name of the generated SBOM(s)\nDepending on the chosen SBOM format, the full file name will be <FILE_NAME>_<BUILDER>.<BOM_FORMAT>.<FILE_EXTENSION>"
     )]
     pub output_name: String,    // again potentially Vec if multiple in future
 
-    //remove?
     #[arg(
         id = "project_manifest_path",
         value_name = "PATH",
@@ -80,7 +85,6 @@ pub struct Args {
     )]
     pub project_manifest_path: PathBuf,
 
-    //remove?
     #[arg(
         id = "project_lock_path",
         value_name = "PATH",

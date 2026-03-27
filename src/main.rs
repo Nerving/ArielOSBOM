@@ -12,12 +12,17 @@ use crate::{
 use cargo_lock::{Lockfile, Error as LockError, Package as LockPackage};
 use cargo_metadata::{Error as MetadataError, Metadata, MetadataCommand};
 use clap::{Parser};
+use serde::{Deserialize, Serialize};
 
 use std::{
-        collections::HashSet, fs::File, io::{BufRead, BufReader}, path::Path
+        collections::HashSet, 
+        fs::File, 
+        io::{BufRead, BufReader}, 
+        path::Path, 
+        process::Command,
 };
 
-fn extract_build_command(project_path: &Path) -> String {
+fn extract_build_command_from_buildlocal(project_path: &Path) -> String {
 
     let file = match File::open(format!("{}build/build-local.ninja", project_path.display())) {
             Ok(file) => file,
@@ -34,6 +39,24 @@ fn extract_build_command(project_path: &Path) -> String {
         }
 
         return lines[3].to_string();
+}
+
+fn extract_build_command_from_compile_commands(project_path: &Path) -> String {
+
+    let file = match File::open(format!("{}compile_commands.json", project_path.display())) {
+        Ok(file) => file,
+        Err(e) => panic!("Could not open compile_commands.json: {}", e),
+    };
+
+    let compile_commands: Vec<CompileCommandsJson> = serde_json::from_reader(file)
+        .expect("Failed to parse compile_commands.json");
+
+    compile_commands[0].command.clone()
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
+struct CompileCommandsJson {
+    command: String,
 }
 
 fn parse_build_command(build_command: String) -> ArielOsBuildCommand {
@@ -205,19 +228,64 @@ fn extract_missing_checksums(checklist: HashSet<&String>, import_lockdata: Vec<L
 
 
 fn main() {
-        let cli_args = Args::parse();
+    let cli_args = Args::parse();
 
-        if !(cli_args.project_root_path.exists()) { panic!("Cannot find project root path:\n{:?}", cli_args.project_root_path); }
+    if !(cli_args.project_root_path.exists()) { panic!("Cannot find project root path:\n{:?}", cli_args.project_root_path); }
+
+    // future: do not generate each sbom entirely seperately but fill "database" of components first and then generate all boms accordingly
         
-        // TODO: handle stuff that might have to be handled first by CLI arguments
-                // e.g. setting up logging; or "environment" for/if SBOMs to be created
+    for builder in &cli_args.builders {
+        
+        let mut sbom = RawSbom::new();
 
-        // just one for now, potentially for different devices(/projects?) in the future
-        let mut sboms = RawSbom::new();
+        let extracted_build_command: String; 
+        if builder == "none" {
+            println!("no builders specified, using last build command");
+            extracted_build_command = extract_build_command_from_buildlocal(&cli_args.project_root_path);
+        } else {
+            println!("generating build files for builder {}", builder);
 
-        let extracted_build_command = extract_build_command(&cli_args.project_root_path);
+            let laze_output = Command::new("laze")
+                .current_dir(&cli_args.project_root_path)
+                .arg("build")
+                .arg("-G")
+                .arg("-C")
+                .arg(&cli_args.project_manifest_path
+                        .clone()
+                        .into_os_string()
+                        .to_str()
+                        .unwrap()
+                        .rsplit_once("Cargo.toml")
+                        .unwrap().0
+                )
+                .arg("-c")
+                .arg("-b")
+                .arg(builder)
+                .output();
+
+            match laze_output {
+                Ok(output) => {
+                    if output.status.success() {
+                        println!("generated build files for builder {}\n", builder);
+                    } else {
+                        println!("failed to generate build files for builder {}:\n\t{}", builder, String::from_utf8_lossy(&output.stderr));
+                        continue;
+                    }
+                },
+                Err(e) => println!("laze ran into a problem building for {}: {}", builder, e)
+            };
+
+            extracted_build_command = extract_build_command_from_compile_commands(&cli_args.project_root_path);
+        }
 
         let build_command: ArielOsBuildCommand = parse_build_command(extracted_build_command);
+        if builder == "none" {
+            let board_env = build_command.envs.iter().find(|env| env.contains("CONFIG_BOARD="));
+            match board_env {
+                Some(board) => println!("found builder {}\n", board.split_once('=').unwrap().1),
+                None => println!("failed to determine builder")
+            };
+        }
 
         let tree_data = generate_cargo_tree_data(&cli_args.project_root_path, &cli_args.project_manifest_path, &build_command);
 
@@ -233,7 +301,7 @@ fn main() {
         };
 
         let additional_lock_data = match generate_cargo_lock_data(
-            &cli_args.project_root_path.join(cli_args.arielos_import_path),
+            &cli_args.project_root_path.join(&cli_args.arielos_import_path),
             &cli_args.project_lock_path) {
                 Ok(lock_data) => lock_data,
                 Err(e) => panic!("Error loading ArielOS import Cargo.lock data:\n{e:?}")
@@ -259,14 +327,11 @@ fn main() {
         let filtered_metadata: Metadata = filter_cargo_metadata(tree_data, metadata);
 
         // extract information from cargo metadata
-        sboms.convert_cargo_metadata_packages_to_components(&filtered_metadata, &lock_data);
-
-        // TODO:
-                // complete missing info
-                // non-Metadata/-Rust stuff
+        sbom.convert_cargo_metadata_packages_to_components(&filtered_metadata, &lock_data);
 
         for bom_format in &cli_args.bom_formats {
-            write_sbom_to_file(&mut sboms, bom_format, &cli_args.output_name);
+            write_sbom_to_file(&mut sbom, bom_format, &cli_args.output_name, builder);
         }
+    }
 }
 

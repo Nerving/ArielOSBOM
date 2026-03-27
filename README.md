@@ -8,9 +8,10 @@ The goal of this project is to create/lay the groundwork for an SBOM generator f
 
 ## Current state
 
-Generates an SBOM of an Ariel OS project at the scope of the last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information for all Rust components that were compiled during the build process. 
+Generates an SBOM of an Ariel OS project at the scope of the specified boards or last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information for all Rust components that were compiled during the build process. 
 
 As of now the tool does the following:
+- if provided, generate build files for the specified board(s)
 - extract build information from the last laze build command
 - generate cargo-tree data for component baseline
 - run cargo metadata for info crate metadata
@@ -30,7 +31,7 @@ As of now the tool does the following:
         - crate hashes via Cargo.lock if provided via crates.io
 - SBOM generation
     - at the project root level and also for other workspace members (e. g. tests/examples)
-    - based on the last executed builder (automatic building soon)
+    - based on the specified builders or the last executed build command
     - output formats
         - raw data format that is used during component aggregation
         - CycloneDX version 1.7 
@@ -48,7 +49,6 @@ As of now the tool does the following:
 - program metadata
     - intended device specifications, storage/memory footprint, supported features/protocls, ... (suggestions?)
 - SBOM generation
-    - (coming soon:) generating SBOMs (for multiple builders at once) without having to manually perform any builds
     - output formats
         - any SPDX version
         - other (older) CycloneDX versions
@@ -64,10 +64,17 @@ As of now the tool does the following:
 
 ### Execution
 
-- run the build process for which you want to generate the SBOM first (program takes latest command from ./builds/build-local.ninja) 
 - only works using nightly toolchain right now (otherwise cargo metadata fails for Ariel OS projects)
+
+Option 1:
 - provide the project's root path via the command line (`-r <PATH>`)
-- provide after arguments as desired/necessary
+- provide the laze builder(s) for which you want to generate the SBOM(s) via the command line (`--builders <BUILDERS>`)
+- provide other arguments as desired/necessary
+
+Option 2:
+- run the build process for which you want to generate the SBOM first (program takes latest command from ./builds/build-local.ninja)
+- provide the project's root path via the command line (`-r <PATH>`)
+- provide other arguments as desired/necessary
 
 Current cli arguments:
 ```
@@ -92,9 +99,14 @@ Current cli arguments:
             
             [default: json]
 
+        --builders <BUILDERS>
+            Laze builder targets (max 16, space separated) to generate SBOMs for; if not provided, uses last build command
+
+            [default: none]
+
     -o, --output-name <FILE_NAME>
             File name of the generated SBOM(s)
-            Depending on the chosen SBOM format, the full file name will be <FILE_NAME>.<BOM_FORMAT>.<FILE_EXTENSION>
+            Depending on the builder and the SBOM format, the full file name will be <FILE_NAME>_<BUILDER>.<BOM_FORMAT>.<FILE_EXTENSION>
             
             [default: arielosbom]
 
@@ -116,10 +128,11 @@ Current cli arguments:
     -h, --help
             Print help (see a summary with '-h')
 ```
-### Example (out-of-tree ArielOS projects)
+
+### Example (out-of-tree Ariel OS project, with --builders argument)
 
 Installation + Setup:
-- Clone the repo to a location of your choosing: 
+- Clone this repo to a location of your choosing: 
 
 `git clone https://github.com/Nerving/ArielOSBOM.git`
 
@@ -130,17 +143,35 @@ Installation + Setup:
 - Have your own project [set up from a template repository](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#starting-an-application-project-from-a-template-repository)
 
 Execution:
-- Run the build for your project at your project's root directory:
 
-`laze build -b <board>`
+- Run ArielOSBOM (where its repo was cloned to) with your project root path and your desired builders as cli arguments.
 
-- Run ArielOSBOM (where its repo was cloned to) with your project root path as cli argument.
-
-`cargo run -- -r <PATH>`
+`cargo run -- -r <PATH> --builders <BUILDER1> <BUILDER2> ...`
 
 - The output file will be put into the the ./output directory.
 
-### Example (ArielOS Coap Test, non-project-root)
+---
+
+### Example (out-of-tree Ariel OS project, without --builders argument)
+
+Installation + Setup:
+
+- same as the previous example
+
+Execution:
+- Run the build for your project at your project's root directory:
+
+`laze build -b <BUILDER>`
+
+- Run ArielOSBOM (where its repo was cloned to) with your project root path ~~and your desired builders~~ as cli argument~~s~~.
+
+`cargo run -- -r <PATH> `~~`--builders <BUILDER1> <BUILDER2> ...`~~
+
+- The output file will be put into the the ./output directory.
+
+---
+
+### Example (Ariel OS Coap Test, non-project-root, with --builders argument)
 
 Installation + Setup:
 - as before except:
@@ -149,16 +180,32 @@ Installation + Setup:
 
 `git clone https://github.com/ariel-os/ariel-os.git`
 
+Execution:
+
+- Run ArielOSBOM (where its repo was cloned to) with your project root path, the relative path to the test case's Cargo.toml, because it is not in the root directory, and your desired builders as cli arguments. Since we are in the original ArielOS repository, we do not have an import, so we only have the lock file at the root:
+
+`cargo run -- -r <PATH> -m ./tests/coap/Cargo.toml --import-path ./ --builders <BUILDER1> <BUILDER2> ...`
+
+---
+
+### Example (Ariel OS Coap Test, non-project-root, without --builders argument)
+
+Installation + Setup:
+
+- same as the last example
 
 Execution:
+
 - Run the build for /tests/coap/ in the ArielOS repo root:
 
 `laze -C tests/coap build -b <board>`
 - Run ArielOSBOM (where its repo was cloned to) with your project root path and the relative path to the test case's Cargo.toml, because it is not in the root directory, as cli arguments. Since we are in the original ArielOS repository, we do not have an import, so we only have the lock file at the root:
 
-`cargo run -- -r <PATH_TO_MAIN_REPO> -m ./tests/coap/Cargo.toml --import-path ./`
+`cargo run -- -r <PATH> -m ./tests/coap/Cargo.toml --import-path ./`
 
 - The output file will be put into the ./output directory.
+
+---
 
 ## Contact
 
