@@ -86,9 +86,10 @@ Current cli arguments:
     -b, --bom-formats <BOM_FORMAT>...
             BOM formats to generate (space separated)
             Possible values (case-insensitive):
-                - raw:			output of the raw aggregated information
-                - spdx:			no SPDX support currently
-                - cdx/cyclonedx/cyclone-dx:	CycloneDX version 1.7
+                - raw:			            output of the raw aggregated information
+                - spdx:			            no SPDX support currently
+                - cdx_1.6/cyclonedx_1.6:	CycloneDX version 1.6
+                - cdx_1.7/cyclonedx_1.7:    CycloneDX version 1.7
             
             [default: raw]
 

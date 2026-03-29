@@ -1,4 +1,4 @@
-use crate::sbom::{BomFormat, FileFormat};
+use crate::sbom::{BomFormat, CycloneDxSpecVersion, FileFormat};
 
 use clap::{Parser};
 
@@ -33,7 +33,7 @@ pub struct Args {
         long = "bom-formats",
         required = false,
         help = "BOM formats to generate (space-separated)",
-        long_help = "BOM formats to generate (space-separated)\nPossible values (case-insensitive):\n\t- raw:\t\t\toutput of the raw aggregated information\n\t- spdx:\t\t\tno SPDX support currently\n\t- cdx/cyclonedx/cyclone-dx:\tCycloneDX version 1.7"
+        long_help = "BOM formats to generate (space-separated)\nPossible values (case-insensitive):\n\t- raw:\t\t\t\toutput of the raw aggregated information\n\t- spdx:\t\t\t\tno SPDX support currently\n\t- cdx_1.6/cyclonedx_1.6:\tCycloneDX version 1.6\n\t- cdx_1.7/cyclonedx_1.7:\tCycloneDX version 1.7"
     )]
     pub bom_formats: Vec<BomFormat>,
 
@@ -117,7 +117,8 @@ impl FromStr for BomFormat {
         match s.to_lowercase().as_ref() {
             "raw" => Ok(BomFormat::Raw),
             "spdx" => Ok(BomFormat::SPDX),
-            "cdx" | "cyclonedx" | "cyclone-dx" => Ok(BomFormat::CDX),
+            "cdx_1.6" | "cyclonedx_1.6" | "cyclone-dx_1.6" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_6)),
+            "cdx_1.7" | "cyclonedx_1.7" | "cyclone-dx_1.7" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_7)),
             other => Err(format!("Invalid or unsupported BOM format: {}", other))
         }
     }

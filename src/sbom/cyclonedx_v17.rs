@@ -2,7 +2,7 @@
 #![allow(non_snake_case,non_camel_case_types)]
 
 use crate::component::{Component as RawComponent, Dependency as RawDependency};
-use crate::sbom::{FileFormat, RawSbom};
+use crate::sbom::{FileFormat, RawSbom, CycloneDxSpecVersion};
 
 use chrono::{DateTime, Local};
 use semver::Version;
@@ -80,12 +80,6 @@ impl CycloneDxSbomV1_7 {
         let mut cdx_bom = CycloneDxSbomV1_7::from_raw(raw_sbom);
         cdx_bom.write_to_file(file_name, builder);
     }
-}
-
-#[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
-enum CycloneDxSpecVersion {
-    #[serde(rename = "1.7")]
-    V1_7
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
@@ -213,21 +207,24 @@ struct CycloneDxManufacturerV1_7 {
     #[serde(skip_serializing_if = "Option::is_none")]
     address: Option<String>, // type temporary?
 
-    url: Option<String>, // type temporary?
+    url: Vec<String>, // type temporary?
     
     //contact,
 }
 
 impl CycloneDxManufacturerV1_7 {
     fn generate_tool_component_manufacturer() -> CycloneDxManufacturerV1_7 {
-        CycloneDxManufacturerV1_7 { name: None, address: None, url: Some("https://github.com/Nerving/ArielOSBOM".into()) }
+        CycloneDxManufacturerV1_7 { name: None, address: None, url: vec!["https://github.com/Nerving/ArielOSBOM".into()] }
     }
 
     fn from_raw_component(raw_component: &RawComponent) -> CycloneDxManufacturerV1_7 {
         CycloneDxManufacturerV1_7 { 
             name: Some(raw_component.creators.clone().join(", ")),
             address: None,
-            url: raw_component.uri_source_code.clone()
+            url: match raw_component.uri_source_code.clone() {
+                Some(url) => vec![url],
+                None => vec![],
+            }
         }
     }
 }

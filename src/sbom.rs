@@ -1,5 +1,6 @@
 use crate::component::{Component, Dependency};
-use crate::CycloneDxSbomV1_7;
+use crate::sbom::cyclonedx_v16::CycloneDxSbomV1_6;
+use crate::sbom::cyclonedx_v17::CycloneDxSbomV1_7;
 
 use cargo_lock::{Checksum, Lockfile};
 use cargo_metadata::{DependencyKind, Metadata};
@@ -13,7 +14,8 @@ use std::{
     io::{Write},
 };
 
-pub mod cyclonedx;
+pub mod cyclonedx_v16;
+pub mod cyclonedx_v17;
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct RawSbom {
@@ -99,7 +101,7 @@ pub struct BomMetadata {
 pub enum BomFormat {
     Raw,
     SPDX,
-    CDX,
+    CDX(CycloneDxSpecVersion),
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
@@ -113,7 +115,8 @@ impl std::fmt::Display for BomFormat {
         write!(f, "{}", match self {
                 BomFormat::Raw => "Raw",
                 BomFormat::SPDX => "SPDX",
-                BomFormat::CDX => "Cyclone-DX"
+                BomFormat::CDX(CycloneDxSpecVersion::V1_6) => "CycloneDX 1.6",
+                BomFormat::CDX(CycloneDxSpecVersion::V1_7) => "CycloneDX 1.7"
             }
         )
     }
@@ -123,6 +126,16 @@ pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_nam
     match bom_format {
         BomFormat::Raw => sbom.write_to_file(&output_name, builder),
         BomFormat::SPDX => println!("No SPDX conversion currently"),
-        BomFormat::CDX => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(&sbom, output_name, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, builder),
     }
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
+pub enum CycloneDxSpecVersion {
+    #[serde(rename = "1.6")]
+    V1_6,
+
+    #[serde(rename = "1.7")]
+    V1_7,
 }

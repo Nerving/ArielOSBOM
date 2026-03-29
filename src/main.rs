@@ -5,7 +5,7 @@ mod tree;
 
 use crate::{
         cliarg::Args,
-        sbom::{RawSbom, cyclonedx::{CycloneDxSbomV1_7}, write_sbom_to_file},
+        sbom::{RawSbom, write_sbom_to_file},
         tree::{filter_cargo_metadata, generate_cargo_tree_data},
 };
 
@@ -226,6 +226,7 @@ fn extract_missing_checksums(checklist: HashSet<&String>, import_lockdata: Vec<L
         .collect::<Vec<LockPackage>>()
 }
 
+struct Builder<'a>(&'a str);
 
 fn main() {
     let cli_args = Args::parse();
@@ -239,12 +240,13 @@ fn main() {
         let mut sbom = RawSbom::new();
 
         let extracted_build_command: String; 
+        let mut detected_builder = Builder("undetected");
         if builder == "none" {
             println!("no builders specified, using last build command");
             extracted_build_command = extract_build_command_from_buildlocal(&cli_args.project_root_path);
         } else {
             println!("generating build files for builder {}", builder);
-
+            detected_builder.0 = builder;
             let laze_output = Command::new("laze")
                 .current_dir(&cli_args.project_root_path)
                 .arg("build")
@@ -282,7 +284,10 @@ fn main() {
         if builder == "none" {
             let board_env = build_command.envs.iter().find(|env| env.contains("CONFIG_BOARD="));
             match board_env {
-                Some(board) => println!("found builder {}\n", board.split_once('=').unwrap().1),
+                Some(board) => {
+                    detected_builder.0 = board.split_once('=').unwrap().1;
+                    println!("found builder {}\n", detected_builder.0);
+                }
                 None => println!("failed to determine builder")
             };
         }
@@ -330,7 +335,7 @@ fn main() {
         sbom.convert_cargo_metadata_packages_to_components(&filtered_metadata, &lock_data);
 
         for bom_format in &cli_args.bom_formats {
-            write_sbom_to_file(&mut sbom, bom_format, &cli_args.output_name, builder);
+            write_sbom_to_file(&mut sbom, bom_format, &cli_args.output_name, detected_builder.0);
         }
     }
 }
