@@ -17,7 +17,7 @@ As of now the tool does the following:
 - run cargo metadata for info crate metadata
 - filter only the crates listed by cargo tree
 - take available relevant information from (filtered) cargo metadata
-- write output to file, in "raw format" for own further use or as Cyclone-DX (currently only version 1.7); no SPDX so far
+- write output to file, in "raw format" for own further use or as Cyclone-DX (version 1.6/1.7); no SPDX so far
 
 ### What the tool currently does provide
 
@@ -34,7 +34,7 @@ As of now the tool does the following:
     - based on the specified builders or the last executed build command
     - output formats
         - raw data format that is used during component aggregation
-        - CycloneDX version 1.7 
+        - CycloneDX version 1.6, 1.7 (due to the limited fields, they are basically identical right now) 
 
 ### What the tool currently does not provide (yet)
 
@@ -51,7 +51,7 @@ As of now the tool does the following:
 - SBOM generation
     - output formats
         - any SPDX version
-        - other (older) CycloneDX versions
+        - older CycloneDX versions
 - (full BSI guideline compliance?)
 
 ## Usage
