@@ -34,14 +34,14 @@ impl CycloneDxSbomV1_6 {
     
     pub fn default() -> CycloneDxSbomV1_6 {
         CycloneDxSbomV1_6 {
-            bomFormat: "CycloneDx".into(), 
+            bomFormat: "CycloneDX".into(), 
             specVersion: CycloneDxSpecVersion::V1_6, 
             serialNumber: Uuid::new_v4(), 
             metadata: CycloneDxMetadataV1_6 { 
                 timestamp: None, // timestamp will be set before writing to file
-                tools: vec![
-                    CycloneDxComponentV1_6::generate_tool_component()
-                ], 
+                tools: CycloneDxToolsV1_6 {
+                    components: vec![CycloneDxComponentV1_6::generate_tool_component()], 
+                },
                 manufacturer: CycloneDxManufacturerV1_6::generate_tool_component_manufacturer(),
             }, 
             components: vec![], 
@@ -85,10 +85,15 @@ impl CycloneDxSbomV1_6 {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 struct CycloneDxMetadataV1_6 {
     timestamp: Option<DateTime<Local>>,
-    tools: Vec<CycloneDxComponentV1_6>,
+    tools: CycloneDxToolsV1_6,
     manufacturer: CycloneDxManufacturerV1_6,
     //component: CycloneDxComponentV1_6,
     //properties: Vec<CycloneDxPropertyV1_6,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
+struct CycloneDxToolsV1_6 {
+    components: Vec<CycloneDxComponentV1_6>
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
@@ -107,7 +112,7 @@ struct CycloneDxComponentV1_6 {
     manufacturer: Option<CycloneDxManufacturerV1_6>,  // needs manufacturer according to BSI spec for URL if no email to provide
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    licenses: Option<Vec<String>>, // just License expression for now
+    licenses: Option<Vec<CycloneDxLicenseExpressionV1_6>>, // just License expression for now
 
     #[serde(skip_serializing_if = "Option::is_none")]
     purl: Option<String>, // proper purl later
@@ -135,7 +140,7 @@ impl CycloneDxComponentV1_6 {
             version: Version::new(0, 0, 0), 
             id: None, 
             manufacturer: Some(CycloneDxManufacturerV1_6::generate_tool_component_manufacturer()),
-            licenses: None, 
+            licenses: Some(vec!["MIT License".to_string().into()]), 
             purl: None, 
             hashes: None, 
             externalReferences: vec![
@@ -154,9 +159,9 @@ impl CycloneDxComponentV1_6 {
             manufacturer: Some(CycloneDxManufacturerV1_6::from_raw_component(raw_component)), 
             licenses: Some(vec![
                 match raw_component.licenses.clone() {
-                    Some(license_statement) => license_statement,
-                    _ => "".into()
-                }]), 
+                    Some(license_statement) => license_statement.into(),
+                    _ => String::new().into()
+                }]),
             purl: None, 
             hashes: Some(raw_component.identifiers
                 .iter()
@@ -172,6 +177,7 @@ impl CycloneDxComponentV1_6 {
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 struct CycloneDxDependencyV1_6 {
+    #[serde(rename = "ref")]
     bom_ref: CycloneDxBomRefV1_6,
     dependsOn: Vec<CycloneDxBomRefV1_6>,
     // provides:
@@ -229,6 +235,16 @@ impl CycloneDxManufacturerV1_6 {
     }
 }
 
+#[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
+struct CycloneDxLicenseExpressionV1_6 {
+    expression: String,
+}
+
+impl From<String> for CycloneDxLicenseExpressionV1_6 {
+    fn from(value: String) -> Self {
+        CycloneDxLicenseExpressionV1_6 { expression: value }
+    }
+}
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 struct CycloneDxBomRefV1_6(String);
 
