@@ -27,7 +27,7 @@ pub struct Args {
     #[arg(
         id = "BOM_formats",
         value_name = "BOM_FORMAT",
-        num_args = 1..3,    // can be more in future
+        num_args = 1..4,    // can be more in future
         default_value = "raw",
         short = 'b',
         long = "bom-formats",

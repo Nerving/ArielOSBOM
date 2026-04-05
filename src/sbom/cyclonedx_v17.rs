@@ -9,12 +9,11 @@ use semver::Version;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-
 use std::{
     fmt::Debug,
     fs::File,
     io::Write,
-    path::Path,
+    path::{Path, PathBuf},
 };
 
 
@@ -63,9 +62,10 @@ impl CycloneDxSbomV1_7 {
 
     pub fn write_to_file(&mut self, file_name: &str, output_dir: &Path, builder: &str) {
         let file_format = FileFormat::Json;
-        let mut file = match File::create(format!("{}/{}_{}.cdx.{}", output_dir.display(), file_name, builder, file_format)) {
+        let full_file_name = format!("{}_{}.cdx.{}", file_name, builder, file_format);
+        let mut file = match File::create([output_dir, Path::new(&full_file_name)].iter().collect::<PathBuf>()) {
             Ok(file) => file,
-            Err(e) => panic!("Could not create file: {}.{}: {}", file_name, file_format, e),
+            Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
         };
 
         self.metadata.timestamp = Some(Local::now());

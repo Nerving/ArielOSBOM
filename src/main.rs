@@ -18,13 +18,15 @@ use std::{
         collections::HashSet, 
         fs::{self, File}, 
         io::{BufRead, BufReader}, 
-        path::Path, 
+        path::{Path, PathBuf}, 
         process::Command,
 };
 
 fn extract_build_command_from_buildlocal(project_path: &Path) -> String {
 
-    let file = match File::open(format!("{}build/build-local.ninja", project_path.display())) {
+    let buildlocal_path: PathBuf = ["build","build-local.ninja"].iter().collect::<PathBuf>();
+
+    let file = match File::open([project_path, &buildlocal_path].iter().collect::<PathBuf>()) {
             Ok(file) => file,
             Err(e) => panic!("Could not open build-local.ninja: {}", e)        
         };
@@ -43,7 +45,9 @@ fn extract_build_command_from_buildlocal(project_path: &Path) -> String {
 
 fn extract_build_command_from_compile_commands(project_path: &Path) -> String {
 
-    let file = match File::open(format!("{}compile_commands.json", project_path.display())) {
+    let compile_commands_path: &Path = Path::new("compile_commands.json");
+
+    let file = match File::open([project_path, compile_commands_path].iter().collect::<PathBuf>()) {
         Ok(file) => file,
         Err(e) => panic!("Could not open compile_commands.json: {}", e),
     };
@@ -216,7 +220,7 @@ fn generate_cargo_metadata(root_path: &Path, manifest_path: &Path, features: &St
 }
 
 fn generate_cargo_lock_data(root_path: &Path, lock_path: &Path) -> Result<Lockfile, LockError> {
-        Lockfile::load(format!("{}{}", root_path.display(), lock_path.display()))
+        Lockfile::load([root_path, lock_path].iter().collect::<PathBuf>())
 }
 
 fn extract_missing_checksums(checklist: HashSet<&String>, import_lockdata: Vec<LockPackage>) -> Vec<LockPackage> {
@@ -281,7 +285,10 @@ fn main() {
                         continue;
                     }
                 },
-                Err(e) => println!("laze ran into a problem building for {}: {}", builder, e)
+                Err(e) => {
+                    println!("laze ran into a problem building for {}: {}", builder, e);
+                    continue;
+                }
             };
 
             extracted_build_command = extract_build_command_from_compile_commands(&cli_args.project_root_path);

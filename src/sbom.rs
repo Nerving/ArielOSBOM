@@ -12,7 +12,7 @@ use std::{
     fmt::{Formatter},
     fs::{File},
     io::{Write},
-    path::{Path},
+    path::{Path, PathBuf},
 };
 
 pub mod cyclonedx_v16;
@@ -73,9 +73,10 @@ impl RawSbom {
 
     pub fn write_to_file(&mut self, file_name: &str, output_dir: &Path, builder: &str) {
         let file_format = FileFormat::Json;
-        let mut file = match File::create(format!("{}/{}_{}.raw.{}", output_dir.display(), file_name, builder, file_format)) {
+        let full_file_name = format!("{}_{}.raw.{}", file_name, builder, file_format);
+        let mut file = match File::create([output_dir, Path::new(&full_file_name)].iter().collect::<PathBuf>()) {
             Ok(file) => file,
-            Err(e) => panic!("Could not create file: {}.{}: {}", file_name, file_format, e),
+            Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
         };
 
         self.bom_metadata.timestamp = Some(Local::now());
