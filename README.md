@@ -1,23 +1,12 @@
 A build-level SBOM generator for Ariel OS based Rust projects.
 
-## Motivation and Goals
-
-With increasing software supply chain attacks and security demands, Software Bills of Materials (SBOMs) have gained relevance in recent years. In the EU, the [Cyber Resilience Act (CRA)](https://eur-lex.europa.eu/eli/reg/2024/2847/oj) will be requiring suppliers to draw up and if necessary provide SBOMs for their software. As a FOSS project, Ariel OS itself technically does not fall under the CRA, however as seen with [RIOT e.g.](https://github.com/RIOT-OS/RIOT/pull/21530) demand can exist for users of Ariel OS, so providing tooling to support with that makes sense. 
+## Goal
 
 The goal of this project is to create/lay the groundwork for an SBOM generator for [Ariel OS](https://github.com/ariel-os/ariel-os) projects. Since the CRA does not go into much detail in terms of SBOM requirements, right now the current [BSI technical guideline for SBOMs](https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TR03183/BSI-TR-03183-2_v2_1_0.pdf) will instead be used as a reference and compliance for it be strived towards.
 
 ## Current state
 
-Generates an SBOM of an Ariel OS project at the scope of the specified boards or last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information for all Rust components that were compiled during the build process. 
-
-As of now the tool does the following:
-- if provided, generate build files for the specified board(s)
-- extract build information from the last laze build command
-- generate cargo-tree data for component baseline
-- run cargo metadata for info crate metadata
-- filter only the crates listed by cargo tree
-- take available relevant information from (filtered) cargo metadata
-- write output to file, in "raw format" for own further use or as Cyclone-DX (version 1.6/1.7); no SPDX so far
+Generates an SBOM of an Ariel OS project at the build-scope of the specified boards or last executed build as documented in `<PATH_TO_PROJECT>/build/build-local.ninja`, providing information based on `cargo metadata` output and `Cargo.lock` contents for all Rust components that were compiled during the build process, extracted via the `cargo tree` . 
 
 ### What the tool currently does provide
 
@@ -54,17 +43,30 @@ As of now the tool does the following:
         - older CycloneDX versions
 - (full BSI guideline compliance?)
 
+## Comparison
+
+Here's a short example comparison regarding Rust component recognition based on the specific build between this tool and some common existing SBOM tools for Rust. The project used is the [v0.4.0 Ariel OS CoAP test](https://github.com/ariel-os/ariel-os/tree/v0.4.0/tests/coap), but recreated as an out-of-tree project.
+
+For more details, check [COMPARISON](https://github.com/Nerving/ArielOSBOM/blob/master/COMPARISON.md).
+
+|   Tool                                                                        |   Components recognised   |   False positives |   False negatives |
+|:-----------------------------------------------------------------------------:|:-------------------------:|:-----------------:|:-----------------:|
+|   cargo tree (with environment variables, features)                           |   312                     |   baseline        |   baseline        |
+|   ArielOSBOM (cargo tree based)                                               |   312                     |   0               |   0               |
+|   [Syft](https://github.com/anchore/syft) 1.42.3                              |   1205 (878)              |   568             |   2               |
+|   [Syft](https://github.com/anchore/syft) 1.42.3 (excluded import directory)  |   508                     |   211             |   15              |
+|   [cdxgen](https://github.com/cdxgen/cdxgen) 12.1.4                           |   507                     |   210             |   15              |
+|   [cargo-sbom](https://github.com/psastras/sbom-rs) 0.10.0                    |   392                     |   151             |   71              |
+|   [cargo-cyclonedx](https://github.com/CycloneDX/cyclonedx-rust-cargo) 0.5.9  |   380                     |   71              |   3               |
+
 ## Usage
 
 ### Installation
 
 - simply clone this repository to a location of your choosing
 - install the [build prerequisites](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#installing-the-build-prerequisites) needed for Ariel OS
-- if not done already, install nightly toolchain: `rustup toolchain install nightly`
 
 ### Execution
-
-- only works using nightly toolchain right now (otherwise cargo metadata fails for Ariel OS projects)
 
 Option 1:
 - provide the project's root path via the command line (`-r <PATH>`)
@@ -137,10 +139,6 @@ Installation + Setup:
 
 `git clone https://github.com/Nerving/ArielOSBOM.git`
 
-- Install nightly toolchain if needed and set it as default:
-
-`rustup toolchain install nightly`, `rustup default nightly`
-
 - Have your own project [set up from a template repository](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#starting-an-application-project-from-a-template-repository)
 
 Execution:
@@ -160,6 +158,7 @@ Installation + Setup:
 - same as the previous example
 
 Execution:
+
 - Run the build for your project at your project's root directory:
 
 `laze build -b <BUILDER>`
@@ -175,6 +174,7 @@ Execution:
 ### Example (Ariel OS Coap Test, non-project-root, with --builders argument)
 
 Installation + Setup:
+
 - as before except:
 
 - ~~Have your own project set up from a template repository~~ Clone the ArielOS main repo:
@@ -200,18 +200,15 @@ Execution:
 - Run the build for /tests/coap/ in the ArielOS repo root:
 
 `laze -C tests/coap build -b <board>`
+
 - Run ArielOSBOM (where its repo was cloned to) with your project root path and the relative path to the test case's Cargo.toml, because it is not in the root directory, as cli arguments. Since we are in the original ArielOS repository, we do not have an import, so we only have the lock file at the root:
 
 `cargo run -- -r <PATH> -m ./tests/coap/Cargo.toml --import-path ./`
 
 - The output file will be put into the ./output directory.
 
----
+
 
 ## Contact
 
 For feedback of any sorts, I can also be messaged on Matrix: @lekilian:matrix.org
-
---- 
-
-This repository is for the WIP project for my bachelor's thesis (Comp. Sci., FU Berlin) under the guidance of [Prof. Dr. Emmanuel Baccelli](https://emmanuelbaccelli.com/). 
