@@ -12,6 +12,7 @@ use std::{
     fmt::{Formatter},
     fs::{File},
     io::{Write},
+    path::{Path},
 };
 
 pub mod cyclonedx_v16;
@@ -70,9 +71,9 @@ impl RawSbom {
         }
     }
 
-    pub fn write_to_file(&mut self, file_name: &str, builder: &str) {
+    pub fn write_to_file(&mut self, file_name: &str, output_dir: &Path, builder: &str) {
         let file_format = FileFormat::Json;
-        let mut file = match File::create(format!("./output/{}_{}.raw.{}", file_name, builder,file_format)) {
+        let mut file = match File::create(format!("{}/{}_{}.raw.{}", output_dir.display(), file_name, builder, file_format)) {
             Ok(file) => file,
             Err(e) => panic!("Could not create file: {}.{}: {}", file_name, file_format, e),
         };
@@ -122,12 +123,12 @@ impl std::fmt::Display for BomFormat {
     }
 }
 
-pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_name: &str, builder: &str) {
+pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_name: &str, output_dir: &Path, builder: &str) {
     match bom_format {
-        BomFormat::Raw => sbom.write_to_file(&output_name, builder),
+        BomFormat::Raw => sbom.write_to_file(&output_name, &output_dir, builder),
         BomFormat::SPDX => println!("No SPDX conversion currently"),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(&sbom, output_name, builder),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
     }
 }
 

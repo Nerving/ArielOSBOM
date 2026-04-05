@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 
 use std::{
         collections::HashSet, 
-        fs::File, 
+        fs::{self, File}, 
         io::{BufRead, BufReader}, 
         path::Path, 
         process::Command,
@@ -233,6 +233,13 @@ fn main() {
 
     if !(cli_args.project_root_path.exists()) { panic!("Cannot find project root path:\n{:?}", cli_args.project_root_path); }
 
+    if !(cli_args.output_dir.exists()) {
+        match fs::create_dir(&cli_args.output_dir) {
+            Ok(_) => println!("created output directory: {}\n", cli_args.output_dir.canonicalize().unwrap().display()),
+            Err(e) => panic!("failed to created output directory: {:?}\n", e)
+        };
+    }
+
     // future: do not generate each sbom entirely seperately but fill "database" of components first and then generate all boms accordingly
         
     for builder in &cli_args.builders {
@@ -335,7 +342,7 @@ fn main() {
         sbom.convert_cargo_metadata_packages_to_components(&filtered_metadata, &lock_data);
 
         for bom_format in &cli_args.bom_formats {
-            write_sbom_to_file(&mut sbom, bom_format, &cli_args.output_name, detected_builder.0);
+            write_sbom_to_file(&mut sbom, bom_format, &cli_args.output_name, &cli_args.output_dir, detected_builder.0);
         }
     }
 }

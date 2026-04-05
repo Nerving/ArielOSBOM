@@ -75,6 +75,16 @@ pub struct Args {
     pub output_name: String,    // again potentially Vec if multiple in future
 
     #[arg(
+        id = "output_directory",
+        value_name = "PATH",
+        default_value = "./output",
+        long = "output-directory",
+        required = false,
+        help = "Path to where the generated SBOMs are to be stored (relative to execution path or absolute)",
+    )]
+    pub output_dir : PathBuf,
+
+    #[arg(
         id = "project_manifest_path",
         value_name = "PATH",
         default_value = "./Cargo.toml",

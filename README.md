@@ -113,6 +113,9 @@ Current cli arguments:
             
             [default: arielosbom]
 
+        --output-directory <PATH>
+            Path to where the generated SBOMs are to be stored (relative to execution path or absolute)
+
     -m, --manifest-path <PATH>
             Path to the build's manifest file relative to its root
             

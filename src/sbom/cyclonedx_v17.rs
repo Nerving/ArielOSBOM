@@ -14,6 +14,7 @@ use std::{
     fmt::Debug,
     fs::File,
     io::Write,
+    path::Path,
 };
 
 
@@ -60,9 +61,9 @@ impl CycloneDxSbomV1_7 {
         cdx_bom
     }
 
-    pub fn write_to_file(&mut self, file_name: &str, builder: &str) {
+    pub fn write_to_file(&mut self, file_name: &str, output_dir: &Path, builder: &str) {
         let file_format = FileFormat::Json;
-        let mut file = match File::create(format!("./output/{}_{}.cdx.{}", file_name, builder, file_format)) {
+        let mut file = match File::create(format!("{}/{}_{}.cdx.{}", output_dir.display(), file_name, builder, file_format)) {
             Ok(file) => file,
             Err(e) => panic!("Could not create file: {}.{}: {}", file_name, file_format, e),
         };
@@ -76,9 +77,9 @@ impl CycloneDxSbomV1_7 {
                         ).expect("Could not write SBOM data to file.");
     }
 
-    pub fn convert_from_raw_and_write_to_file(raw_sbom: &RawSbom, file_name: &str, builder: &str) {
+    pub fn convert_from_raw_and_write_to_file(raw_sbom: &RawSbom, file_name: &str, output_dir: &Path, builder: &str) {
         let mut cdx_bom = CycloneDxSbomV1_7::from_raw(raw_sbom);
-        cdx_bom.write_to_file(file_name, builder);
+        cdx_bom.write_to_file(file_name, output_dir, builder);
     }
 }
 
