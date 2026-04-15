@@ -2,7 +2,7 @@ This file provides additional details to the [README's comparison](https://githu
 
 ## Setup
 
-The project used is the [v0.4.0 Ariel OS CoAP test](https://github.com/ariel-os/ariel-os/tree/v0.4.0/tests/coap), but recreated as an out-of-tree project. It was set up as follows:
+The project used is the [v0.4.0 Ariel OS CoAP test](https://github.com/ariel-os/ariel-os/tree/v0.4.0/tests/coap), but recreated as an out-of-tree project, and built for the nRF52840-DK board. It was set up as follows:
 
 1. [set up a new project from a template repository](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#starting-an-application-project-from-a-template-repository)
 
