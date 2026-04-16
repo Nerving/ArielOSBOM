@@ -29,7 +29,7 @@ fn e2e() {
         Some(vec!["nrf52840dk"]), 
         "e2e", 
         Path::new(COAP_EXAMPLE_PATH).join("Cargo.toml"), 
-        Path::new("."), 
+        Path::new("Cargo.lock"), 
         Path::new(".")
     ).expect("arielosbom execution failed");
 
