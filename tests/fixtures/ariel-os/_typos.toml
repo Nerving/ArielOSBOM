@@ -1,0 +1,17 @@
+[default]
+locale = "en-us"
+
+[default.extend-words]
+hax = "hax"
+hsi = "hsi"
+extint = "extint" # External interrupt
+synopsys = "synopsys" # Manufacturer name
+COSE = "COSE" # A technology we use
+EDN = "EDN" # EDN is the acronym of CBOR Diagnostic Notation
+
+[files]
+extend-exclude = [
+  "book/src/*.svg",
+  "src/ariel-os-rp/src/cyw43/firmware/README.md",
+  "src/ariel-os-stm32-mapping/stm32_mapping.csv",
+]

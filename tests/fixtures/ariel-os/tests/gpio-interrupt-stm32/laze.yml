@@ -1,0 +1,4 @@
+apps:
+  - name: gpio-interrupt-stm32
+    context:
+      - stm32

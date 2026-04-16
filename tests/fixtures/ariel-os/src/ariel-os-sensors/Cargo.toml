@@ -1,0 +1,41 @@
+[package]
+name = "ariel-os-sensors"
+# The sensor API is versioned separately from the rest of Ariel OS.
+# Introducing a breaking change fragments the ecosystem of sensor drivers.
+version = "0.1.0"
+edition.workspace = true
+# This crate's MSRV is decoupled from Ariel OS's.
+rust-version = "1.90"
+repository.workspace = true
+license.workspace = true
+
+[dependencies]
+defmt = { workspace = true, optional = true }
+embassy-sync = { workspace = true }
+pin-project-lite = { workspace = true }
+
+[dev-dependencies]
+critical-section = { workspace = true, features = ["std"] }
+embassy-futures = { workspace = true }
+static_cell = { workspace = true }
+
+[features]
+defmt = ["dep:defmt"]
+
+# Each feature enables the previous one, in a cascading fashion.
+max-sample-min-count-2 = []
+max-sample-min-count-3 = ["max-sample-min-count-2"]
+max-sample-min-count-4 = ["max-sample-min-count-3"]
+max-sample-min-count-5 = ["max-sample-min-count-4"]
+max-sample-min-count-6 = ["max-sample-min-count-5"]
+max-sample-min-count-7 = ["max-sample-min-count-6"]
+max-sample-min-count-8 = ["max-sample-min-count-7"]
+max-sample-min-count-9 = ["max-sample-min-count-8"]
+max-sample-min-count-10 = ["max-sample-min-count-9"]
+max-sample-min-count-11 = ["max-sample-min-count-10"]
+max-sample-min-count-12 = ["max-sample-min-count-11"]
+
+_test = []
+
+[lints]
+workspace = true

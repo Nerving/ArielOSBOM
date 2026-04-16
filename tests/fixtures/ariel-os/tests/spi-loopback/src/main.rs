@@ -1,0 +1,56 @@
+//! This example is merely to illustrate and test raw bus usage.
+//!
+//! Please use [`ariel_os::sensors`] instead for a high-level sensor abstraction that is
+//! HAL-agnostic.
+#![no_main]
+#![no_std]
+
+mod pins;
+
+use ariel_os::{
+    debug::{ExitCode, exit},
+    gpio, hal,
+    log::{Hex, debug, info},
+    spi::{
+        Mode,
+        main::{Kilohertz, SpiDevice, highest_freq_in},
+    },
+};
+use embassy_sync::mutex::Mutex;
+use embedded_hal_async::spi::SpiDevice as _;
+
+#[ariel_os::task(autostart, peripherals)]
+async fn main(peripherals: pins::Peripherals) {
+    let mut spi_config = hal::spi::main::Config::default();
+    spi_config.frequency = const { highest_freq_in(Kilohertz::kHz(1000)..=Kilohertz::kHz(2000)) };
+    debug!("Selected frequency: {:?}", spi_config.frequency);
+    spi_config.mode = if !cfg!(context = "esp") {
+        Mode::Mode3
+    } else {
+        // FIXME: the sensor datasheet does say SPI mode 3, not mode 0
+        Mode::Mode0
+    };
+
+    let spi_bus = pins::SensorSpi::new(
+        peripherals.spi_sck,
+        peripherals.spi_miso,
+        peripherals.spi_mosi,
+        spi_config,
+    );
+    let spi_bus = Mutex::new(spi_bus);
+
+    let cs_output = gpio::Output::new(peripherals.spi_cs, gpio::Level::High);
+    let mut spi_device = SpiDevice::new(&spi_bus, cs_output);
+
+    let out = [0u8, 1, 2, 3, 4, 5, 6, 7];
+    let mut in_ = [0u8; 8];
+    spi_device.transfer(&mut in_, &out).await.unwrap();
+
+    info!("got {}", Hex(in_));
+
+    assert_eq!(out, in_);
+
+    info!("Test passed!");
+
+    exit(ExitCode::SUCCESS);
+}

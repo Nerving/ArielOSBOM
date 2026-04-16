@@ -1,0 +1,15 @@
+[package]
+name = "ble-advertiser"
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+ariel-os = { path = "../../src/ariel-os", features = ["time"] }
+ariel-os-boards = { path = "../../src/ariel-os-boards" }
+
+embassy-futures = { version = "0.1.1" }
+trouble-host = { workspace = true }
+
+[lints]
+workspace = true

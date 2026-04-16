@@ -1,0 +1,6 @@
+apps:
+  - name: test-coap
+    selects:
+      - coap-server
+      - ?coap-server-config-demokeys
+      - coap-client

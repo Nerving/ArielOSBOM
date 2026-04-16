@@ -1,0 +1,6 @@
+apps:
+  - name: gpio-interrupt-nrf
+    context:
+      - nrf
+    conflicts:
+      - context::nrf5340-net

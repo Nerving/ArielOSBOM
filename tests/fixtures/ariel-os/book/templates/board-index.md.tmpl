@@ -1,0 +1,5 @@
+# Board Pages
+
+{% for board in boards %}
+- [{{ board.name }}](./{{ board.name|slugify }}.md)
+{%- endfor %}

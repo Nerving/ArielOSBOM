@@ -1,0 +1,5 @@
+apps:
+  - name: example-benchmark
+    selects:
+      - sw/threading
+      - sw/benchmark

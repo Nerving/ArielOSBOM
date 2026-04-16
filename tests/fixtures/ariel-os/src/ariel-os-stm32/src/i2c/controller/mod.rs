@@ -1,0 +1,272 @@
+//! Provides support for the I2C communication bus in controller mode.
+
+#![expect(unsafe_code)]
+
+use ariel_os_embassy_common::{i2c::controller::Kilohertz, impl_async_i2c_for_driver_enum};
+use embassy_embedded_hal::adapter::{BlockingAsync, YieldingAsync};
+use embassy_stm32::{
+    bind_interrupts,
+    i2c::{EventInterruptHandler, I2c as InnerI2c, SclPin, SdaPin, mode::Master},
+    mode::Blocking,
+    peripherals,
+    time::Hertz,
+};
+
+/// I2C bus configuration.
+#[non_exhaustive]
+#[derive(Clone)]
+pub struct Config {
+    /// The frequency at which the bus should operate.
+    pub frequency: Frequency,
+    /// Whether to enable the internal pull-up resistor on the SDA pin.
+    pub sda_pullup: bool,
+    /// Whether to enable the internal pull-up resistor on the SCL pin.
+    pub scl_pullup: bool,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            frequency: Frequency::UpTo100k(Kilohertz::kHz(100)),
+            sda_pullup: false,
+            scl_pullup: false,
+        }
+    }
+}
+
+/// I2C bus frequency.
+// FIXME(embassy): fast mode plus is supported by hardware but requires additional configuration
+// that Embassy does not seem to currently provide.
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
+#[repr(u32)]
+pub enum Frequency {
+    /// Standard mode.
+    UpTo100k(Kilohertz), // FIXME: use a ranged integer?
+    /// Fast mode.
+    UpTo400k(Kilohertz), // FIXME: use a ranged integer?
+}
+
+#[doc(hidden)]
+impl Frequency {
+    #[must_use]
+    pub const fn first() -> Self {
+        Self::UpTo100k(Kilohertz::kHz(1))
+    }
+
+    #[must_use]
+    pub const fn last() -> Self {
+        Self::UpTo400k(Kilohertz::kHz(400))
+    }
+
+    #[must_use]
+    pub const fn next(self) -> Option<Self> {
+        match self {
+            Self::UpTo100k(f) => {
+                if f.to_kHz() < 100 {
+                    // NOTE(no-overflow): `f` is small enough due to if condition
+                    Some(Self::UpTo100k(Kilohertz::kHz(f.to_kHz() + 1)))
+                } else {
+                    Some(Self::UpTo400k(Kilohertz::kHz(self.khz() + 1)))
+                }
+            }
+            Self::UpTo400k(f) => {
+                if f.to_kHz() < 400 {
+                    // NOTE(no-overflow): `f` is small enough due to if condition
+                    Some(Self::UpTo400k(Kilohertz::kHz(f.to_kHz() + 1)))
+                } else {
+                    None
+                }
+            }
+        }
+    }
+
+    #[must_use]
+    pub const fn prev(self) -> Option<Self> {
+        match self {
+            Self::UpTo100k(f) => {
+                if f.to_kHz() > 1 {
+                    // NOTE(no-overflow): `f` is large enough due to if condition
+                    Some(Self::UpTo100k(Kilohertz::kHz(f.to_kHz() - 1)))
+                } else {
+                    None
+                }
+            }
+            Self::UpTo400k(f) => {
+                if f.to_kHz() > 100 + 1 {
+                    // NOTE(no-overflow): `f` is large enough due to if condition
+                    Some(Self::UpTo400k(Kilohertz::kHz(f.to_kHz() - 1)))
+                } else {
+                    Some(Self::UpTo100k(Kilohertz::kHz(self.khz() - 1)))
+                }
+            }
+        }
+    }
+
+    #[must_use]
+    pub const fn khz(self) -> u32 {
+        match self {
+            Self::UpTo100k(f) | Self::UpTo400k(f) => f.to_kHz(),
+        }
+    }
+}
+
+ariel_os_embassy_common::impl_i2c_from_frequency_up_to!();
+
+impl From<Frequency> for Hertz {
+    fn from(freq: Frequency) -> Self {
+        match freq {
+            Frequency::UpTo100k(f) | Frequency::UpTo400k(f) => Hertz::khz(f.to_kHz()),
+        }
+    }
+}
+
+macro_rules! define_i2c_drivers {
+    ($( $ev_interrupt:ident $( + $er_interrupt:ident )? => $peripheral:ident ),* $(,)?) => {
+        $(
+            /// Peripheral-specific I2C driver.
+            // NOTE(hal): this is not required in this HAL, as the inner I2C type is
+            // not generic over the I2C peripheral, and is only done for consistency with
+            // other HALs.
+            pub struct $peripheral {
+                twim: YieldingAsync<BlockingAsync<InnerI2c<'static, Blocking, Master>>>,
+            }
+
+            impl $peripheral {
+                /// Returns a driver implementing [`embedded_hal_async::i2c::I2c`] for this
+                /// I2C peripheral.
+                #[expect(clippy::new_ret_no_self)]
+                #[must_use]
+                pub fn new<SDA: SdaPin<peripherals::$peripheral>, SCL: SclPin<peripherals::$peripheral>>(
+                    sda_pin: impl $crate::IntoPeripheral<'static, SDA>,
+                    scl_pin: impl $crate::IntoPeripheral<'static, SCL>,
+                    config: Config,
+                ) -> I2c {
+                    let mut i2c_config = embassy_stm32::i2c::Config::default();
+                    i2c_config.frequency = config.frequency.into();
+                    i2c_config.sda_pullup = config.sda_pullup;
+                    i2c_config.scl_pullup = config.scl_pullup;
+                    i2c_config.timeout = ariel_os_embassy_common::i2c::controller::I2C_TIMEOUT;
+
+                    bind_interrupts!(
+                        struct Irqs {
+                            $ev_interrupt => EventInterruptHandler<peripherals::$peripheral>;
+                            $( $er_interrupt => embassy_stm32::i2c::ErrorInterruptHandler<peripherals::$peripheral>; )?
+                        }
+                    );
+
+                    // Make this struct a compile-time-enforced singleton: having multiple statics
+                    // defined with the same name would result in a compile-time error.
+                    paste::paste! {
+                        #[allow(dead_code)]
+                        static [<PREVENT_MULTIPLE_ $peripheral>]: () = ();
+                    }
+
+                    // FIXME(safety): enforce that the init code indeed has run
+                    // SAFETY: this struct being a singleton prevents us from stealing the
+                    // peripheral multiple times.
+                    let twim_peripheral = unsafe { peripherals::$peripheral::steal() };
+
+                    let i2c = InnerI2c::new_blocking(
+                        twim_peripheral,
+                        scl_pin.into_hal_peripheral(),
+                        sda_pin.into_hal_peripheral(),
+                        i2c_config,
+                    );
+
+                    I2c::$peripheral(Self { twim: YieldingAsync::new(BlockingAsync::new(i2c)) })
+                }
+            }
+        )*
+
+        /// Peripheral-agnostic driver.
+        pub enum I2c {
+            $(
+                #[doc = concat!(stringify!($peripheral), " peripheral.")]
+                $peripheral($peripheral),
+            )*
+        }
+
+        impl embedded_hal_async::i2c::ErrorType for I2c {
+            type Error = ariel_os_embassy_common::i2c::controller::Error;
+        }
+
+        impl_async_i2c_for_driver_enum!(I2c, $( $peripheral ),*);
+    }
+}
+
+// We cannot impl From because both types are external to this crate.
+fn from_error(err: embassy_stm32::i2c::Error) -> ariel_os_embassy_common::i2c::controller::Error {
+    use embassy_stm32::i2c::Error::{
+        Arbitration, Bus, Crc, Nack, Overrun, Timeout, ZeroLengthTransfer,
+    };
+
+    use ariel_os_embassy_common::i2c::controller::{Error, NoAcknowledgeSource};
+
+    match err {
+        Bus => Error::Bus,
+        Arbitration => Error::ArbitrationLoss,
+        Nack => Error::NoAcknowledge(NoAcknowledgeSource::Unknown),
+        Timeout => Error::Timeout,
+        Crc | ZeroLengthTransfer => Error::Other,
+        Overrun => Error::Overrun,
+    }
+}
+
+// Define a driver per peripheral
+#[cfg(context = "stm32c031c6")]
+define_i2c_drivers!(
+   I2C1 => I2C1,
+);
+#[cfg(context = "stm32f042k6")]
+define_i2c_drivers!(
+   I2C1 => I2C1,
+);
+#[cfg(context = "stm32f303cb")]
+define_i2c_drivers!(
+   I2C1_EV + I2C1_ER => I2C1,
+   I2C2_EV + I2C2_ER => I2C2,
+);
+#[cfg(context = "stm32f303re")]
+define_i2c_drivers!(
+   I2C1_EV + I2C1_ER => I2C1,
+   I2C2_EV + I2C2_ER => I2C2,
+   I2C3_EV + I2C3_ER => I2C3,
+);
+#[cfg(any(context = "stm32f401re", context = "stm32f411re"))]
+define_i2c_drivers!(
+   I2C1_EV + I2C1_ER => I2C1,
+   I2C2_EV + I2C2_ER => I2C2,
+   I2C3_EV + I2C3_ER => I2C3,
+);
+#[cfg(any(context = "stm32h755zi", context = "stm32h753zi"))]
+define_i2c_drivers!(
+   I2C1_EV + I2C1_ER => I2C1,
+   I2C2_EV + I2C2_ER => I2C2,
+   I2C3_EV + I2C3_ER => I2C3,
+   I2C4_EV + I2C4_ER => I2C4,
+);
+#[cfg(context = "stm32l475vg")]
+define_i2c_drivers!(
+    I2C1_EV + I2C1_ER => I2C1,
+    I2C2_EV + I2C2_ER => I2C2,
+    I2C3_EV + I2C3_ER => I2C3,
+);
+#[cfg(context = "stm32u585ai")]
+define_i2c_drivers!(
+   I2C1_EV + I2C1_ER => I2C1,
+   I2C2_EV + I2C2_ER => I2C2,
+   I2C3_EV + I2C3_ER => I2C3,
+   I2C4_EV + I2C4_ER => I2C4,
+);
+#[cfg(any(context = "stm32u073kc", context = "stm32u083mc"))]
+define_i2c_drivers!(
+   I2C1 => I2C1,
+   // FIXME: the other three I2C peripherals share the same interrupt
+);
+#[cfg(context = "stm32wb55rg")]
+define_i2c_drivers!(
+   I2C1_EV + I2C1_ER => I2C1,
+   // There is no I2C2
+   I2C3_EV + I2C3_ER => I2C3,
+);

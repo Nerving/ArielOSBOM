@@ -1,0 +1,14 @@
+apps:
+  - name: http-client
+    env:
+      global:
+        executor_stacksize_required:
+          - "65536"
+    selects:
+      - network
+      - random
+    conflicts:
+      - ram-small
+      # not enough ram
+      - context::esp32s2
+      - context::stm32l475vg

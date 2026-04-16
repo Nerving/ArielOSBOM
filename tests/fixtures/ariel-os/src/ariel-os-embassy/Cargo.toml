@@ -1,0 +1,216 @@
+[package]
+name = "ariel-os-embassy"
+version = "0.4.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+cfg-if = { workspace = true }
+const_panic = { workspace = true }
+critical-section = { workspace = true }
+linkme = { workspace = true }
+portable-atomic = { workspace = true }
+rand_core = { workspace = true, optional = true }
+static_cell = { workspace = true }
+
+embassy-embedded-hal = { workspace = true, optional = true }
+embassy-executor = { workspace = true }
+embassy-futures = { workspace = true }
+embassy-hal-internal = { workspace = true }
+embassy-net = { workspace = true, optional = true, features = [
+  "medium-ethernet",
+] }
+embassy-sync = { workspace = true }
+embassy-time = { workspace = true, optional = true }
+embassy-time-queue-utils = { workspace = true, optional = true }
+embassy-usb = { workspace = true, optional = true }
+
+embedded-hal = { workspace = true }
+embedded-hal-async = { workspace = true }
+
+ariel-os-boards = { workspace = true }
+ariel-os-buildinfo = { workspace = true }
+ariel-os-debug = { workspace = true }
+ariel-os-embassy-common = { workspace = true }
+ariel-os-hal = { path = "../ariel-os-hal" }
+ariel-os-identity = { path = "../ariel-os-identity" }
+ariel-os-log = { workspace = true }
+ariel-os-macros = { path = "../ariel-os-macros" }
+ariel-os-random = { path = "../ariel-os-random", optional = true }
+ariel-os-rt = { path = "../ariel-os-rt" }
+ariel-os-storage = { workspace = true, optional = true }
+ariel-os-threads = { path = "../ariel-os-threads", optional = true }
+ariel-os-utils = { workspace = true }
+
+const-str = { workspace = true, optional = true }
+trouble-host = { workspace = true, optional = true }
+usbd-hid = { version = "0.10.0", optional = true }
+
+# ISA-specific
+[target.'cfg(context = "cortex-m")'.dependencies]
+embassy-executor = { workspace = true, default-features = false, features = [
+  "arch-cortex-m",
+] }
+
+# Required for debug-over-uart.
+[target.'cfg(context = "nrf")'.dependencies]
+embassy-nrf = { workspace = true }
+embedded-io-async = { workspace = true }
+
+# Required for debug-over-uart.
+[target.'cfg(context = "stm32")'.dependencies]
+embassy-stm32 = { workspace = true }
+embedded-io = { workspace = true }
+
+[features]
+## Enables GPIO interrupt support.
+external-interrupts = [
+  "ariel-os-embassy-common/external-interrupts",
+  "ariel-os-hal/external-interrupts",
+]
+time = ["dep:embassy-time", "dep:embassy-time-queue-utils", "ariel-os-hal/time"]
+
+## Enables I2C support.
+i2c = [
+  "dep:embassy-embedded-hal",
+  "ariel-os-embassy-common/i2c",
+  "ariel-os-hal/i2c",
+]
+## Enables SPI support.
+spi = [
+  "dep:embassy-embedded-hal",
+  "ariel-os-embassy-common/spi",
+  "ariel-os-hal/spi",
+]
+
+## Enables UART support.
+uart = ["ariel-os-embassy-common/uart", "ariel-os-hal/uart"]
+
+## Enables USB support.
+usb = ["dep:embassy-usb", "ariel-os-hal/usb"]
+usb-hid = ["dep:usbd-hid", "embassy-usb?/usbd-hid", "usb"]
+
+# `embassy-net` requires a time driver, which HALs provide.
+net = ["dep:embassy-net", "ariel-os-hal/time"]
+# NOTE: `time` is only needed on STM32 for the workaround.
+usb-ethernet = ["net", "time", "usb"]
+## Selects the network backend that goes through tun/tap (native only)
+tuntap = ["net"]
+
+random = ["dep:ariel-os-random", "dep:rand_core"]
+## Use a hardware RNG to seed into the ariel-os-random system-wide RNG
+hwrng = ["ariel-os-hal/hwrng"]
+
+## Enables support for IPv4.
+ipv4 = ["ariel-os-hal/ipv4", "embassy-net?/proto-ipv4"]
+## Enables support for IPv6.
+ipv6 = ["ariel-os-hal/ipv6", "embassy-net?/proto-ipv6"]
+## Enables support for DHCPv4.
+dhcpv4 = ["embassy-net?/dhcpv4"]
+## Enables support for TCP.
+tcp = ["embassy-net?/tcp"]
+## Enables support for UDP.
+udp = ["embassy-net?/udp"]
+## Enables support for DNS.
+dns = ["embassy-net?/dns"]
+## Enables support for mDNS.
+mdns = ["embassy-net?/mdns"]
+## Enables support for multicast (for both IPv4 and/or IPv6 if enabled).
+multicast = ["embassy-net?/multicast"]
+
+## Enable storage support [`ariel-os::storage`].
+storage = ["dep:ariel-os-storage", "ariel-os-hal/storage", "time"]
+
+debug-uart = []
+
+# Enables cellular networking configuration.
+cellular-networking = [
+  "dep:const-str",
+  "ariel-os-embassy-common/cellular-networking",
+]
+
+wifi = []
+wifi-cyw43 = ["ariel-os-hal/wifi-cyw43", "net", "wifi"]
+wifi-esp = ["ariel-os-hal/wifi-esp", "net", "wifi"]
+
+ethernet = []
+ethernet-stm32 = ["ariel-os-hal/ethernet-stm32", "ethernet", "net"]
+
+ltem-nrf-modem = [
+  "ariel-os-hal/ltem-nrf-modem",
+  "cellular-networking",
+  "embassy-net/medium-ip",
+  "net",
+  "nrf91-modem",
+]
+
+ble = [
+  "dep:trouble-host",
+  "ariel-os-embassy-common/ble",
+  "ariel-os-hal/ble",
+  # Random is needed for BLE initialization and Address generation
+  "ariel-os-random/csprng",
+  "hwrng",
+  "random",
+]
+ble-cyw43 = ["ariel-os-hal/ble-cyw43", "ble"]
+ble-esp = ["ariel-os-hal/ble-esp", "ble"]
+ble-central = ["ariel-os-hal/ble-central", "ble"]
+ble-peripheral = ["ariel-os-hal/ble-peripheral", "ble"]
+
+nrf91-modem = ["ariel-os-hal/nrf91-modem"]
+
+threading = [
+  "dep:ariel-os-threads",
+  "ariel-os-hal/threading",
+  # This enables the timer queue implementation provided by
+  # `embassy-time-queue-utils` that is independent of `embassy-executor` (i.e.,
+  # the generic queue implementation), allowing `embassy_timer::Timer`s to be
+  # used in threads and/or when our custom executor is used.
+  # The default queue size is 64 (see the `generic-queue-*` features of
+  # `embassy-time-queue-utils`).
+  "embassy-time-queue-utils?/_generic-queue",
+]
+
+# See ariel-os/Cargo.toml for more details
+## Generic Queue with 8 timers
+timer-generic-queue-8 = ["embassy-time?/generic-queue-8"]
+## Generic Queue with 16 timers
+timer-generic-queue-16 = ["embassy-time?/generic-queue-16"]
+## Generic Queue with 32 timers
+timer-generic-queue-32 = ["embassy-time?/generic-queue-32"]
+## Generic Queue with 64 timers
+timer-generic-queue-64 = ["embassy-time?/generic-queue-64"]
+## Generic Queue with 128 timers
+timer-generic-queue-128 = ["embassy-time?/generic-queue-128"]
+
+network-config-ipv4-static = []
+network-config-ipv6-static = []
+network-config-override = []
+override-usb-config = []
+rcc-config-override = ["ariel-os-hal/rcc-config-override"]
+
+executor-interrupt = ["ariel-os-hal/executor-interrupt"]
+executor-thread = ["ariel-os-embassy-common/executor-thread", "threading"]
+executor-none = []
+
+defmt = [
+  "ariel-os-embassy-common/defmt",
+  "ariel-os-hal/defmt",
+  "embassy-net?/defmt",
+  "embassy-time?/defmt",
+  "embassy-usb?/defmt",
+  "embedded-hal-async/defmt-03",
+  "embedded-hal/defmt-03",
+  "embedded-io-async/defmt-03",
+  "embedded-io/defmt-03",
+  "trouble-host?/defmt",
+  "usbd-hid?/defmt",
+]
+log = ["ariel-os-hal/log"]
+
+_test = ["dhcpv4", "executor-none", "external-interrupts", "i2c", "spi", "time"]
+
+[lints]
+workspace = true

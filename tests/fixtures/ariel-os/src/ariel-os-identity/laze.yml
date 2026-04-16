@@ -1,0 +1,5 @@
+apps:
+  - name: crates/ariel-os-identity
+    selects:
+      - ?hw/device-identity
+      - embedded-test-only

@@ -1,0 +1,245 @@
+name: Deploy docs
+
+# GitHub Action workflow documentation:
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+
+# This workflow is based on
+# https://github.com/actions/starter-workflows/blob/main/pages/mdbook.yml
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - book/**
+      - doc/gen_book.rs
+      - doc/support_matrix.yml
+      - src/**
+      - Cargo.toml
+      - rust-toolchain.toml
+
+  pull_request:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages-${{ github.head_ref }}"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.repository == 'ariel-os/ariel-os'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - id: get_toolchain
+        run: echo "toolchain=$(scripts/rust-toolchain.sh)" >> $GITHUB_OUTPUT
+
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@efa25f7f19611383d5b0ccf2d1c8914531636bf9 # master
+        with:
+          toolchain: ${{ steps.get_toolchain.outputs.toolchain }}
+          components: rust-src
+          targets: riscv32imac-unknown-none-elf
+
+      - name: rust cache
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+
+      # Docs of HAL crates must be generated after that of the main crate,
+      # otherwise this would result in broken links, as they use `--no-deps` for
+      # faster generation.
+      - name: Build rustdoc docs
+        run: |
+          RUSTDOCFLAGS='--cfg nightly -Z unstable-options --extern-html-root-url trouble_host=https://docs.embassy.dev/trouble-host/0.5.0 ' cargo doc \
+              --no-deps \
+              -p ariel-os \
+              -p ariel-os-sensors \
+              -p coapcore \
+              --features "
+                  ariel-os-sensors/max-sample-min-count-12,
+                  bench,
+                  ble,
+                  coap,
+                  core-affinity,
+                  csprng,
+                  defmt,
+                  dns,
+                  executor-thread,
+                  external-interrupts,
+                  hwrng,
+                  i2c,
+                  mdns,
+                  multicast,
+                  net,
+                  no-boards,
+                  random,
+                  ariel-os-coap/doc,
+                  sensors,
+                  spi,
+                  storage,
+                  tcp,
+                  threading,
+                  uart,
+                  udp,
+                  usb,
+                  usb-hid,
+                  coapcore/_nightly_docs
+                  "
+          cargo doc \
+            --target=riscv32imac-unknown-none-elf \
+            --no-deps \
+            -p embedded-hal@1.0.0 \
+            -p embedded-hal-async \
+            -p embedded-io-async@0.6.1
+          cargo doc \
+            --no-deps \
+            -p embedded-hal@1.0.0 \
+            -p embedded-hal-async \
+            -p embedded-io-async@0.6.1
+
+          # These are split out so items from `ariel-os-sensors` are properly
+          # resolved.
+          cargo doc --no-deps \
+            -p ariel-os-sensors-gnss-time-ext \
+            -p ariel-os-sensors-utils
+
+          RUSTDOCFLAGS='-D warnings --cfg context="esp32c6" --cfg nightly' cargo doc \
+              --target=riscv32imac-unknown-none-elf \
+              --no-deps \
+              --features "
+                  esp-bootloader-esp-idf/esp32c6,
+                  esp-hal/esp32c6,
+                  external-interrupts,
+                  i2c,
+                  spi,
+                  uart,
+                  " \
+              -p ariel-os-esp
+          RUSTDOCFLAGS='-D warnings --cfg context="rp" --cfg context="rp2040" --cfg nightly' cargo doc \
+              --no-deps \
+              --features "
+                  embassy-rp/rp2040,
+                  external-interrupts,
+                  i2c,
+                  spi,
+                  uart,
+                  " \
+              -p ariel-os-rp
+          RUSTDOCFLAGS='-D warnings --cfg context="nrf52840" --cfg nightly' cargo doc \
+              --no-deps \
+              --features "
+                  embassy-nrf/nrf52840,
+                  external-interrupts,
+                  i2c,
+                  spi,
+                  uart,
+                  " \
+              -p ariel-os-nrf
+          RUSTDOCFLAGS='-D warnings --cfg context="stm32wb55rg" --cfg nightly' cargo doc \
+              --no-deps \
+              --features "
+                  embassy-stm32/stm32wb55rg,
+                  external-interrupts,
+                  i2c,
+                  spi,
+                  uart,
+                  " \
+              -p ariel-os-stm32
+          echo "<meta http-equiv=\"refresh\" content=\"0; url=ariel_os\">" > target/doc/index.html
+          mkdir -p ./_site/dev/docs/api
+          mv target/riscv32imac-unknown-none-elf/doc/ariel_os_esp/ ./_site/dev/docs/api
+          mv target/doc/* ./_site/dev/docs/api
+          # hack ariel-os-esp in the sidebar
+          sed -i 's/"ariel_os","ariel_os_nrf"/"ariel_os","ariel_os_esp","ariel_os_nrf"/g' ./_site/dev/docs/api/crates.js
+
+      - name: Install mdbook
+        uses: taiki-e/install-action@e9e8e031bcd90cdbe8ac6bb1d376f8596e587fbf # v2
+        with:
+          tool: mdbook@0.5
+
+      - name: Build the book
+        run: |
+          cd book
+          mdbook build
+          mv book ../_site/dev/docs
+
+      - name: Checkout older docs and book
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          repository: ariel-os/docs
+          ref: main
+          path: ./_older-docs
+
+      - name: Move older docs
+        if: github.event_name != 'pull_request'
+        run: |
+          for dir in ./_older-docs/tags/*/;
+          do
+            dir="${dir%*/}" # Remove trailing slash
+            tag="${dir##*/}" # Extract the release tag
+            mkdir -p "./_site/$tag/docs" # Create the directory for the versionned docs
+            mv "$dir/api" "./_site/$tag/docs/api" # Move the rustdoc API documentation
+            mv "$dir/book" "./_site/$tag/docs/book" # Move the book
+          done
+
+      - name: Hash docs tree
+        run: find ./_site -type f | xargs sha256sum | sha256sum > ./_hash && mv ./_hash ./_site/
+
+      - name: Upload artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: ./_site
+
+      - name: Compare hashes
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        id: check
+        run: |
+          hash="$(curl https://ariel-os.github.io/ariel-os/_hash | head -n 1)"
+          test "$hash" != "$(cat ./_site/_hash)"
+
+      - name: Upload artifact (PR)
+        if: github.event_name == 'pull_request' && steps.check.conclusion == 'success'
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
+        with:
+          name: pr-${{ github.event.number }}-docs
+          path: ./_site
+
+      - run: echo "${{ github.event.number }}" > pr
+
+      - name: Upload artifact (PR number)
+        if: github.event_name == 'pull_request' && steps.check.conclusion == 'success'
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
+        with:
+          name: pr-number
+          path: ./pr
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5

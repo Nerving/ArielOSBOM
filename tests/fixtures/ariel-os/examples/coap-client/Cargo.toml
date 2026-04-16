@@ -1,0 +1,16 @@
+[package]
+name = "example-coap-client"
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+ariel-os = { path = "../../src/ariel-os" }
+ariel-os-boards = { path = "../../src/ariel-os-boards" }
+coap-handler-implementations = "0.6.1"
+coap-request = "0.2.0-alpha.2"
+coap-request-implementations = "0.1.0-alpha.4"
+embedded-nal-coap = { workspace = true }
+
+[lints]
+workspace = true

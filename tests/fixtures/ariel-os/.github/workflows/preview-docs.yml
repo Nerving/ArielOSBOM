@@ -1,0 +1,54 @@
+name: Preview PR docs
+
+# commenting needs these
+permissions:
+  pull-requests: write
+
+on:
+  workflow_run: # zizmor: ignore[dangerous-triggers]
+    workflows: ["Deploy docs"]
+    types:
+      - completed
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    if: >-
+      ${{ github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: "Get PR number"
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          name: pr-number
+
+      - name: "Store PR number in output"
+        id: "pr"
+        run: echo "pr=$(cat pr)" >> $GITHUB_OUTPUT
+
+      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          name: pr-${{ steps.pr.outputs.pr }}-docs
+          path: ./_site
+
+      - name: Install surge
+        run: npm --global install surge
+
+      - name: Deploy PR preview
+        run: |
+          surge ./_site ${{ github.repository_owner }}-docs-preview-pr${PR_NUMBER}.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.pr }}
+
+      - name: Comment URL
+        uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987 # v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.pr.outputs.pr }}
+          message: |
+            🚀 Documentation preview deployed to <https://${{ github.repository_owner }}-docs-preview-pr${{ steps.pr.outputs.pr }}.surge.sh/dev/docs/api/ariel_os/>
+            📔 Book preview deployed to <https://${{ github.repository_owner }}-docs-preview-pr${{ steps.pr.outputs.pr }}.surge.sh/dev/docs/book/>

@@ -1,0 +1,6 @@
+apps:
+  - name: coap-blinky
+    selects:
+      - has_leds
+      - coap-server
+      - ?coap-server-config-demokeys

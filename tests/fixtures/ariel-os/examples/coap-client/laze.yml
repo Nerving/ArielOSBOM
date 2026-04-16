@@ -1,0 +1,4 @@
+apps:
+  - name: example-coap-client
+    selects:
+      - coap-client

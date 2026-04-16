@@ -1,0 +1,8 @@
+version: 0.3.0
+targets:
+  rpi-pico2-w:
+    chip: rp235xa
+    flags:
+      - has_ble_cyw43
+      - has_usb_device_port
+      - has_wifi_cyw43

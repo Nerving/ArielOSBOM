@@ -1,0 +1,21 @@
+[package]
+name = "http-server"
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+ariel-os = { path = "../../src/ariel-os", features = ["time"] }
+ariel-os-boards = { path = "../../src/ariel-os-boards" }
+embassy-sync = { workspace = true }
+picoserve = { version = "0.18.0", default-features = false, features = [
+  "embassy",
+  "json",
+] }
+serde = { workspace = true, optional = true }
+
+[features]
+button-reading = ["dep:serde"]
+
+[lints]
+workspace = true

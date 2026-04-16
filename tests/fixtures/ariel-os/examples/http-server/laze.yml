@@ -1,0 +1,22 @@
+apps:
+  - name: http-server
+    env:
+      global:
+        executor_stacksize_required:
+          - "32768"
+    selects:
+      - network
+      - ?button-reading
+    conflicts:
+      - ram-small
+      # needs `feature(impl_trait_in_assoc_type)`
+      - stable
+
+modules:
+  - name: button-reading
+    selects:
+      - has_buttons
+    env:
+      global:
+        FEATURES:
+          - button-reading

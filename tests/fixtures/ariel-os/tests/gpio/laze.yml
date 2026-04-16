@@ -1,0 +1,7 @@
+apps:
+  - name: tests_gpio
+    selects:
+      - embedded-test-only
+    conflicts:
+      # gpio not working on native
+      - context::native
