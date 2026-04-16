@@ -321,7 +321,7 @@ fn main() {
 
         let additional_lock_data = match generate_cargo_lock_data(
             &cli_args.project_root_path.join(&cli_args.arielos_import_path),
-            &cli_args.project_lock_path) {
+            Path::new("Cargo.lock")) {
                 Ok(lock_data) => lock_data,
                 Err(e) => panic!("Error loading ArielOS import Cargo.lock data:\n{e:?}")
             };
