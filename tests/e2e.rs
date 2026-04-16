@@ -9,82 +9,38 @@ use jsonschema;
 use serde::{Serialize, Deserialize};
 use serde_json;
 
-#[cfg(target_os = "windows")]
-const binary_path: &str = "target/debug/arielosbom.exe";
+mod common;
+use common::CONSTPATHS as PATHS;
 
-#[cfg(not(target_os = "windows"))]
-const BINARY_PATH: &str = "target/debug/arielosbom";
-
-const IMPORT_PATH: &str = "tests/import";
-
-const OUTPUT_PATH: &str = "tests/output";
-
-const SCHEMA_PATH: &str = "tests/schemata";
-
-fn setup_environment() {
-
-    let import_path = Path::new(IMPORT_PATH);
-    if !import_path.exists() {
-        Command::new("git")
-            .arg("clone")
-            .arg("https://github.com/ariel-os/ariel-os.git")
-            .arg(IMPORT_PATH)
-            .output()
-            .expect("Failed to import Ariel OS repo");
-    }
-    assert!(import_path.exists());
-
-    assert!(Path::new(BINARY_PATH).exists(), "Cannot find binary to execute: {}", BINARY_PATH);
-
-    let output_path = Path::new(OUTPUT_PATH);
-    if !(output_path.exists()) {
-        match fs::create_dir(OUTPUT_PATH) {
-            Ok(_) => println!("created output directory: {}\n", OUTPUT_PATH),
-            Err(e) => panic!("failed to created output directory: {:?}\n", e)
-        };
-    }
-    assert!(output_path.exists());
-
-}
+const COAP_EXAMPLE_PATH: &str = "examples/coap-client";
+const TEMP_FULL_FILE_NAME: &str = "e2e_nrf52840dk.cdx.json";
 
 #[test]
-fn general_test() {
+fn e2e() {
 
-    setup_environment();
+    common::check_environment();
 
     // TODO: implement options for other/more/all examples, builders?
 
     // generate SBOM
-    let sbom_generation = Command::new(BINARY_PATH)
-        .arg("-r")
-        .arg(Path::new(IMPORT_PATH))
-        .arg("-m")
-        .arg(["examples", "coap-client", "Cargo.toml"].iter().collect::<PathBuf>())
-        .arg("-b")
-        .arg("cdx_1.6")
-        .arg("--builders")
-        .arg("nrf52840dk")
-        .arg("-o")
-        .arg("full-test")
-        .arg("--output-directory")
-        .arg(Path::new(OUTPUT_PATH))
-        .arg("-l")
-        .arg("Cargo.lock")
-        .arg("-i")
-        .arg(".")
-        .output();
+    let _ = common::generate_test_sbom(
+        Path::new(PATHS.ariel_os), 
+        &vec!["cdx_1.6"], 
+        Some(vec!["nrf52840dk"]), 
+        "e2e", 
+        Path::new(COAP_EXAMPLE_PATH).join("Cargo.toml"), 
+        Path::new("."), 
+        Path::new(".")
+    ).expect("arielosbom execution failed");
 
-    match sbom_generation {
-        Ok(_) => assert!([OUTPUT_PATH, "full-test_nrf52840dk.cdx.json"].iter().collect::<PathBuf>().exists(), "failed to find generated SBOM file"),
-        Err(e) => panic!("failed to generate SBOM: {}", e)
-    };
-
+    assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME).exists(), "failed to find generated SBOM file");
+    
     // check if CycloneDx conform
-    let schema_file = fs::File::open([SCHEMA_PATH, "cyclonedx_1.6_schema.json"].iter().collect::<PathBuf>())
+    let schema_file = fs::File::open(Path::new(PATHS.schemata).join("cyclonedx_1.6.json"))
         .expect("failed to open json schema file");
     let cyclonedx_16_schema = serde_json::from_reader(schema_file)
         .expect("failed to parse json schema");
-    let sbom_file = fs::File::open([OUTPUT_PATH, "full-test_nrf52840dk.cdx.json"].iter().collect::<PathBuf>())
+    let sbom_file = fs::File::open(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME))
         .expect("failed to open SBOM file");
     let to_validate = serde_json::from_reader(sbom_file)
         .expect("failed to parse SBOM");
@@ -107,7 +63,7 @@ fn general_test() {
 
     let cargo_tree_output = String::from_utf8(Command::new("cargo")
             .envs(envs_key_value)
-            .current_dir(Path::new(IMPORT_PATH))
+            .current_dir(Path::new(PATHS.ariel_os))
             .arg("tree")
             .arg("--prefix")
             .arg("none")
@@ -134,7 +90,7 @@ fn extract_build_command_from_compile_commands() -> String {
 
     let compile_commands_path: &Path = Path::new("compile_commands.json");
 
-    let file = match File::open([Path::new(IMPORT_PATH), compile_commands_path].iter().collect::<PathBuf>()) {
+    let file = match File::open(Path::new(PATHS.ariel_os).join(compile_commands_path)) {
         Ok(file) => file,
         Err(e) => panic!("Could not open compile_commands.json: {}", e),
     };
