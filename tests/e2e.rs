@@ -2,7 +2,7 @@ use std::{
     collections::HashSet, 
     fs::{self, File}, 
     path::{Path, PathBuf}, 
-    process::Command
+    process::{Command},
 };
 
 use jsonschema;
@@ -23,7 +23,7 @@ fn e2e() {
     // TODO: implement options for other/more/all examples, builders?
 
     // generate SBOM
-    let _ = common::generate_test_sbom(
+    let output = common::generate_test_sbom(
         Path::new(PATHS.ariel_os), 
         &vec!["cdx_1.6"], 
         Some(vec!["nrf52840dk"]), 
@@ -32,6 +32,12 @@ fn e2e() {
         Path::new("."), 
         Path::new(".")
     ).expect("arielosbom execution failed");
+
+    assert!(
+        if let Some(code) = output.status.code() {code == 0} else {false}, 
+        "SBOM generation failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
 
     assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME).exists(), "failed to find generated SBOM file");
     
@@ -80,7 +86,7 @@ fn e2e() {
         .map(|line| line.split(" (").next().unwrap().to_string())
         .collect();
 
-    assert!(cargo_tree_set.intersection(&component_set).collect::<HashSet<&String>>().len() == cargo_tree_set.len(), "SBOM components and cargo tree output do not match");
+    assert!(cargo_tree_set.symmetric_difference(&component_set).collect::<HashSet<&String>>().is_empty(), "SBOM components and cargo tree output do not match");
 }
 
 
