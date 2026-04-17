@@ -5,7 +5,7 @@ use std::{
     process::{Command, Output}
 };
 
-
+#[allow(dead_code)]
 pub struct ConstPaths {
     pub ariel_os: &'static str,
     pub schemata: &'static str,
@@ -40,29 +40,36 @@ pub fn check_environment() {
 }
 
 pub fn generate_test_sbom(
+    envs: Option<Vec<(&str, &str)>>,
     project_path: &Path, 
     bom_formats: &Vec<&str>,
     builders: Option<Vec<&str>>,
     output_name: &str,
     //output_directory: fixed no?
     manifest_path: PathBuf,
-    lock_path: &Path,
+    lock_path: Option<&Path>,
     import_path: &Path,
 ) -> Result<Output, Error> {
 
     let sbom_generation = Command::new(env!("CARGO_BIN_EXE_arielosbom"))
+        .envs(envs.unwrap_or(vec![]))
         .arg("-r").arg(project_path)
         .arg("-m").arg(manifest_path)
         .arg("-b").args(bom_formats)
-        .arg("--builders").args(match builders{
-            Some(values) => values,
-            None => vec!["none".into()]
-        })
+        .arg("--builders").args(builders.unwrap_or(vec!["none"]))
         .arg("-o").arg(output_name)
         .arg("--output-directory").arg(Path::new(CONSTPATHS.output))
-        .arg("-l").arg(lock_path)
+        .arg("-l").arg(lock_path.unwrap_or(Path::new("Cargo.lock")))
         .arg("-i").arg(import_path)
         .output();
 
     sbom_generation
+}
+
+pub fn assert_sbom_generation_status(command_output: Output) {
+    assert!(
+        if let Some(code) = command_output.status.code() {code == 0} else {false}, 
+        "SBOM generation failed: {}",
+        String::from_utf8_lossy(&command_output.stderr)
+    );
 }

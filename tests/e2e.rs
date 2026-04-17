@@ -1,7 +1,7 @@
 use std::{
-    collections::HashSet, 
-    fs::{self, File}, 
-    path::{Path, PathBuf}, 
+    collections::{HashSet}, 
+    fs::{File}, 
+    path::{Path}, 
     process::{Command},
 };
 
@@ -11,9 +11,9 @@ use serde_json;
 
 mod common;
 use common::CONSTPATHS as PATHS;
+use common::assert_sbom_generation_status;
 
-const COAP_EXAMPLE_PATH: &str = "examples/coap-client";
-const TEMP_FULL_FILE_NAME: &str = "e2e_nrf52840dk.cdx.json";
+const TEMP_FULL_FILE_NAME: &str = "e2e_nrf52840dk.1-6.cdx.json";
 
 #[test]
 fn e2e() {
@@ -24,32 +24,31 @@ fn e2e() {
 
     // generate SBOM
     let output = common::generate_test_sbom(
+        None,
         Path::new(PATHS.ariel_os), 
         &vec!["cdx_1.6"], 
         Some(vec!["nrf52840dk"]), 
         "e2e", 
-        Path::new(COAP_EXAMPLE_PATH).join("Cargo.toml"), 
-        Path::new("Cargo.lock"), 
+        Path::new("examples").join("coap-client").join("Cargo.toml"), 
+        None, 
         Path::new(".")
     ).expect("arielosbom execution failed");
 
-    assert!(
-        if let Some(code) = output.status.code() {code == 0} else {false}, 
-        "SBOM generation failed: {}",
-        String::from_utf8_lossy(&output.stderr)
-    );
+    assert_sbom_generation_status(output);
 
     assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME).exists(), "failed to find generated SBOM file");
     
     // check if CycloneDx conform
-    let schema_file = fs::File::open(Path::new(PATHS.schemata).join("cyclonedx_1.6.json"))
+    let schema_file = File::open(Path::new(PATHS.schemata).join("cyclonedx_1.6.json"))
         .expect("failed to open json schema file");
     let cyclonedx_16_schema = serde_json::from_reader(schema_file)
         .expect("failed to parse json schema");
-    let sbom_file = fs::File::open(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME))
+    
+    let sbom_file = File::open(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME))
         .expect("failed to open SBOM file");
     let to_validate = serde_json::from_reader(sbom_file)
         .expect("failed to parse SBOM");
+    
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
     // check if components match
@@ -74,7 +73,7 @@ fn e2e() {
             .arg("--prefix")
             .arg("none")
             .arg("--manifest-path")
-            .arg(["examples","coap-client","Cargo.toml"].iter().collect::<PathBuf>())
+            .arg(Path::new("examples").join("coap-client").join("Cargo.toml"))
             .arg(&build_command.features)
             .output()
             .expect("Something failed with cargo tree")
@@ -87,10 +86,11 @@ fn e2e() {
         .collect();
 
     assert!(cargo_tree_set.symmetric_difference(&component_set).collect::<HashSet<&String>>().is_empty(), "SBOM components and cargo tree output do not match");
+    
 }
 
 
-// copied necessities from main program
+// copied necessities from main program because no lib.rs
 
 fn extract_build_command_from_compile_commands() -> String {
 

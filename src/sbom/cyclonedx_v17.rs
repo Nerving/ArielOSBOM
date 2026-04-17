@@ -2,7 +2,7 @@
 #![allow(non_snake_case,non_camel_case_types)]
 
 use crate::component::{Component as RawComponent, Dependency as RawDependency};
-use crate::sbom::{FileFormat, RawSbom, CycloneDxSpecVersion};
+use crate::sbom::{CycloneDxSpecVersion, FileFormat, RawSbom, generate_sbom_timestamp};
 
 use chrono::{DateTime, Local};
 use semver::Version;
@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use std::{
+    env,
     fmt::Debug,
     fs::File,
     io::Write,
@@ -36,7 +37,10 @@ impl CycloneDxSbomV1_7 {
         CycloneDxSbomV1_7 {
             bomFormat: "CycloneDX".into(), 
             specVersion: CycloneDxSpecVersion::V1_7, 
-            serialNumber: Uuid::new_v4(), 
+            serialNumber: match env::var("TESTING") {
+                Ok(value) if value == "1" => Uuid::default(),
+                _ => Uuid::new_v4()
+            },
             metadata: CycloneDxMetadataV1_7 { 
                 timestamp: None, // timestamp will be set before writing to file
                 tools: CycloneDxToolsV1_7 {
@@ -62,13 +66,13 @@ impl CycloneDxSbomV1_7 {
 
     pub fn write_to_file(&mut self, file_name: &str, output_dir: &Path, builder: &str) {
         let file_format = FileFormat::Json;
-        let full_file_name = format!("{}_{}.cdx.{}", file_name, builder, file_format);
+        let full_file_name = format!("{}_{}.1-7.cdx.{}", file_name, builder, file_format);
         let mut file = match File::create([output_dir, Path::new(&full_file_name)].iter().collect::<PathBuf>()) {
             Ok(file) => file,
             Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
         };
 
-        self.metadata.timestamp = Some(Local::now());
+        self.metadata.timestamp = generate_sbom_timestamp();
 
         file.write_all(serde_json::
                             to_string_pretty(&self)

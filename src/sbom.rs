@@ -9,6 +9,7 @@ use serde::{Serialize, Deserialize};
 
 use std::{
     collections::{HashMap},
+    env,
     fmt::{Formatter},
     fs::{File},
     io::{Write},
@@ -79,7 +80,7 @@ impl RawSbom {
             Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
         };
 
-        self.bom_metadata.timestamp = Some(Local::now());
+        self.bom_metadata.timestamp = generate_sbom_timestamp();
 
         file.write_all(serde_json::
                             to_string(&self)
@@ -130,6 +131,14 @@ pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_nam
         BomFormat::SPDX => println!("No SPDX conversion currently"),
         BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
         BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
+    }
+}
+
+pub fn generate_sbom_timestamp() -> Option<DateTime<Local>> {
+    
+    match env::var("TESTING") {
+        Ok(value) if value == "1" => None,
+        _ => Some(Local::now())
     }
 }
 
