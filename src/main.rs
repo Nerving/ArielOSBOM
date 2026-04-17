@@ -220,7 +220,7 @@ fn generate_cargo_metadata(root_path: &Path, manifest_path: &Path, features: &St
 }
 
 fn generate_cargo_lock_data(root_path: &Path, lock_path: &Path) -> Result<Lockfile, LockError> {
-        Lockfile::load([root_path, lock_path].iter().collect::<PathBuf>())
+        Lockfile::load(Path::new(root_path).join(lock_path))
 }
 
 fn extract_missing_checksums(checklist: HashSet<&String>, import_lockdata: Vec<LockPackage>) -> Vec<LockPackage> {
@@ -263,14 +263,14 @@ fn main() {
                 .arg("build")
                 .arg("-G")
                 .arg("-C")
-                .arg(&cli_args.project_manifest_path
+                .arg(PathBuf::from(".").join(&cli_args.project_manifest_path
                         .clone()
                         .into_os_string()
                         .to_str()
                         .unwrap()
                         .rsplit_once("Cargo.toml")
                         .unwrap().0
-                )
+                ))
                 .arg("-c")
                 .arg("-b")
                 .arg(builder)
