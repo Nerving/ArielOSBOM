@@ -136,7 +136,7 @@ pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_nam
 
 pub fn generate_sbom_timestamp() -> Option<DateTime<Local>> {
     
-    match env::var("TESTING") {
+    match env::var("TESTING_DETERMINISTIC") {
         Ok(value) if value == "1" => None,
         _ => Some(Local::now())
     }

@@ -38,7 +38,7 @@ impl CycloneDxSbomV1_6 {
         CycloneDxSbomV1_6 {
             bomFormat: "CycloneDX".into(), 
             specVersion: CycloneDxSpecVersion::V1_6, 
-            serialNumber: match env::var("TESTING") {
+            serialNumber: match env::var("TESTING_DETERMINISTIC") {
                 Ok(value) if value == "1" => Uuid::default(),
                 _ => Uuid::new_v4()
             },

@@ -16,6 +16,7 @@ use serde::{Deserialize, Serialize};
 
 use std::{
         collections::HashSet, 
+        env,
         fs::{self, File}, 
         io::{BufRead, BufReader}, 
         path::{Path, PathBuf}, 
@@ -276,21 +277,24 @@ fn main() {
                 .arg(builder)
                 .output();
 
-            match laze_output {
-                Ok(output) => {
-                    if output.status.success() {
-                        println!("generated build files for builder {}\n", builder);
-                    } else {
-                        println!("failed to generate build files for builder {}:\n\t{}", builder, String::from_utf8_lossy(&output.stderr));
+            if !laze_output.is_ok() {
+                println!("laze ran into a problem building for {}: {:?}", builder, laze_output.err());
+                continue;
+            }
+            
+            let unwrapped_laze_output = laze_output.unwrap();
+
+            if unwrapped_laze_output.status.success() {
+                println!("generated build files for builder {}\n", builder);
+            } else {
+                match env::var("TESTING") {
+                    Ok(value) if value == "1" => panic!("SBOM generation failed for builder {}:\n\t{}", builder, String::from_utf8_lossy(&unwrapped_laze_output.stderr)), 
+                    _ => {
+                        println!("failed to generate build files for builder {}:\n\t{}", builder, String::from_utf8_lossy(&unwrapped_laze_output.stderr));
                         continue;
                     }
-                },
-                Err(e) => {
-                    println!("laze ran into a problem building for {}: {}", builder, e);
-                    continue;
-                }
-            };
-
+                };
+            }
             extracted_build_command = extract_build_command_from_compile_commands(&cli_args.project_root_path);
         }
 
