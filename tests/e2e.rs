@@ -1,8 +1,9 @@
 use std::{
     collections::{HashSet}, 
     fs::{File}, 
+    io::Error,
     path::{Path}, 
-    process::{Command},
+    process::{Command, Output},
 };
 
 use jsonschema;
@@ -10,44 +11,123 @@ use serde::{Serialize, Deserialize};
 use serde_json;
 
 mod common;
-use common::CONSTPATHS as PATHS;
-use common::assert_sbom_generation_status;
+use common::{
+    *,
+    CONSTPATHS as PATHS,
+};
 
-const TEMP_FULL_FILE_NAME: &str = "e2e_nrf52840dk.1-6.cdx.json";
+const TEMP_FULL_FILE_NAME_MAIN_REPO: &str = "e2e-main-repo_nrf52840dk.1-6.cdx.json";
+const TEMP_FULL_FILE_NAME_OUT_OF_TREE: &str = "e2e-oot_nrf52840dk.1-6.cdx.json";
+
+fn generate_sbom(example: bool, output_name: &str) -> Result<Output, Error> {
+    
+    generate_test_sbom(
+        Some(create_e2e_envs()),
+        Path::new(if example {PATHS.ariel_os} else {PATHS.out_of_tree}), 
+        &vec!["cdx_1.6"], 
+        Some(vec!["nrf52840dk"]), 
+        output_name, 
+        if example {Some(Path::new("examples").join("coap-client").join("Cargo.toml"))} else {None}, 
+        None, 
+        if example {Some(Path::new("."))} else {Some(Path::new("../ariel-os"))},
+    )
+}
+
+fn generate_tree_output(build_command: &ArielOsBuildCommand, envs: Vec<(&str, &str)>, example: bool) -> String {
+    String::from_utf8(Command::new("cargo")
+        .envs(envs)
+        .current_dir(Path::new(if example {PATHS.ariel_os} else {PATHS.out_of_tree}))
+        .arg("tree")
+        .arg("--prefix")
+        .arg("none")
+        .arg("--manifest-path")
+        .arg(if example {Path::new("examples").join("coap-client").join("Cargo.toml")} else  {Path::new("Cargo.toml").to_path_buf()})
+        .arg(&build_command.features)
+        .output()
+        .expect("Something failed with cargo tree")
+        .stdout)
+        .expect("failed to parse cargo tree output")
+}
+
+fn generate_tree_set(tree_output: String) -> HashSet<String> {
+    tree_output
+        .lines()
+        .map(|line| line.split(" (").next().unwrap().to_string())
+        .collect()
+}
 
 #[test]
-fn e2e() {
+fn e2e_main_repo() {
 
     common::check_environment();
 
     // TODO: implement options for other/more/all examples, builders?
 
     // generate SBOM
-    let output = common::generate_test_sbom(
-        None,
-        Path::new(PATHS.ariel_os), 
-        &vec!["cdx_1.6"], 
-        Some(vec!["nrf52840dk"]), 
-        "e2e", 
-        Path::new("examples").join("coap-client").join("Cargo.toml"), 
-        None, 
-        Path::new(".")
-    ).expect("arielosbom execution failed");
+    let output = generate_sbom(true, "e2e-main-repo");
 
     assert_sbom_generation_status(output);
 
-    assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME).exists(), "failed to find generated SBOM file");
+    assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO).exists(), "failed to find generated SBOM file");
     
     // check if CycloneDx conform
-    let schema_file = File::open(Path::new(PATHS.schemata).join("cyclonedx_1.6.json"))
-        .expect("failed to open json schema file");
-    let cyclonedx_16_schema = serde_json::from_reader(schema_file)
-        .expect("failed to parse json schema");
+    let cyclonedx_16_schema = parse_sbom(
+        &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
+        "CycloneDx 1.6 schema");
     
-    let sbom_file = File::open(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME))
-        .expect("failed to open SBOM file");
-    let to_validate = serde_json::from_reader(sbom_file)
-        .expect("failed to parse SBOM");
+    let to_validate = parse_sbom(
+        &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO), 
+        "error_message"
+    );
+
+    assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
+
+    // check if components match
+
+    let mut component_set: HashSet<String> = HashSet::new();
+    let components = &to_validate["components"].as_array().unwrap();
+    for component in components.iter() {
+        component_set.insert(format!("{} v{}", component["name"], component["version"]).replace("\"", ""));
+    }
+
+    let build_command = parse_build_command(extract_build_command_from_compile_commands(PATHS.ariel_os));
+
+    let envs: Vec<(&str, &str)> = build_command.envs
+            .iter()
+            .map(|key_arg| key_arg.split_once('=').unwrap())
+            .collect();
+
+    let cargo_tree_output = generate_tree_output(&build_command, envs, true);
+    
+    let cargo_tree_set: HashSet<String> = generate_tree_set(cargo_tree_output);
+
+    assert!(cargo_tree_set.symmetric_difference(&component_set).collect::<HashSet<&String>>().is_empty(), "SBOM components and cargo tree output do not match");
+    
+}
+
+#[test]
+fn e2e_out_of_tree() {
+
+    common::check_environment();
+
+    // TODO: implement options for other/more/all examples, builders?
+
+    // generate SBOM
+    let output = generate_sbom(false, "e2e-oot");
+
+    assert_sbom_generation_status(output);
+
+    assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE).exists(), "failed to find generated SBOM file");
+    
+    // check if CycloneDx conform
+    let cyclonedx_16_schema = parse_sbom(
+        &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
+        "CycloneDx 1.6 schema");
+    
+    let to_validate = parse_sbom(
+        &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE), 
+        "error_message"
+    );
     
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
@@ -59,44 +139,28 @@ fn e2e() {
         component_set.insert(format!("{} v{}", component["name"], component["version"]).replace("\"", ""));
     }
 
-    let build_command = parse_build_command(extract_build_command_from_compile_commands());
+    let build_command = parse_build_command(extract_build_command_from_compile_commands(PATHS.out_of_tree));
 
-    let envs_key_value: Vec<(&str, &str)> = build_command.envs
+    let envs: Vec<(&str, &str)> = build_command.envs
             .iter()
             .map(|key_arg| key_arg.split_once('=').unwrap())
             .collect();
 
-    let cargo_tree_output = String::from_utf8(Command::new("cargo")
-            .envs(envs_key_value)
-            .current_dir(Path::new(PATHS.ariel_os))
-            .arg("tree")
-            .arg("--prefix")
-            .arg("none")
-            .arg("--manifest-path")
-            .arg(Path::new("examples").join("coap-client").join("Cargo.toml"))
-            .arg(&build_command.features)
-            .output()
-            .expect("Something failed with cargo tree")
-            .stdout)
-            .expect("failed to parse cargo tree output");
+    let cargo_tree_output = generate_tree_output(&build_command, envs, false);
     
-    let cargo_tree_set: HashSet<String> = cargo_tree_output
-        .lines()
-        .map(|line| line.split(" (").next().unwrap().to_string())
-        .collect();
+    let cargo_tree_set: HashSet<String> = generate_tree_set(cargo_tree_output);
 
     assert!(cargo_tree_set.symmetric_difference(&component_set).collect::<HashSet<&String>>().is_empty(), "SBOM components and cargo tree output do not match");
     
 }
 
-
 // copied necessities from main program because no lib.rs
 
-fn extract_build_command_from_compile_commands() -> String {
+fn extract_build_command_from_compile_commands(path: &str) -> String {
 
     let compile_commands_path: &Path = Path::new("compile_commands.json");
 
-    let file = match File::open(Path::new(PATHS.ariel_os).join(compile_commands_path)) {
+    let file = match File::open(Path::new(path).join(compile_commands_path)) {
         Ok(file) => file,
         Err(e) => panic!("Could not open compile_commands.json: {}", e),
     };
