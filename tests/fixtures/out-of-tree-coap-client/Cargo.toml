@@ -1,0 +1,18 @@
+[package]
+name = "out-of-tree-coap-client"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+ariel-os = { path = "../ariel-os/src/ariel-os" }
+ariel-os-boards = { path = "../ariel-os/src/ariel-os-boards" }
+
+coap-handler-implementations = "0.6.1"
+coap-request = "0.2.0-alpha.2"
+coap-request-implementations = "0.1.0-alpha.4"
+embedded-nal-coap = "=0.1.0-alpha.5"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = [
+  'cfg(context, values(any()))',
+] }

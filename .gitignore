@@ -1,3 +1,5 @@
 /target
 /output
 /tests/output
+compile_commands.json
+build/

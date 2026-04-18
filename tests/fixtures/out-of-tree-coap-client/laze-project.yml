@@ -1,0 +1,7 @@
+imports:
+  - path: ../ariel-os/
+
+apps:
+  - name: out-of-tree-coap-client
+    selects:
+      - coap-client
