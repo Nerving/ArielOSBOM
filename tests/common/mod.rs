@@ -65,6 +65,7 @@ pub fn parse_sbom(path: &Path, error_message: &str) -> serde_json::Value {
 
 }
 
+#[allow(dead_code)]
 pub fn test_binary(
     envs: Option<Vec<(&str, &str)>>,
     project_path: &Path, 
@@ -92,6 +93,7 @@ pub fn test_binary(
     sbom_generation
 }
 
+#[allow(dead_code)]
 pub fn assert_sbom_generation_status(command_output: Result<Output, Error>) {
     
     assert!(
@@ -116,9 +118,4 @@ pub fn create_env_tuples(names: Vec<&str>) -> Vec<(&str, &str)> {
 #[allow(dead_code)]
 pub fn create_e2e_envs() -> Vec<(&'static str, &'static str)> {
     create_env_tuples(vec![TESTENVS.testing])
-}
-
-#[allow(dead_code)]
-pub fn create_deterministic_envs() -> Vec<(&'static str, &'static str)>  {
-    create_env_tuples(vec![TESTENVS.testing, TESTENVS.deterministic])
 }

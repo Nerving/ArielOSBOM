@@ -58,25 +58,19 @@ pub fn generate_raw_sbom(context: &mut ArielOsBuildContext) -> RawSbom {
 
     let mut sbom = RawSbom::default();
 
-    // depending on builder generate or read build command
     context.get_build_command();
 
-    // tree
     let cargo_tree_component_list = generate_cargo_tree_data(&context);
 
-    // metadata
     let cargo_metadata = match generate_cargo_metadata(&context) {
         Ok(metadata) => metadata,
         Err(e) => panic!("error generating cargo metadata:\n{e:?}"),
     };
 
-    // filter metadata
     let filtered_metadata: Metadata = filter_cargo_metadata(&cargo_tree_component_list, cargo_metadata);
 
-    // lock stuff
     let checksum_map = lockfile::generate_checksum_map(&context, cargo_tree_component_list);
 
-    // convert raw shit
     sbom.convert_cargo_data_to_components(&filtered_metadata, checksum_map);
 
     sbom

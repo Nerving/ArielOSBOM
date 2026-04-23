@@ -2,7 +2,6 @@
 #![allow(non_snake_case,non_camel_case_types)]
 
 use std::{
-    env,
     fmt::Debug,
     fs::File,
     io::Write,
@@ -37,10 +36,7 @@ impl CycloneDxSbomV1_6 {
         CycloneDxSbomV1_6 {
             bomFormat: "CycloneDX".into(), 
             specVersion: CycloneDxSpecVersion::V1_6, 
-            serialNumber: match env::var("TESTING_DETERMINISTIC") {
-                Ok(value) if value == "1" => Uuid::default(),
-                _ => Uuid::new_v4()
-            },
+            serialNumber: Uuid::new_v4(),
             metadata: CycloneDxMetadataV1_6 { 
                 timestamp: None, // timestamp will be set before writing to file
                 tools: CycloneDxToolsV1_6 {
@@ -85,6 +81,11 @@ impl CycloneDxSbomV1_6 {
         let mut cdx_bom = CycloneDxSbomV1_6::from_raw(raw_sbom);
         cdx_bom.write_to_file(file_name, output_dir, builder);
     }
+
+    pub fn default_uuid(&mut self) {
+        self.serialNumber = Uuid::default();
+    }
+
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
