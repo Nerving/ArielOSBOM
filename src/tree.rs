@@ -2,37 +2,39 @@ use cargo_metadata::{Metadata, Node, Package};
 
 use std::{
     collections::HashSet,
-    path::Path,
     process::Command,
 };
 
-use crate::ArielOsBuildCommand;
+use crate::ArielOsBuildContext;
 
-fn generate_cargo_tree_output(project_path: &Path, manifest_path: &Path, envs: &Vec<String>, features: &String) -> Vec<u8> {
 
-        let envs_key_value: Vec<(&str, &str)> = envs
-            .iter()
-            .map(|key_arg| key_arg.split_once('=').unwrap())
-            .collect();
+fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
 
-        let command_output = Command::new("cargo")
-                .envs(envs_key_value)
-                .current_dir(project_path)
-                .arg("tree")
-                .arg("--prefix")
-                .arg("none")
-                .arg("--manifest-path")
-                .arg(manifest_path)
-                .arg(&features)
-                .output()
-                .expect("Something failed with cargo tree")
-                .stdout;
-        return command_output;
+    let envs_key_value: Vec<(&str, &str)> = context.build_command.envs
+    .iter()
+    .map(|key_arg| key_arg.split_once('=').unwrap())
+    .collect();
+
+    let command_output = Command::new("cargo")
+    .envs(envs_key_value)
+    .current_dir(&context.root_path)
+        .arg("tree")
+        .arg("--prefix")
+        .arg("none")
+        .arg("--manifest-path")
+        .arg(&context.manifest_path)
+        .arg(&context.build_command.features)
+        .output()
+        .expect("Something failed with cargo tree")
+        .stdout;
+
+    command_output
+
 }
 
-pub fn generate_cargo_tree_data(project_path: &Path, manifest_path: &Path, build_command: &ArielOsBuildCommand) -> HashSet<String> {
+pub fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<String> {
 
-    let tree_data = match String::from_utf8(generate_cargo_tree_output(project_path, manifest_path, &build_command.envs, &build_command.features)) {
+    let tree_data = match String::from_utf8(generate_cargo_tree_output(context)) {
         Ok(data) => data,
         Err(_) => panic!("Could not convert cargo tree output from UTF8 to str.")
     };
@@ -40,16 +42,16 @@ pub fn generate_cargo_tree_data(project_path: &Path, manifest_path: &Path, build
     // just basic filtering for now, without checking for features or potentially checking accuracy of dependencies in cargo metadata
 
     let mapped_tree_data_lines: Vec<String> = tree_data
-                                                .lines()
-                                                .map(|string| string.split(" (").next().unwrap().to_string())
-                                                .collect();
+        .lines()
+        .map(|string| string.split(" (").next().unwrap().to_string())
+        .collect();
     
-    let tree_set: HashSet<String> = HashSet::from_iter(mapped_tree_data_lines);
+    HashSet::from_iter(mapped_tree_data_lines)
 
-    return tree_set;
 }
 
-pub fn filter_cargo_metadata(tree_set: HashSet<String>, mut metadata: Metadata) -> Metadata {
+// redo and/or restructure?
+pub fn filter_cargo_metadata(tree_set: &HashSet<String>, mut metadata: Metadata) -> Metadata {
 
     let package_count = tree_set.len();
 
@@ -115,5 +117,5 @@ pub fn filter_cargo_metadata(tree_set: HashSet<String>, mut metadata: Metadata) 
     metadata.packages = new_package_vec;
     resolve_unwrap.nodes = new_node_dep_vec;
 
-    return metadata;
+    metadata
 }

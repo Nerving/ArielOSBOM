@@ -1,23 +1,25 @@
-use crate::component::{Component, Dependency};
-use crate::sbom::cyclonedx_v16::CycloneDxSbomV1_6;
-use crate::sbom::cyclonedx_v17::CycloneDxSbomV1_7;
+pub mod cyclonedx_v16;
+pub mod cyclonedx_v17;
 
-use cargo_lock::{Checksum, Lockfile};
+use std::{
+    collections::HashMap,
+    env,
+    fmt::Formatter,
+    fs::File,
+    io::Write,
+    path::{Path, PathBuf},
+    str::FromStr,
+};
+
+use cargo_lock::{Checksum};
 use cargo_metadata::{DependencyKind, Metadata};
 use chrono::{DateTime, Local};
 use serde::{Serialize, Deserialize};
 
-use std::{
-    collections::{HashMap},
-    env,
-    fmt::{Formatter},
-    fs::{File},
-    io::{Write},
-    path::{Path, PathBuf},
-};
+use crate::component::{Component, Dependency};
+use crate::sbom::cyclonedx_v16::CycloneDxSbomV1_6;
+use crate::sbom::cyclonedx_v17::CycloneDxSbomV1_7;
 
-pub mod cyclonedx_v16;
-pub mod cyclonedx_v17;
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct RawSbom {
@@ -27,7 +29,7 @@ pub struct RawSbom {
 
 impl RawSbom {
 
-    pub fn new() -> RawSbom {
+    pub fn default() -> RawSbom {
         RawSbom {
             bom_metadata: BomMetadata { 
                 creator: "ArielOSBOM (provisional name)".into(),
@@ -37,15 +39,7 @@ impl RawSbom {
         }
     }
 
-    pub fn convert_cargo_metadata_packages_to_components(&mut self, metadata: &Metadata, lockdata: &Lockfile) {
-        
-        // map Cargo.lock checksums to packages
-        let mut lock_hash: HashMap<(String, String), Checksum> = HashMap::new();
-        for lock_package in lockdata.packages.iter() {
-            if let Some(checksum) = &lock_package.checksum {     
-                lock_hash.insert((lock_package.name.to_string(), lock_package.version.to_string().clone()), checksum.clone());
-            }
-        }
+    pub fn convert_cargo_data_to_components(&mut self, metadata: &Metadata, checksum_map: HashMap<(String, String), Checksum>) {
 
         assert!(metadata.packages.len() == metadata.resolve.as_ref().unwrap().nodes.len());
         let mut index = 0;
@@ -53,7 +47,7 @@ impl RawSbom {
             self.components
                 .push(Component::create_component_from_metadata(
                     package, 
-                    lock_hash.get(&(package.name.to_string(), package.version.to_string())),
+                    checksum_map.get(&(package.name.to_string(), package.version.to_string())),
                     metadata.resolve
                         .as_ref()
                         .unwrap()
@@ -91,6 +85,23 @@ impl RawSbom {
 
 }
 
+pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_name: &str, output_dir: &Path, builder: &str) {
+    match bom_format {
+        BomFormat::Raw => sbom.write_to_file(&output_name, &output_dir, builder),
+        BomFormat::SPDX => println!("No SPDX conversion currently"),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
+    }
+}
+
+pub fn generate_sbom_timestamp() -> Option<DateTime<Local>> {
+    
+    match env::var("TESTING_DETERMINISTIC") {
+        Ok(value) if value == "1" => None,
+        _ => Some(Local::now())
+    }
+}
+
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct BomMetadata {
     creator: String,
@@ -107,38 +118,41 @@ pub enum BomFormat {
     CDX(CycloneDxSpecVersion),
 }
 
+impl FromStr for BomFormat {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_lowercase().as_ref() {
+            "raw" => Ok(BomFormat::Raw),
+            "spdx" => Ok(BomFormat::SPDX),
+            "cdx_1.6" | "cyclonedx_1.6" | "cyclone-dx_1.6" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_6)),
+            "cdx_1.7" | "cyclonedx_1.7" | "cyclone-dx_1.7" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_7)),
+            other => Err(format!("Invalid or unsupported BOM format: {}", other))
+        }
+    }
+}
+
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum FileFormat {
     Json,
 }
 
-// remove later if/when not needed; unless for logging
-impl std::fmt::Display for BomFormat {
+impl std::fmt::Display for FileFormat {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
         write!(f, "{}", match self {
-                BomFormat::Raw => "Raw",
-                BomFormat::SPDX => "SPDX",
-                BomFormat::CDX(CycloneDxSpecVersion::V1_6) => "CycloneDX 1.6",
-                BomFormat::CDX(CycloneDxSpecVersion::V1_7) => "CycloneDX 1.7"
-            }
-        )
+            FileFormat::Json => "json",
+        })
     }
 }
 
-pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_name: &str, output_dir: &Path, builder: &str) {
-    match bom_format {
-        BomFormat::Raw => sbom.write_to_file(&output_name, &output_dir, builder),
-        BomFormat::SPDX => println!("No SPDX conversion currently"),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
-    }
-}
+impl FromStr for FileFormat {
+    type Err = String;
 
-pub fn generate_sbom_timestamp() -> Option<DateTime<Local>> {
-    
-    match env::var("TESTING_DETERMINISTIC") {
-        Ok(value) if value == "1" => None,
-        _ => Some(Local::now())
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_lowercase().as_ref() {
+            "json" => Ok(FileFormat::Json),
+            other => Err(format!("Invalid or unsupported file format: {}", other))
+        }
     }
 }
 

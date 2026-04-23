@@ -1,13 +1,10 @@
-use crate::sbom::{BomFormat, CycloneDxSpecVersion, FileFormat};
+use arielosbom::sbom::{BomFormat, FileFormat};
 
 use clap::{Parser};
 
 use std::{
-    fmt::{Formatter},
-    path::{PathBuf},
-    str::{FromStr},
+    path::PathBuf,
 };
-
 
 
 #[derive(Debug, Parser)]
@@ -116,39 +113,4 @@ pub struct Args {
         help = "Path to the project's ArielOS import directory relative to its root",
     )]
     pub arielos_import_path: PathBuf,
-}
-
-// impls for clap parsing
-
-impl FromStr for BomFormat {
-    type Err = String;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s.to_lowercase().as_ref() {
-            "raw" => Ok(BomFormat::Raw),
-            "spdx" => Ok(BomFormat::SPDX),
-            "cdx_1.6" | "cyclonedx_1.6" | "cyclone-dx_1.6" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_6)),
-            "cdx_1.7" | "cyclonedx_1.7" | "cyclone-dx_1.7" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_7)),
-            other => Err(format!("Invalid or unsupported BOM format: {}", other))
-        }
-    }
-}
-
-impl FromStr for FileFormat {
-    type Err = String;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s.to_lowercase().as_ref() {
-            "json" => Ok(FileFormat::Json),
-            other => Err(format!("Invalid or unsupported file format: {}", other))
-        }
-    }
-}
-
-impl std::fmt::Display for FileFormat {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
-        write!(f, "{}", match self {
-            FileFormat::Json => "json",
-        })
-    }
 }

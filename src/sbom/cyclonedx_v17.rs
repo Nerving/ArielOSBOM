@@ -1,14 +1,6 @@
 //      https://cyclonedx.org/docs/1.7/json/#
 #![allow(non_snake_case,non_camel_case_types)]
 
-use crate::component::{Component as RawComponent, Dependency as RawDependency};
-use crate::sbom::{CycloneDxSpecVersion, FileFormat, RawSbom, generate_sbom_timestamp};
-
-use chrono::{DateTime, Local};
-use semver::Version;
-use serde::{Deserialize, Serialize};
-use uuid::Uuid;
-
 use std::{
     env,
     fmt::Debug,
@@ -16,6 +8,14 @@ use std::{
     io::Write,
     path::{Path, PathBuf},
 };
+
+use chrono::{DateTime, Local};
+use semver::Version;
+use serde::{Deserialize, Serialize};
+use uuid::Uuid;
+
+use crate::component::{Component as RawComponent, Dependency as RawDependency};
+use crate::sbom::{CycloneDxSpecVersion, FileFormat, RawSbom, generate_sbom_timestamp};
 
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
