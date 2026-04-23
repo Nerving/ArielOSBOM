@@ -18,15 +18,15 @@ fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
     let command_output = Command::new("cargo")
     .envs(envs_key_value)
     .current_dir(&context.root_path)
-        .arg("tree")
-        .arg("--prefix")
-        .arg("none")
-        .arg("--manifest-path")
-        .arg(&context.manifest_path)
-        .arg(&context.build_command.features)
-        .output()
-        .expect("Something failed with cargo tree")
-        .stdout;
+    .arg("tree")
+    .arg("--prefix")
+    .arg("none")
+    .arg("--manifest-path")
+    .arg(&context.manifest_path)
+    .arg(&context.build_command.features)
+    .output()
+    .expect("Something failed with cargo tree")
+    .stdout;
 
     command_output
 
@@ -36,7 +36,7 @@ pub fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<String
 
     let tree_data = match String::from_utf8(generate_cargo_tree_output(context)) {
         Ok(data) => data,
-        Err(_) => panic!("Could not convert cargo tree output from UTF8 to str.")
+        Err(_) => panic!("could not convert cargo tree output from UTF8 to str.")
     };
 
     // just basic filtering for now, without checking for features or potentially checking accuracy of dependencies in cargo metadata

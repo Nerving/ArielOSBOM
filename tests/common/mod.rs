@@ -1,9 +1,10 @@
 use std::{
     io::Error,
     fs, 
-    path::{Path, PathBuf}, 
+    path::Path, 
     process::{Command, Output}
 };
+
 
 #[allow(dead_code)]
 pub struct ConstPaths {
@@ -64,14 +65,14 @@ pub fn parse_sbom(path: &Path, error_message: &str) -> serde_json::Value {
 
 }
 
-pub fn generate_test_sbom(
+pub fn test_binary(
     envs: Option<Vec<(&str, &str)>>,
     project_path: &Path, 
     bom_formats: &Vec<&str>,
     builders: Option<Vec<&str>>,
     output_name: &str,
     //output_directory: fixed no?
-    manifest_path: Option<PathBuf>,
+    manifest_path: Option<&Path>,
     lock_path: Option<&Path>,
     import_path: Option<&Path>,
 ) -> Result<Output, Error> {
@@ -79,7 +80,7 @@ pub fn generate_test_sbom(
     let sbom_generation = Command::new(env!("CARGO_BIN_EXE_arielosbom"))
         .envs(envs.unwrap_or(vec![]))
         .arg("-r").arg(project_path)
-        .arg("-m").arg(manifest_path.unwrap_or(PathBuf::from("Cargo.toml")))
+        .arg("-m").arg(manifest_path.unwrap_or(Path::new("Cargo.toml")))
         .arg("-b").args(bom_formats)
         .arg("--builders").args(builders.unwrap_or(vec!["none"]))
         .arg("-o").arg(output_name)

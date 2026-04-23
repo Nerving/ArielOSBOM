@@ -1,8 +1,8 @@
-mod build_command;
+pub mod build_command;
 mod lockfile;
 mod component;
 pub mod sbom;
-mod tree;
+pub mod tree;
 
 use std::{
     path::PathBuf
@@ -39,7 +39,7 @@ impl ArielOsBuildContext {
         }
     }
 
-    fn get_build_command(&mut self) {
+    pub fn get_build_command(&mut self) {
         match self.builder.to_lowercase().as_str() {
             "none" => {
                 println!("no builders specified, using last build command");
@@ -50,10 +50,6 @@ impl ArielOsBuildContext {
                 self.build_command = ArielOsBuildCommand::from_compile_commands_json(&self.root_path);
             }
         };
-    }
-
-    pub fn builder(&self) -> &str {
-        &self.builder
     }
 
 }
@@ -99,4 +95,32 @@ fn generate_cargo_metadata(context: &ArielOsBuildContext) -> Result<Metadata, Me
                             .collect()
             ));
     metadata_command.exec()
+}
+
+impl ArielOsBuildContext {
+    
+    pub fn root_path(&self) -> &PathBuf {
+        &self.root_path
+    }
+
+    pub fn manifest_path(&self) -> &PathBuf {
+        &self.manifest_path
+    }
+
+    pub fn lock_path(&self) -> &PathBuf {
+        &self.lock_path
+    }
+
+    pub fn import_path(&self) -> &PathBuf {
+        &self.import_path
+    }
+
+    pub fn build_command(&self) -> &ArielOsBuildCommand {
+        &self.build_command
+    }
+
+    pub fn builder(&self) -> &str {
+        &self.builder
+    }
+
 }

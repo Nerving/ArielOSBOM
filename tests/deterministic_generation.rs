@@ -1,27 +1,30 @@
+mod common;
+
 use std::{
     io::Error,
     path::{Path},
     process::Output, 
 };
 
-mod common;
 use common::{
     *,
     CONSTPATHS as PATHS,
 };
-const COAP_EXAMPLE_PATH: &str = "examples/coap-client";
 
+
+const COAP_EXAMPLE_PATH: &str = "examples/coap-client";
 const OUTPUT_NAME_1: &str = "deterministic-1";
 const OUTPUT_NAME_2: &str = "deterministic-2";
 
 fn generate_sbom(format: &str, output_name: &str) -> Result<Output, Error> {
-    generate_test_sbom(
+    
+    test_binary(
         Some(create_deterministic_envs()),
         Path::new(PATHS.ariel_os), 
         &vec![format], 
         Some(vec!["nrf52840dk"]), 
         output_name, 
-        Some(Path::new(COAP_EXAMPLE_PATH).join("Cargo.toml")), 
+        Some(&Path::new(COAP_EXAMPLE_PATH).join("Cargo.toml")), 
         None, 
         Some(Path::new("."))
     )
