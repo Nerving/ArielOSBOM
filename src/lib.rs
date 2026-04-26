@@ -58,7 +58,9 @@ pub fn generate_raw_sbom(context: &mut ArielOsBuildContext) -> RawSbom {
 
     let mut sbom = RawSbom::default();
 
-    context.get_build_command();
+    if context.build_command == ArielOsBuildCommand::default() {
+        context.get_build_command();
+    }
 
     let cargo_tree_component_list = generate_cargo_tree_data(&context);
 

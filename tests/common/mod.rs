@@ -122,6 +122,17 @@ pub fn generate_out_of_tree_build_context(builder: &str) -> ArielOsBuildContext 
 }
 
 #[allow(dead_code)]
+pub fn generate_build_command_locked(context: &mut ArielOsBuildContext) {
+
+    // locking so that parallel tests don't screw each other up
+    let compile_commands_file = std::fs::File::open(context.root_path().join("compile_commands.json")).expect("boohoo");
+    _ = compile_commands_file.lock();
+    context.get_build_command();
+    _ = compile_commands_file.unlock();
+
+}
+
+#[allow(dead_code)]
 pub fn assert_sbom_generation_status(command_output: Result<Output, Error>) {
     
     assert!(

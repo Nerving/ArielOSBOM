@@ -8,6 +8,7 @@ use arielosbom::{
 };
 
 use common::{
+    generate_build_command_locked,
     generate_example_build_context,
     STANDARD_BUILDER,
     STANDARD_EXAMPLE,
@@ -19,8 +20,10 @@ fn esp_specific_components() {
     common::check_environment();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, "espressif-esp32-c6-devkitc-1");
-    let sbom = generate_raw_sbom(&mut context);
+    generate_build_command_locked(&mut context);
 
+    let sbom = generate_raw_sbom(&mut context);
+    
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example
         // would need more elaborate testing, e. g. of more examples, if wanting to check for those too
     let esp_list = vec![
@@ -40,6 +43,8 @@ fn nrf_specific_components() {
     common::check_environment();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
+    generate_build_command_locked(&mut context);
+
     let sbom = generate_raw_sbom(&mut context);
 
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example
@@ -58,6 +63,8 @@ fn rp_specific_components() {
     common::check_environment();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, "rpi-pico");
+    generate_build_command_locked(&mut context);
+    
     let sbom = generate_raw_sbom(&mut context);
 
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example
@@ -76,6 +83,8 @@ fn stm32_specific_components() {
     common::check_environment();
 
     let mut context = generate_example_build_context("thermometer", "stm32u083c-dk");
+    generate_build_command_locked(&mut context);
+    
     let sbom = generate_raw_sbom(&mut context);
 
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example

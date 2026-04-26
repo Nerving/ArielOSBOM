@@ -14,6 +14,7 @@ use crate::ArielOsBuildContext;
 const BUILD_LOCAL_PATH: &'static str = "build/build-local.ninja";
 const COMPILE_COMMANDS_PATH: &'static str = "compile_commands.json";
 
+#[derive(PartialEq)]
 pub struct ArielOsBuildCommand {
         pub envs: Vec<String>,
         // pub config: String,

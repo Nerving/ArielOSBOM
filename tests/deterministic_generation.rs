@@ -10,6 +10,7 @@ use arielosbom::{
 };
 
 use common::{
+    generate_build_command_locked,
     generate_example_build_context,
     STANDARD_BUILDER,
     STANDARD_EXAMPLE
@@ -30,6 +31,7 @@ fn deterministic_generation_raw() {
     set_test_env();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
+    generate_build_command_locked(&mut context);
 
     let sbom1 = generate_raw_sbom(&mut context);
 
@@ -45,6 +47,7 @@ fn deterministic_generation_cdx16() {
     common::check_environment();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
+    generate_build_command_locked(&mut context);
 
     let mut sbom1 = CycloneDxSbomV1_6::from_raw(&generate_raw_sbom(&mut context));
 
@@ -60,6 +63,7 @@ fn deterministic_generation_cdx17() {
     common::check_environment();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
+    generate_build_command_locked(&mut context);
 
     let mut sbom1 = CycloneDxSbomV1_7::from_raw(&generate_raw_sbom(&mut context));
 
