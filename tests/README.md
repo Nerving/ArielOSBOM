@@ -16,7 +16,23 @@ This directory contains:
 
 ## Tests
 
-Currently, all tests only use the CoAP example and the nrf52840dk builder.
+Currently, all tests only use the CoAP example and the nrf52840dk builder unless otherwise specified.
+
+### board_specific_components
+
+These tests check for boards of different kinds whetheran SBOM generated for the board contains the expected board-related components, e. g. `ariel-os-nrf`, `embassy-nrf` and `nrf-pac` for nrf boards right now.
+
+The current tests include and check for:
+
+- esp boards: `ariel-os-esp`, `esp-alloc`, `esp-bootloader-esp-idf`, `esp-config`, `esp-hal`, `esp-hal-procmacros`, `esp-metadata-generated`, `esp-println`, `esp-riscv-rt`, `esp-rom-sys`, `esp-sync` 
+
+- nrf boards: `ariel-os-nrf`, `embassy-nrf`, `nrf-pac`
+
+- rp boards: `ariel-os-rp`, `embassy-rp`, `rp-pac`, `rp2040-boot2`
+
+- stm32 boards: `ariel-os-stm32`, `ariel-os-stm32-mapping`, `embassy-stm32`, `stm32-fmc`, `stm32-metapac`
+
+Right now these are only tests for general crates shared amongst these four board families.
 
 ### deterministic_generation
 
