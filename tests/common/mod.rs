@@ -1,9 +1,11 @@
 use std::{
     io::Error,
     fs, 
-    path::Path, 
+    path::{Path, PathBuf}, 
     process::{Command, Output}
 };
+
+use arielosbom::ArielOsBuildContext;
 
 
 #[allow(dead_code)]
@@ -12,7 +14,6 @@ pub struct ConstPaths {
     pub out_of_tree: &'static str,
     pub output: &'static str,
     pub schemata: &'static str,
-    
 }
 
 #[allow(dead_code)]
@@ -27,6 +28,11 @@ pub const CONSTPATHS: ConstPaths = ConstPaths {
     output: "tests/output",
     schemata: "tests/fixtures/schemata",
 };
+
+#[allow(dead_code)]
+pub const STANDARD_EXAMPLE: &'static str = "coap-client";
+#[allow(dead_code)]
+pub const STANDARD_BUILDER: &'static str = "nrf52840dk";
 
 pub const TESTENVS: TestEnvs = TestEnvs {
     testing: "TESTING",
@@ -91,6 +97,28 @@ pub fn test_binary(
         .output();
 
     sbom_generation
+}
+
+#[allow(dead_code)]
+pub fn generate_example_build_context(example_name: &str, builder: &str) -> ArielOsBuildContext {
+
+    ArielOsBuildContext::from_paths(
+        &PathBuf::from(CONSTPATHS.ariel_os), 
+        &Path::new("examples").join(example_name).join("Cargo.toml"), 
+        &PathBuf::from("Cargo.lock"), 
+        &PathBuf::from("."), 
+        &builder.to_string())
+
+}
+
+#[allow(dead_code)]
+pub fn generate_out_of_tree_build_context(builder: &str) -> ArielOsBuildContext {
+    ArielOsBuildContext::from_paths(
+        &PathBuf::from(CONSTPATHS.out_of_tree), 
+        &PathBuf::from("Cargo.toml"), 
+        &PathBuf::from("Cargo.lock"), 
+        &PathBuf::from("../ariel-os"), 
+        &builder.to_string())
 }
 
 #[allow(dead_code)]

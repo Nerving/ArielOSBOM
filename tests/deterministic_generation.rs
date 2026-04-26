@@ -2,32 +2,18 @@ mod common;
 
 use std::{
     env,
-    path::{Path, PathBuf}
 };
 
-use arielosbom::{
-    ArielOsBuildContext, 
+use arielosbom::{   
     generate_raw_sbom,
     sbom::{cyclonedx_v16::CycloneDxSbomV1_6, cyclonedx_v17::CycloneDxSbomV1_7},
 };
 
 use common::{
-    check_environment,
-    CONSTPATHS as PATHS,
+    generate_example_build_context,
+    STANDARD_BUILDER,
+    STANDARD_EXAMPLE
 };
-
-
-fn generate_build_context() -> ArielOsBuildContext {
-    
-    set_test_env();
-    
-    ArielOsBuildContext::from_paths(
-        &PathBuf::from(PATHS.ariel_os), 
-        &Path::new("examples").join("coap-client").join("Cargo.toml"), 
-        &PathBuf::from("Cargo.lock"), 
-        &PathBuf::from("."), 
-        &"nrf52840dk".to_string())
-}
 
 // to be removed later when stuff is handled with some config or whatever to determine whether testing is happening
 fn set_test_env() {
@@ -41,7 +27,9 @@ fn deterministic_generation_raw() {
 
     common::check_environment();
 
-    let mut context = generate_build_context();
+    set_test_env();
+
+    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
 
     let sbom1 = generate_raw_sbom(&mut context);
 
@@ -54,9 +42,9 @@ fn deterministic_generation_raw() {
 #[test]
 fn deterministic_generation_cdx16() {
 
-    check_environment();
+    common::check_environment();
 
-    let mut context = generate_build_context();
+    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
 
     let mut sbom1 = CycloneDxSbomV1_6::from_raw(&generate_raw_sbom(&mut context));
 
@@ -71,7 +59,7 @@ fn deterministic_generation_cdx17() {
 
     common::check_environment();
 
-    let mut context = generate_build_context();
+    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
 
     let mut sbom1 = CycloneDxSbomV1_7::from_raw(&generate_raw_sbom(&mut context));
 

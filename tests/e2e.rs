@@ -3,47 +3,31 @@ mod common;
 use std::{
     collections::HashSet, 
     io::Error,
-    path::{Path, PathBuf}, 
-    process::{Output},
+    path::Path, 
+    process::Output,
 };
 
-use jsonschema;
-
-use common::{
-    *,
-    CONSTPATHS as PATHS,
-};
 use arielosbom::{
     ArielOsBuildContext,
     tree,
+};
+use jsonschema;
+
+use common::{
+    assert_sbom_generation_status,
+    CONSTPATHS as PATHS,
+    create_e2e_envs,
+    generate_example_build_context,
+    generate_out_of_tree_build_context,
+    parse_sbom,
+    STANDARD_BUILDER,
+    STANDARD_EXAMPLE,
+    test_binary,
 };
 
 
 const TEMP_FULL_FILE_NAME_MAIN_REPO: &str = "e2e-main-repo_nrf52840dk.1-6.cdx.json";
 const TEMP_FULL_FILE_NAME_OUT_OF_TREE: &str = "e2e-oot_nrf52840dk.1-6.cdx.json";
-
-fn generate_build_context(example: bool) -> ArielOsBuildContext {
-    
-    let (root_path, manifest_path, import_path);
-
-    if example {
-        root_path = PathBuf::from(PATHS.ariel_os);
-        manifest_path = Path::new("examples").join("coap-client").join("Cargo.toml");
-        import_path = PathBuf::from(".")
-    } else {
-        root_path = PathBuf::from(PATHS.out_of_tree);
-        manifest_path = PathBuf::from("Cargo.toml");
-        import_path = PathBuf::from("../ariel-os");
-    }
-    
-    ArielOsBuildContext::from_paths(
-        &root_path, 
-        &manifest_path, 
-        &PathBuf::from("Cargo.lock"), 
-        &import_path, 
-        &"nrf52840dk".to_string())
-
-}
 
 fn generate_sbom(context: &ArielOsBuildContext, output_name: &str) -> Result<Output, Error> {
     
@@ -51,7 +35,7 @@ fn generate_sbom(context: &ArielOsBuildContext, output_name: &str) -> Result<Out
         Some(create_e2e_envs()),
         context.root_path(), 
         &vec!["cdx_1.6"], 
-        Some(vec!["nrf52840dk"]), 
+        Some(vec![STANDARD_BUILDER]), 
         output_name, 
         Some(context.manifest_path()), 
         None, 
@@ -67,7 +51,7 @@ fn e2e_main_repo() {
 
     // TODO: implement options for other/more/all examples, builders?
 
-    let mut context = generate_build_context(true);
+    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     context.get_build_command();
 
     // generate SBOM
@@ -110,7 +94,7 @@ fn e2e_out_of_tree() {
 
     // TODO: implement options for other/more/all examples, builders?
 
-    let mut context = generate_build_context(false);
+    let mut context = generate_out_of_tree_build_context(STANDARD_BUILDER);
     context.get_build_command();
 
     // generate SBOM
