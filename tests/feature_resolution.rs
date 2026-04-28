@@ -18,6 +18,35 @@ use common::{
     STANDARD_EXAMPLE,
 };
 
+
+macro_rules! generate_without_feature_tests {
+    ($($name:ident: $input:expr,)*) => {
+        $(
+            #[test]
+            fn $name() {
+                check_environment();
+
+                let removal_feature = generate_fixed_feature_list()[$input];
+
+                let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
+                context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
+
+                context.build_command.features = context.build_command.features.replace(removal_feature, "");
+                let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
+
+                assert_eq!(context.build_command().features, tree_features_removed);
+
+                let command_output = generate_fixed_tree_output(&tree_features_removed);
+
+                let fixed_tree_set = parse_fixed_tree_data(command_output);
+                let tool_tree_set = generate_cargo_tree_data(&context);
+
+                assert_eq!(fixed_tree_set, tool_tree_set);
+            }
+        )*
+    }
+}
+
 const BUILD_COMMAND_FIXTURE_PATH: &'static str = "tests/fixtures/feature_resolution/";
 const FIXED_ENVS: &[(&'static str, &'static str)] = &[
     ("OPENOCD_ARGS","\"-f board/nordic_nrf52_dk.cfg\""),
@@ -38,6 +67,23 @@ const FIXED_MANIFEST_PATH: &'static str = "examples/coap-client/Cargo.toml";
 
 fn generate_fixed_feature_list() -> Vec<&'static str> {
     FIXED_FEATURES.split_once("=").unwrap().1.split_inclusive(",").collect()
+}
+
+fn generate_fixed_tree_output(features: &str) -> Vec<u8> {
+
+    Command::new("cargo")
+        .envs(FIXED_ENVS.iter().map(|entry| *entry))
+        .current_dir(PATHS.ariel_os)
+        .arg("tree")
+        .arg("--manifest-path")
+        .arg(FIXED_MANIFEST_PATH)
+        .arg("--prefix")
+        .arg("none")
+        .arg(features)
+        .output()
+        .expect("cargo tree (fixed command) failed")
+        .stdout
+
 }
 
 fn parse_fixed_tree_data(command_output: Vec<u8>) -> HashSet<String> {
@@ -66,614 +112,8 @@ fn baseline_matches_cargo_tree() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
 
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(FIXED_FEATURES)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_liboscore_provide_abort_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[0];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
     
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_liboscore_provide_assert_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[1];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_hwrng_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[2];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_random_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[3];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_dhcpv4_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[4];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_ipv4_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[5];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_semihosting_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[6];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_single_core_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[7];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_executor_interrupt_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[8];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_defmt_rtt_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[9];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_panic_printing_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[10];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_defmt_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[11];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_debug_console_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[12];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_usb_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[13];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_usb_ethernet_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[14];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_coap_transport_udp_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[15];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output);
-    let tool_tree_set = generate_cargo_tree_data(&context);
-
-    assert_eq!(fixed_tree_set, tool_tree_set);
-}
-
-#[test]
-fn without_coap_matches_cargo_tree() {
-
-    check_environment();
-
-    let removal_feature = generate_fixed_feature_list()[16];
-
-    let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command(Some(Path::new(BUILD_COMMAND_FIXTURE_PATH)));
-    
-    context.build_command.features = context.build_command.features.replace(removal_feature, "");
-    let tree_features_removed = FIXED_FEATURES.replace(removal_feature, "");
-
-    assert_eq!(context.build_command().features, tree_features_removed);
-
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed")
-        .stdout;
+    let command_output = generate_fixed_tree_output(FIXED_FEATURES);
 
     let fixed_tree_set = parse_fixed_tree_data(command_output);
     let tool_tree_set = generate_cargo_tree_data(&context);
@@ -693,25 +133,31 @@ fn no_features_matches_cargo_tree() {
     let tree_features_all_removed = "--features=";
 
     assert_eq!(context.build_command().features, tree_features_all_removed);
+    
+    let command_output = generate_fixed_tree_output(&tree_features_all_removed);
 
-    // generate regular/fixed tree set
-    let command_output = Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
-        .current_dir(PATHS.ariel_os)
-        .arg("tree")
-        .arg("--manifest-path")
-        .arg(FIXED_MANIFEST_PATH)
-        .arg("--prefix")
-        .arg("none")
-        .arg(tree_features_all_removed)
-        .output()
-        .expect("cargo tree (fixed command) failed");
-        //.stdout;
-
-    println!("{}", String::from_utf8(command_output.stderr).unwrap());
-
-    let fixed_tree_set = parse_fixed_tree_data(command_output.stdout);
+    let fixed_tree_set = parse_fixed_tree_data(command_output);
     let tool_tree_set = generate_cargo_tree_data(&context);
 
     assert_eq!(fixed_tree_set, tool_tree_set);
+}
+
+generate_without_feature_tests! {
+    without_liboscore_provide_abort_matches_cargo_tree: 0,
+    without_liboscore_provide_assert_matches_cargo_tree: 1,
+    without_hwrng_matches_cargo_tree: 2,
+    without_random_matches_cargo_tree: 3,
+    without_dhcpv4_matches_cargo_tree: 4,
+    without_ipv4_matches_cargo_tree: 5,
+    without_semihosting_matches_cargo_tree: 6,
+    without_single_core_matches_cargo_tree: 7,
+    without_executor_interrupt_matches_cargo_tree: 8,
+    without_defmt_rtt_matches_cargo_tree: 9,
+    without_panic_printing_matches_cargo_tree: 10,
+    without_defmt_matches_cargo_tree: 11,
+    without_debug_console_matches_cargo_tree: 12,
+    without_usb_matches_cargo_tree: 13,
+    without_usb_ethernet_matches_cargo_tree: 14,
+    without_coap_transport_udp_matches_cargo_tree: 15,
+    without_coap_matches_cargo_tree: 16,
 }
