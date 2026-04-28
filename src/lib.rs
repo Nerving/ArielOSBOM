@@ -5,7 +5,7 @@ pub mod sbom;
 pub mod tree;
 
 use std::{
-    path::PathBuf
+    path::{Path, PathBuf},
 };
 
 use cargo_metadata::{Error as MetadataError, Metadata, MetadataCommand};
@@ -22,7 +22,7 @@ pub struct ArielOsBuildContext {
     manifest_path: PathBuf,
     lock_path: PathBuf,
     import_path: PathBuf,
-    build_command: ArielOsBuildCommand,
+    pub build_command: ArielOsBuildCommand,
     builder: String,
 }
 
@@ -39,15 +39,19 @@ impl ArielOsBuildContext {
         }
     }
 
-    pub fn get_build_command(&mut self) {
+    pub fn get_build_command(&mut self, compile_commands_directory: Option<&Path>) {
         match self.builder.to_lowercase().as_str() {
             "none" => {
                 println!("no builders specified, using last build command");
                 (self.build_command, self.builder) = ArielOsBuildCommand::from_buildlocal(&self.root_path);
             },
             _ => {
-                CompileCommandsJson::generate_compile_commands_file(self);
-                self.build_command = ArielOsBuildCommand::from_compile_commands_json(&self.root_path);
+                if let Some(path) = compile_commands_directory {
+                    self.build_command = ArielOsBuildCommand::from_compile_commands_json(path);
+                } else {
+                    CompileCommandsJson::generate_compile_commands_file(self);
+                    self.build_command = ArielOsBuildCommand::from_compile_commands_json(&self.root_path);
+                }
             }
         };
     }
@@ -59,7 +63,7 @@ pub fn generate_raw_sbom(context: &mut ArielOsBuildContext) -> RawSbom {
     let mut sbom = RawSbom::default();
 
     if context.build_command == ArielOsBuildCommand::default() {
-        context.get_build_command();
+        context.get_build_command(None);
     }
 
     let cargo_tree_component_list = generate_cargo_tree_data(&context);

@@ -127,7 +127,7 @@ pub fn generate_build_command_locked(context: &mut ArielOsBuildContext) {
     // locking so that parallel tests don't screw each other up
     let compile_commands_file = std::fs::File::open(context.root_path().join("compile_commands.json")).expect("boohoo");
     _ = compile_commands_file.lock();
-    context.get_build_command();
+    context.get_build_command(None);
     _ = compile_commands_file.unlock();
 
 }

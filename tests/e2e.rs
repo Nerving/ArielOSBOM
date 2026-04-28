@@ -52,7 +52,7 @@ fn e2e_main_repo() {
     // TODO: implement options for other/more/all examples, builders?
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
-    context.get_build_command();
+    context.get_build_command(None);
 
     // generate SBOM
     let output = generate_sbom(&context, "e2e-main-repo");
@@ -95,7 +95,7 @@ fn e2e_out_of_tree() {
     // TODO: implement options for other/more/all examples, builders?
 
     let mut context = generate_out_of_tree_build_context(STANDARD_BUILDER);
-    context.get_build_command();
+    context.get_build_command(None);
 
     // generate SBOM
     let output = generate_sbom(&context, "e2e-oot");

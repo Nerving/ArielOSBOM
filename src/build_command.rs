@@ -153,7 +153,7 @@ impl CompileCommandsJson {
 
 }
 
-fn parse_envs(input: &str) -> Vec<String> {
+pub fn parse_envs(input: &str) -> Vec<String> {
     // TODO maybe: comment out why "/' and \ are treated the way they are (tldr: for environment variables to be properly recognized by Command)
 
     let characters = input.chars();
