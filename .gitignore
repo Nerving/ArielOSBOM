@@ -1,5 +1,5 @@
 /target
 /output
 /tests/output
-compile_commands.json
+tests/fixtures/out-of-tree-coap-client/compile_commands.json
 build/
