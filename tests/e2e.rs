@@ -1,7 +1,6 @@
 mod common;
 
-use std::{
-    collections::HashSet, 
+use std::{ 
     io::Error,
     path::Path, 
     process::Output,
@@ -9,9 +8,9 @@ use std::{
 
 use arielosbom::{
     ArielOsBuildContext,
-    tree,
 };
 use jsonschema;
+use serde_json::Value;
 
 use common::{
     assert_sbom_generation_status,
@@ -25,6 +24,9 @@ use common::{
     test_binary,
 };
 
+const FIXTURE_DIRECTORY_PATH: &str = "tests/fixtures/e2e";
+const FIXTURE_MAIN_REPO_NAME: &str = "e2e-example-fixture_nrf52840dk.1-6.cdx.json";
+const FIXTURE_OOT_NAME: &str = "e2e-oot-fixture_nrf52840dk.1-6.cdx.json";
 
 const TEMP_FULL_FILE_NAME_MAIN_REPO: &str = "e2e-main-repo_nrf52840dk.1-6.cdx.json";
 const TEMP_FULL_FILE_NAME_OUT_OF_TREE: &str = "e2e-oot_nrf52840dk.1-6.cdx.json";
@@ -66,24 +68,20 @@ fn e2e_main_repo() {
         &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
         "CycloneDx 1.6 schema");
     
-    let to_validate = parse_sbom(
+    let mut to_validate = parse_sbom(
         &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO), 
         "error_message"
     );
 
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
-    // check if components match
+    // remove timestamp and uuid
+    to_validate["metadata"]["timestamp"] = Value::String("".to_string());
+    to_validate["serialNumber"] = Value::String("".to_string());
 
-    let mut component_set: HashSet<String> = HashSet::new();
-    let components = &to_validate["components"].as_array().unwrap();
-    for component in components.iter() {
-        component_set.insert(format!("{} v{}", component["name"], component["version"]).replace("\"", ""));
-    }
+    let fixture = parse_sbom(&Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_MAIN_REPO_NAME), "SBOM fixture");
 
-    let cargo_tree_set = tree::generate_cargo_tree_data(&context);
-
-    assert!(cargo_tree_set.symmetric_difference(&component_set).collect::<HashSet<&String>>().is_empty(), "SBOM components and cargo tree output do not match");
+    assert_eq!(to_validate, fixture , "generated SBOM does not match fixture");
     
 }
 
@@ -109,23 +107,19 @@ fn e2e_out_of_tree() {
         &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
         "CycloneDx 1.6 schema");
     
-    let to_validate = parse_sbom(
+    let mut to_validate = parse_sbom(
         &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE), 
         "error_message"
     );
     
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
-    // check if components match
+    // remove timestamp and uuid
+    to_validate["metadata"]["timestamp"] = Value::String("".to_string());
+    to_validate["serialNumber"] = Value::String("".to_string());
 
-    let mut component_set: HashSet<String> = HashSet::new();
-    let components = &to_validate["components"].as_array().unwrap();
-    for component in components.iter() {
-        component_set.insert(format!("{} v{}", component["name"], component["version"]).replace("\"", ""));
-    }
-    
-    let cargo_tree_set = tree::generate_cargo_tree_data(&context);
+    let fixture = parse_sbom(&Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_OOT_NAME), "SBOM fixture");
 
-    assert!(cargo_tree_set.symmetric_difference(&component_set).collect::<HashSet<&String>>().is_empty(), "SBOM components and cargo tree output do not match");
+    assert_eq!(to_validate, fixture , "generated SBOM does not match fixture");
     
 }
