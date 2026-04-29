@@ -133,7 +133,7 @@ pub fn generate_build_command_locked(context: &mut ArielOsBuildContext) {
 }
 
 #[allow(dead_code)]
-pub fn assert_sbom_generation_status(command_output: Result<Output, Error>) {
+pub fn assert_sbom_generation_status(command_output: Result<Output, Error>, success: bool) {
     
     assert!(
         command_output.is_ok(), 
@@ -143,11 +143,22 @@ pub fn assert_sbom_generation_status(command_output: Result<Output, Error>) {
 
     let output = command_output.unwrap();
 
-    assert!(
-        output.status.success(), 
-        "SBOM generation failed: {}",
-        String::from_utf8_lossy(&output.stderr)
-    );
+    if success {
+        assert!(
+            output.status.success(), 
+            "SBOM generation failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    } else {
+        let sbom_path = Path::new(CONSTPATHS.output).join("failure-test_nrf52840dk.1-6.cdx.json");
+        let file_exists = sbom_path.exists();
+        let file_removed = fs::remove_file(sbom_path);
+        assert!(
+            !output.status.success(),
+            "SBOM generation did not fail \nSBOM file located: {}\nSBOM file removed: {}",
+            file_exists, file_removed.is_ok()
+        );
+    }
 }
 
 pub fn create_env_tuples(names: Vec<&str>) -> Vec<(&str, &str)> {

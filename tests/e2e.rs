@@ -57,7 +57,7 @@ fn e2e_main_repo() {
     // generate SBOM
     let output = generate_sbom(&context, "e2e-main-repo");
 
-    assert_sbom_generation_status(output);
+    assert_sbom_generation_status(output, true);
 
     assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO).exists(), "failed to find generated SBOM file");
     
@@ -100,7 +100,7 @@ fn e2e_out_of_tree() {
     // generate SBOM
     let output = generate_sbom(&context, "e2e-oot");
 
-    assert_sbom_generation_status(output);
+    assert_sbom_generation_status(output, true);
 
     assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE).exists(), "failed to find generated SBOM file");
     
