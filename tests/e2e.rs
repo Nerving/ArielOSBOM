@@ -1,6 +1,7 @@
 mod common;
 
-use std::{ 
+use std::{
+    env::current_dir,
     io::Error,
     path::Path, 
     process::Output,
@@ -46,6 +47,38 @@ fn generate_sbom(context: &ArielOsBuildContext, output_name: &str) -> Result<Out
 
 }
 
+fn crop_bom_refs(mut sbom: Value, is_fixture: bool) -> Value {
+
+    for entry in sbom["components"].as_array_mut().unwrap() {
+        replace_bom_ref_in_entry(entry, "bom-ref", is_fixture);
+    }
+
+    for entry in sbom["dependencies"].as_array_mut().unwrap() {
+        replace_bom_ref_in_entry(entry, "ref", is_fixture);
+        replace_bom_ref_in_entry(entry, "dependsOn", is_fixture);
+    }
+
+    sbom
+}
+
+fn replace_bom_ref_in_entry(entry: &mut Value, field: &str, is_fixture: bool) {
+    
+    let project_dir = current_dir().unwrap();
+    
+    entry[field] = Value::String(
+        entry[field]
+            .to_string()
+            .replace(
+                if is_fixture {
+                    "/home/nerving/Thesis/ArielOSBOM"
+                } else {
+                    project_dir.to_str().unwrap()
+                }
+                ,"<PATH_TO_PROJECT_ROOT>"
+            )
+    );
+}
+
 #[test]
 fn e2e_main_repo() {
 
@@ -64,7 +97,7 @@ fn e2e_main_repo() {
     assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO).exists(), "failed to find generated SBOM file");
     
     // check if CycloneDx conform
-    let cyclonedx_16_schema = parse_sbom(
+    let cyclonedx_16_schema: serde_json::Value = parse_sbom(
         &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
         "CycloneDx 1.6 schema");
     
@@ -81,7 +114,11 @@ fn e2e_main_repo() {
 
     let fixture = parse_sbom(&Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_MAIN_REPO_NAME), "SBOM fixture");
 
-    assert_eq!(to_validate, fixture , "generated SBOM does not match fixture");
+    // crop out path to project route in bom-refs
+    let cropped_to_validate_cdx = crop_bom_refs(to_validate, false);
+    let cropped_fixture_cdx = crop_bom_refs(fixture, true);
+
+    assert_eq!(cropped_fixture_cdx, cropped_to_validate_cdx , "generated SBOM does not match fixture");
     
 }
 
@@ -120,6 +157,10 @@ fn e2e_out_of_tree() {
 
     let fixture = parse_sbom(&Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_OOT_NAME), "SBOM fixture");
 
-    assert_eq!(to_validate, fixture , "generated SBOM does not match fixture");
+    // crop out path to project route in bom-refs
+    let cropped_to_validate_cdx = crop_bom_refs(to_validate, false);
+    let cropped_fixture_cdx = crop_bom_refs(fixture, true);
+
+    assert_eq!(cropped_fixture_cdx, cropped_to_validate_cdx , "generated SBOM does not match fixture");
     
 }

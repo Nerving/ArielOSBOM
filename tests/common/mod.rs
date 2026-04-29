@@ -54,7 +54,11 @@ pub fn check_environment() {
     if !(Path::new(CONSTPATHS.output).exists()) {
         match fs::create_dir(CONSTPATHS.output) {
             Ok(_) => println!("created output directory: {}\n", CONSTPATHS.output),
-            Err(e) => panic!("failed to created output directory: {:?}\n", e)
+            Err(e) => {
+                if !(Path::new(CONSTPATHS.output).exists()) {
+                    panic!("failed to created output directory: {:?}\n", e);
+                }
+            }
         };
     }
     assert!(Path::new(CONSTPATHS.output).exists());
