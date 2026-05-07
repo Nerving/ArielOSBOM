@@ -111,7 +111,7 @@ Option 2 (last builder used):
 
 Installation + Setup:
 
-- see section [Installation](https://github.com/Nerving/ArielOSBOM#what-the-tool-currently-does-not-provide-yet)
+- see section [Installation](https://github.com/Nerving/ArielOSBOM#installation)
 
 - have your own project [set up from a template repository](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#starting-an-application-project-from-a-template-repository)
 
