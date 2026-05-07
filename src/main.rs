@@ -4,7 +4,12 @@ use std::{
         fs::create_dir, 
 };
 
-use arielosbom::{self, ArielOsBuildContext};
+use arielosbom::{
+    ArielOsBuildContext, 
+    generate_raw_sbom,
+    tree::write_tree_to_file,
+    write_metadata_to_file,
+};
 use clap::{Parser};
 
 use crate::cliarg::Args;
@@ -34,10 +39,15 @@ fn main() {
             builder
         );
 
-        let mut raw_sbom = arielosbom::generate_raw_sbom(&mut build_context);
+        let mut generator_output = generate_raw_sbom(&mut build_context, cli_args.emit_cargo_artifacts);
+
+        if cli_args.emit_cargo_artifacts {
+            write_tree_to_file(generator_output.tree.unwrap(), &cli_args.output_name, &cli_args.output_dir, build_context.builder());
+            write_metadata_to_file(generator_output.metadata.unwrap(), &cli_args.output_name, &cli_args.output_dir, build_context.builder());
+        }
 
         for bom_format in &cli_args.bom_formats {
-            arielosbom::sbom::write_sbom_to_file(&mut raw_sbom, bom_format, &cli_args.output_name, &cli_args.output_dir, build_context.builder());
+            arielosbom::sbom::write_sbom_to_file(&mut generator_output.sbom, bom_format, &cli_args.output_name, &cli_args.output_dir, build_context.builder());
         }
     }
 }

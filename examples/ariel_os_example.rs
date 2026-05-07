@@ -33,8 +33,8 @@ fn main() {
         &"nrf52840dk".to_string()
     );
 
-    let mut raw_sbom = arielosbom::generate_raw_sbom(&mut build_context);
+    let mut generator_output = arielosbom::generate_raw_sbom(&mut build_context, false);
 
-    write_sbom_to_file(&mut raw_sbom, &BomFormat::CDX(CycloneDxSpecVersion::V1_6), "ariel-os-example", Path::new(OUTPUT_DIR), build_context.builder());
+    write_sbom_to_file(&mut generator_output.sbom, &BomFormat::CDX(CycloneDxSpecVersion::V1_6), "ariel-os-example", Path::new(OUTPUT_DIR), build_context.builder());
         
 }

@@ -2,13 +2,19 @@ use cargo_metadata::{Metadata, Node, Package};
 
 use std::{
     collections::HashSet,
+    fs::File,
+    io::Write,
+    path::Path,
     process::Command,
 };
 
-use crate::ArielOsBuildContext;
+use crate::{
+    ArielOsBuildContext,
+    sbom::FileFormat,
+};
 
 
-fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
+pub fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
 
     let envs_key_value: Vec<(&str, &str)> = context.build_command.envs
     .iter()
@@ -32,9 +38,9 @@ fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
 
 }
 
-pub fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<String> {
+pub fn generate_cargo_tree_component_list(tree_data: Vec<u8>) -> HashSet<String> {
 
-    let tree_data = match String::from_utf8(generate_cargo_tree_output(context)) {
+    let tree_data = match String::from_utf8(tree_data) {
         Ok(data) => data,
         Err(_) => panic!("could not convert cargo tree output from UTF8 to str.")
     };
@@ -118,4 +124,18 @@ pub fn filter_cargo_metadata(tree_set: &HashSet<String>, mut metadata: Metadata)
     resolve_unwrap.nodes = new_node_dep_vec;
 
     metadata
+}
+
+pub fn write_tree_to_file(tree: Vec<u8>, file_name: &str, output_dir: &Path, builder: &str) {
+
+    let file_format = FileFormat::Txt;
+    let full_file_name = format!("{}_{}.tree.{}", file_name, builder, file_format);
+    let mut file = match File::create(Path::new(output_dir).join(&full_file_name)) {
+        Ok(file) => file,
+        Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
+    };
+
+    file.write_all(&tree)
+        .expect("failed to write cargo tree to file");
+
 }

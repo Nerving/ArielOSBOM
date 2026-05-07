@@ -33,9 +33,9 @@ fn deterministic_generation_raw() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     generate_build_command_locked(&mut context);
 
-    let sbom1 = generate_raw_sbom(&mut context);
+    let sbom1 = generate_raw_sbom(&mut context, false).sbom;
 
-    let sbom2 = generate_raw_sbom(&mut context);
+    let sbom2 = generate_raw_sbom(&mut context, false).sbom;
     
     assert_eq!(sbom1, sbom2);
 
@@ -49,9 +49,9 @@ fn deterministic_generation_cdx16() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     generate_build_command_locked(&mut context);
 
-    let mut sbom1 = CycloneDxSbomV1_6::from_raw(&generate_raw_sbom(&mut context));
+    let mut sbom1 = CycloneDxSbomV1_6::from_raw(&generate_raw_sbom(&mut context, false).sbom);
 
-    let mut sbom2 = CycloneDxSbomV1_6::from_raw(&generate_raw_sbom(&mut context));
+    let mut sbom2 = CycloneDxSbomV1_6::from_raw(&generate_raw_sbom(&mut context, false).sbom);
     
     assert_eq!(sbom1.default_uuid(), sbom2.default_uuid());
 
@@ -65,9 +65,9 @@ fn deterministic_generation_cdx17() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     generate_build_command_locked(&mut context);
 
-    let mut sbom1 = CycloneDxSbomV1_7::from_raw(&generate_raw_sbom(&mut context));
+    let mut sbom1 = CycloneDxSbomV1_7::from_raw(&generate_raw_sbom(&mut context, false).sbom);
 
-    let mut sbom2 = CycloneDxSbomV1_7::from_raw(&generate_raw_sbom(&mut context));
+    let mut sbom2 = CycloneDxSbomV1_7::from_raw(&generate_raw_sbom(&mut context, false).sbom);
     
     assert_eq!(sbom1.default_uuid(), sbom2.default_uuid());
 

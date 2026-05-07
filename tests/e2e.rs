@@ -89,7 +89,6 @@ fn e2e_main_repo() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     context.get_build_command(None);
 
-    // generate SBOM
     let output = generate_sbom(&context, "e2e-main-repo");
 
     assert_sbom_generation_status(output, true);
@@ -108,7 +107,7 @@ fn e2e_main_repo() {
 
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
-    // remove timestamp and uuid
+    // compare against fixture
     to_validate["metadata"]["timestamp"] = Value::String("".to_string());
     to_validate["serialNumber"] = Value::String("".to_string());
 
@@ -132,7 +131,6 @@ fn e2e_out_of_tree() {
     let mut context = generate_out_of_tree_build_context(STANDARD_BUILDER);
     context.get_build_command(None);
 
-    // generate SBOM
     let output = generate_sbom(&context, "e2e-oot");
 
     assert_sbom_generation_status(output, true);
@@ -151,13 +149,12 @@ fn e2e_out_of_tree() {
     
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
-    // remove timestamp and uuid
+    // compare against fixture
     to_validate["metadata"]["timestamp"] = Value::String("".to_string());
     to_validate["serialNumber"] = Value::String("".to_string());
 
     let fixture = parse_sbom(&Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_OOT_NAME), "SBOM fixture");
 
-    // crop out path to project route in bom-refs
     let cropped_to_validate_cdx = crop_bom_refs(to_validate, false);
     let cropped_fixture_cdx = crop_bom_refs(fixture, true);
 

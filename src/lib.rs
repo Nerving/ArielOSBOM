@@ -5,6 +5,8 @@ pub mod sbom;
 pub mod tree;
 
 use std::{
+    fs::File,
+    io::Write,
     path::{Path, PathBuf},
 };
 
@@ -12,8 +14,8 @@ use cargo_metadata::{Error as MetadataError, Metadata, MetadataCommand};
 
 use crate::{
     build_command::{ArielOsBuildCommand, CompileCommandsJson}, 
-    sbom::RawSbom, 
-    tree::{filter_cargo_metadata, generate_cargo_tree_data},
+    sbom::{FileFormat, RawSbom}, 
+    tree::{filter_cargo_metadata, generate_cargo_tree_component_list, generate_cargo_tree_output},
 };
 
 
@@ -58,7 +60,13 @@ impl ArielOsBuildContext {
 
 }
 
-pub fn generate_raw_sbom(context: &mut ArielOsBuildContext) -> RawSbom {
+pub struct GeneratorOutput {
+    pub sbom: RawSbom,
+    pub metadata: Option<Metadata>,
+    pub tree: Option<Vec<u8>>,
+}
+
+pub fn generate_raw_sbom(context: &mut ArielOsBuildContext, emit_cargo_artifacts: bool) -> GeneratorOutput {
 
     let mut sbom = RawSbom::default();
 
@@ -66,12 +74,15 @@ pub fn generate_raw_sbom(context: &mut ArielOsBuildContext) -> RawSbom {
         context.get_build_command(None);
     }
 
-    let cargo_tree_component_list = generate_cargo_tree_data(&context);
+    let cargo_tree_data = generate_cargo_tree_output(&context);
+    let original_cargo_tree = if emit_cargo_artifacts {Some(cargo_tree_data.clone())} else {None};
+    let cargo_tree_component_list = generate_cargo_tree_component_list(cargo_tree_data);
 
     let cargo_metadata = match generate_cargo_metadata(&context) {
         Ok(metadata) => metadata,
         Err(e) => panic!("error generating cargo metadata:\n{e:?}"),
     };
+    let original_metadata = if emit_cargo_artifacts {Some(cargo_metadata.clone())} else {None};
 
     let filtered_metadata: Metadata = filter_cargo_metadata(&cargo_tree_component_list, cargo_metadata);
 
@@ -79,7 +90,11 @@ pub fn generate_raw_sbom(context: &mut ArielOsBuildContext) -> RawSbom {
 
     sbom.convert_cargo_data_to_components(&filtered_metadata, checksum_map);
 
-    sbom
+    GeneratorOutput { 
+        sbom, 
+        metadata: original_metadata, 
+        tree: original_cargo_tree,
+    }
 
 }
 
@@ -95,6 +110,20 @@ fn generate_cargo_metadata(context: &ArielOsBuildContext) -> Result<Metadata, Me
                             .collect()
             ));
     metadata_command.exec()
+}
+
+pub fn write_metadata_to_file(metadata: Metadata, file_name: &str, output_dir: &Path, builder: &str) {
+
+    let file_format = FileFormat::Json;
+    let full_file_name = format!("{}_{}.metadata.{}", file_name, builder, file_format);
+    let mut file = match File::create(Path::new(output_dir).join(&full_file_name)) {
+        Ok(file) => file,
+        Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
+    };
+
+    file.write_all(&serde_json::to_vec_pretty(&metadata).expect("failed to serialize cargo metadata"))
+        .expect("failed to write cargo metadata to file");
+    
 }
 
 impl ArielOsBuildContext {

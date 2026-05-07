@@ -135,12 +135,14 @@ impl FromStr for BomFormat {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum FileFormat {
     Json,
+    Txt
 }
 
 impl std::fmt::Display for FileFormat {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
         write!(f, "{}", match self {
             FileFormat::Json => "json",
+            FileFormat::Txt => "txt",
         })
     }
 }

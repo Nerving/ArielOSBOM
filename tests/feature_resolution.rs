@@ -7,7 +7,8 @@ use std::{
 };
 
 use arielosbom::{
-    tree::generate_cargo_tree_data,
+    ArielOsBuildContext, 
+    tree::{generate_cargo_tree_component_list, generate_cargo_tree_output},
 };
 
 use common::{
@@ -102,6 +103,10 @@ fn parse_fixed_tree_data(command_output: Vec<u8>) -> HashSet<String> {
     
     HashSet::from_iter(mapped_tree_data_lines)
 
+}
+
+fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<String> {
+    generate_cargo_tree_component_list(generate_cargo_tree_output(context))
 }
 
 #[test]

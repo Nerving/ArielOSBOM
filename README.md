@@ -195,6 +195,9 @@ Execution:
             
             [default: ./build/imports/ariel-os/]
 
+        --emit-cargo-artifacts
+            Determines whether cargo tree and cargo metadata are also written to output; the full file names will be <FILE_NAME>_<BUILDER>.metadata/tree.json/txt
+
     -h, --help
             Print help (see a summary with '-h')
 ```

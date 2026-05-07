@@ -113,4 +113,13 @@ pub struct Args {
         help = "Path to the project's ArielOS import directory relative to its root",
     )]
     pub arielos_import_path: PathBuf,
+
+    #[arg(
+        id = "emit_cargo_artifacts",
+        long = "emit-cargo-artifacts",
+        help = "Determines whether cargo tree and cargo metadata are also written to output",
+        long_help = "Determines whether cargo tree and cargo metadata are also written to output; the full file names will be <FILE_NAME>_<BUILDER>.metadata/tree.json/txt",
+    )]
+    pub emit_cargo_artifacts: bool,
+
 }
