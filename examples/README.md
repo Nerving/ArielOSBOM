@@ -32,7 +32,7 @@ where
 
 - (-r, required) path to the project root for which the SBOM is to be generated for; if you do not have any own project to try this out on, you can use the fixture at `tests/fixtures/out-of-tree-coap-client`
 
-- (-b, optional) alternative [builder](https://ariel-os.github.io/ariel-os/dev/docs/book/hardware-functionality-support.html) in case the specified project requires a builder that is not `nrf52840dk`
+- (-b, optional) alternative [laze builder](https://ariel-os.github.io/ariel-os/dev/docs/book/hardware-functionality-support.html) in case the specified project requires a builder that is not `nrf52840dk`
 
 
 
