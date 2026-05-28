@@ -25,7 +25,7 @@ pub struct Args {
         id = "BOM_formats",
         value_name = "BOM_FORMAT",
         num_args = 1..4,    // can be more in future
-        default_value = "raw",
+        default_value = "cdx_1.6",
         short = 'b',
         long = "bom-formats",
         required = false,

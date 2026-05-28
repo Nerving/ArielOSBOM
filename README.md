@@ -16,7 +16,7 @@ Afterwards, simply install the binary from the repo using Cargo:
 
 To generate a CycloneDx 1.6 SBOM for an [out-of-tree Ariel OS project](https://ariel-os.github.io/ariel-os/dev/docs/book/getting-started.html#starting-an-application-project-from-a-template-repository) of your choosing, navigate to its project root and run:
 
-    arielosbom -r ./ --b cdx_1.6 -o example-sbom --builders nrf52840dk
+    arielosbom -r ./ -o example-sbom --builders nrf52840dk
 
 The generated SBOM will be put into `./output/`.
 
@@ -30,7 +30,7 @@ If you do not have an example project to use the tool on, clone the [Ariel OS ma
 
 then navigate to its root and run:
 
-    arielosbom -r ./ --b cdx_1.6 -o example-sbom -m examples/coap-client/Cargo.toml -i ./ --builders nrf52840dk
+    arielosbom -r ./ -o example-sbom -m examples/coap-client/Cargo.toml -i ./ --builders nrf52840dk
 
 The generated CycloneDx 1.6 SBOM of Ariel OS' `coap-client` example will be put into `./output/`.
 
@@ -167,7 +167,7 @@ Execution:
                 - cdx_1.6/cyclonedx_1.6:	CycloneDX version 1.6
                 - cdx_1.7/cyclonedx_1.7:    CycloneDX version 1.7
             
-            [default: raw]
+            [default: cdx_1.6]
 
     -f, --file-format <FILE_EXTENSION>
             File format of the generated SBOM
