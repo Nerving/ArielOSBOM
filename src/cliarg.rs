@@ -117,8 +117,8 @@ pub struct Args {
     #[arg(
         id = "emit_cargo_artifacts",
         long = "emit-cargo-artifacts",
-        help = "Determines whether cargo tree and cargo metadata are also written to output",
-        long_help = "Determines whether cargo tree and cargo metadata are also written to output; the full file names will be <FILE_NAME>_<BUILDER>.metadata/tree.json/txt",
+        help = "Determines whether cargo tree and cargo metadata are also written to the output directory",
+        long_help = "Determines whether cargo tree and cargo metadata are also written to the output directory; the full file names will be <FILE_NAME>_<BUILDER>.metadata/tree.json/txt",
     )]
     pub emit_cargo_artifacts: bool,
 
