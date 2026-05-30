@@ -3,7 +3,10 @@ mod common;
 use std::{
     collections::HashSet,
     env::current_dir,
-    fs::read,
+    fs::{
+        read,
+        remove_file,
+    },
     io::Error,
     path::Path, 
     process::Output,
@@ -33,7 +36,9 @@ const FIXTURE_MAIN_REPO_NAME: &str = "e2e-example-fixture_nrf52840dk.1-6.cdx.jso
 
 const TEMP_FULL_FILE_NAME_MAIN_REPO: &str = "e2e-main-repo_nrf52840dk.1-6.cdx.json";
 const TEMP_FULL_FILE_NAME_OUT_OF_TREE: &str = "e2e-oot_nrf52840dk.1-6.cdx.json";
+const OOT_METADATA_FILE_NAME: &str = "e2e-oot_nrf52840dk.metadata.json";
 const OOT_TREE_DATA_FILE_NAME: &str = "e2e-oot_nrf52840dk.tree.txt";
+
 
 fn generate_sbom(context: &ArielOsBuildContext, output_name: &str, emit_cargo_artifacts: bool) -> Result<Output, Error> {
     
@@ -83,10 +88,21 @@ fn replace_bom_ref_in_entry(entry: &mut Value, field: &str, is_fixture: bool) {
     );
 }
 
+fn remove_old_test_output(file_name: &str) {
+
+    let file_path = Path::new(PATHS.output).join(file_name);
+    if file_path.exists() {
+        remove_file(file_path)
+            .expect("failed to remove old test file");
+    }
+
+}
+
 #[test]
 fn e2e_main_repo() {
 
     common::check_environment();
+    remove_old_test_output(TEMP_FULL_FILE_NAME_MAIN_REPO);
 
     // TODO: implement options for other/more/all examples, builders?
 
@@ -129,6 +145,9 @@ fn e2e_main_repo() {
 fn e2e_out_of_tree() {
 
     common::check_environment();
+    remove_old_test_output(TEMP_FULL_FILE_NAME_OUT_OF_TREE);
+    remove_old_test_output(OOT_METADATA_FILE_NAME);
+    remove_old_test_output(OOT_TREE_DATA_FILE_NAME);
 
     // TODO: implement options for other/more/all examples, builders?
 
@@ -140,7 +159,9 @@ fn e2e_out_of_tree() {
     assert_sbom_generation_status(output, true);
 
     assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE).exists(), "failed to find generated SBOM file");
-    
+    assert!(Path::new(PATHS.output).join(OOT_METADATA_FILE_NAME).exists(), "failed to find generated metadata");
+    assert!(Path::new(PATHS.output).join(OOT_TREE_DATA_FILE_NAME).exists(), "failed to find generated tree data");
+
     // check if CycloneDx conform
     let cyclonedx_16_schema = parse_sbom(
         &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
