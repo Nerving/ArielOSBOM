@@ -1,0 +1,55 @@
+name:   CI
+
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
+
+jobs:
+    cargo-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@v6
+
+            - name: Install toolchain
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Install Ariel OS prerequisites
+              run: sudo apt-get install ninja-build gcc-arm-none-eabi
+
+            - name: Install laze
+              uses: taiki-e/install-action@v2
+              with:
+                tool: laze@0.1
+
+            - name: Rust cache
+              uses: Swatinem/rust-cache@v2
+            
+            - name: Run cargo test
+              run: cargo test
+
+    lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@v6
+
+            - name: Install toolchain
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                components: clippy, rustfmt
+                
+            - name: Rust cache
+              uses: Swatinem/rust-cache@v2
+            
+            - name: Run cargo fmt
+              run: cargo fmt --all --check
+
+            - name: Run cargo clippy
+              run: cargo clippy --all-targets --all-features -- -D warnings
