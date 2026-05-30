@@ -21,20 +21,18 @@ pub fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
     .map(|key_arg| key_arg.split_once('=').unwrap())
     .collect();
 
-    let command_output = Command::new("cargo")
-    .envs(envs_key_value)
-    .current_dir(&context.root_path)
-    .arg("tree")
-    .arg("--prefix")
-    .arg("none")
-    .arg("--manifest-path")
-    .arg(&context.manifest_path)
-    .arg(&context.build_command.features)
-    .output()
-    .expect("Something failed with cargo tree")
-    .stdout;
-
-    command_output
+    Command::new("cargo")
+        .envs(envs_key_value)
+        .current_dir(&context.root_path)
+        .arg("tree")
+        .arg("--prefix")
+        .arg("none")
+        .arg("--manifest-path")
+        .arg(&context.manifest_path)
+        .arg(&context.build_command.features)
+        .output()
+        .expect("Something failed with cargo tree")
+        .stdout
 
 }
 
@@ -67,7 +65,7 @@ pub fn filter_cargo_metadata(tree_set: &HashSet<String>, mut metadata: Metadata)
     let mut package_id_set: HashSet<String> = HashSet::new();
 
     for package in &metadata.packages {
-        if tree_set.contains(&format!("{} v{}", package.name, package.version.to_string())) {
+        if tree_set.contains(&format!("{} v{}", package.name, package.version)) {
             new_package_vec.push(package.clone());
             package_id_set.insert(package.id.repr.clone());
         }
@@ -106,14 +104,12 @@ pub fn filter_cargo_metadata(tree_set: &HashSet<String>, mut metadata: Metadata)
 
             new_node.deps = node.deps
                                 .iter()
-                                .filter(|dep| package_id_set.contains(&dep.pkg.repr))
-                                .map(|node_dep| node_dep.clone())
+                                .filter(|dep| package_id_set.contains(&dep.pkg.repr)).cloned()
                                 .collect();
 
             new_node.dependencies = node.dependencies
                                         .iter()
-                                        .filter(|dependency| package_id_set.contains(&dependency.repr))
-                                        .map(|pkg_id| pkg_id.clone())
+                                        .filter(|dependency| package_id_set.contains(&dependency.repr)).cloned()
                                         .collect();
 
             new_node_dep_vec.push(new_node);

@@ -11,8 +11,8 @@ use serde::{Deserialize, Serialize};
 use crate::ArielOsBuildContext;
 
 
-const BUILD_LOCAL_PATH: &'static str = "build/build-local.ninja";
-const COMPILE_COMMANDS_PATH: &'static str = "compile_commands.json";
+const BUILD_LOCAL_PATH: &str = "build/build-local.ninja";
+const COMPILE_COMMANDS_PATH: &str = "compile_commands.json";
 
 #[derive(PartialEq)]
 pub struct ArielOsBuildCommand {
@@ -22,11 +22,13 @@ pub struct ArielOsBuildCommand {
         // pub destination: PathBuf,
 }
 
-impl ArielOsBuildCommand {
-
-    pub fn default() -> ArielOsBuildCommand{
+impl Default for ArielOsBuildCommand {
+    fn default() -> ArielOsBuildCommand{
         ArielOsBuildCommand { envs: vec![], features: "".to_string() }
     }
+}
+
+impl ArielOsBuildCommand {
 
     pub fn from_buildlocal(project_path: &Path) -> (ArielOsBuildCommand, String) {
         let build_command = ArielOsBuildCommand::parse_build_command(CompileCommandsJson::from_buildlocal(project_path));
@@ -49,7 +51,7 @@ impl ArielOsBuildCommand {
         let mut right_split = command_split.1.split_whitespace();
         
         ArielOsBuildCommand { 
-            envs: envs, 
+            envs, 
             // config: right_split.find(|string| string.contains("ariel-os-cargo")).unwrap().to_string(), 
             features: right_split.find(|string| string.contains("--features")).unwrap().to_string(), 
             // destination:    right_split.find(|string| string.contains("/build/bin")).unwrap().into(),        
@@ -89,7 +91,7 @@ impl CompileCommandsJson {
             .arg("-C")
             .arg(
                 Path::new(".")
-                    .join(&context.manifest_path
+                    .join(context.manifest_path
                         .clone()
                         .into_os_string()
                         .to_str()
@@ -191,10 +193,7 @@ pub fn parse_envs(input: &str) -> Vec<String> {
                 };
             },
             'k' => {    // again: assumption: key only normal characters, no "/' or whatever
-                match character {
-                    '=' => state = 'v',
-                    _ => {},
-                };
+                if character == '=' { state = 'v' }
             },
             'v' => {
                 match character {   // assumption: no escaped \" if not in a "/' already
@@ -227,12 +226,9 @@ pub fn parse_envs(input: &str) -> Vec<String> {
                         return_state = '\"';
                         continue;
                     },
-                    '\"' => {
-                        if last_char != '\\' {
-                            state = 'v';
-                            continue;
-                        }
-                        else {}
+                    '\"' if last_char != '\\' => {
+                        state = 'v';
+                        continue;
                     },
                     '\\' => {
                         last_char = '\\';
@@ -248,12 +244,9 @@ pub fn parse_envs(input: &str) -> Vec<String> {
                         return_state = '\"';
                         continue;
                     },
-                    '\'' => {
-                        if last_char != '\\' {
-                            state = 'v';
-                            continue;
-                        }
-                        else {}
+                    '\'' if last_char != '\\' => {
+                        state = 'v';
+                        continue;
                     },
                     '\\' => {
                         last_char = '\\';
@@ -268,5 +261,5 @@ pub fn parse_envs(input: &str) -> Vec<String> {
         last_char = character;
     }
 
-    return envs_vector;
+    envs_vector
 }

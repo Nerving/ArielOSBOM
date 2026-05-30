@@ -30,9 +30,9 @@ pub const CONSTPATHS: ConstPaths = ConstPaths {
 };
 
 #[allow(dead_code)]
-pub const STANDARD_EXAMPLE: &'static str = "coap-client";
+pub const STANDARD_EXAMPLE: &str = "coap-client";
 #[allow(dead_code)]
-pub const STANDARD_BUILDER: &'static str = "nrf52840dk";
+pub const STANDARD_BUILDER: &str = "nrf52840dk";
 
 pub const TESTENVS: TestEnvs = TestEnvs {
     testing: "TESTING",
@@ -68,38 +68,39 @@ pub fn check_environment() {
 pub fn parse_sbom(path: &Path, error_message: &str) -> serde_json::Value {
     
     let sbom_file = fs::File::open(path)
-        .expect(&format!("failed to open {} SBOM", error_message));
+        .unwrap_or_else(|_| panic!("failed to open {} SBOM", error_message));
 
     serde_json::from_reader(sbom_file)
-        .expect(&format!("failed to parse {} SBOM", error_message))
+        .unwrap_or_else(|_| panic!("failed to parse {} SBOM", error_message))
 
 }
 
 #[allow(dead_code)]
 pub fn test_binary(
+    build_context: &ArielOsBuildContext,
     envs: Option<Vec<(&str, &str)>>,
-    project_path: &Path, 
+    //project_path: &Path, 
     bom_formats: &Vec<&str>,
     builders: Option<Vec<&str>>,
     output_name: &str,
     //output_directory: fixed no?
-    manifest_path: Option<&Path>,
-    lock_path: Option<&Path>,
-    import_path: Option<&Path>,
+    //manifest_path: Option<&Path>,
+    //lock_path: Option<&Path>,
+    //import_path: Option<&Path>,
     emit_cargo_artifacts: bool,
 ) -> Result<Output, Error> {
 
     let mut sbom_generation_command = Command::new(env!("CARGO_BIN_EXE_arielosbom"));
     sbom_generation_command
         .envs(envs.unwrap_or(vec![]))
-        .arg("-r").arg(project_path)
-        .arg("-m").arg(manifest_path.unwrap_or(Path::new("Cargo.toml")))
+        .arg("-r").arg(build_context.root_path())
+        .arg("-m").arg(build_context.manifest_path())
         .arg("-b").args(bom_formats)
         .arg("--builders").args(builders.unwrap_or(vec!["none"]))
         .arg("-o").arg(output_name)
         .arg("--output-directory").arg(Path::new(CONSTPATHS.output))
-        .arg("-l").arg(lock_path.unwrap_or(Path::new("Cargo.lock")))
-        .arg("-i").arg(import_path.unwrap_or(Path::new("build/imports/ariel-os")));
+        .arg("-l").arg(build_context.lock_path())
+        .arg("-i").arg(build_context.import_path());
     if emit_cargo_artifacts {
         sbom_generation_command.arg("--emit-cargo-artifacts");
     }
@@ -116,7 +117,8 @@ pub fn generate_example_build_context(example_name: &str, builder: &str) -> Arie
         &Path::new("examples").join(example_name).join("Cargo.toml"), 
         &PathBuf::from("Cargo.lock"), 
         &PathBuf::from("."), 
-        &builder.to_string())
+        builder
+    )
 
 }
 
@@ -127,7 +129,8 @@ pub fn generate_out_of_tree_build_context(builder: &str) -> ArielOsBuildContext 
         &PathBuf::from("Cargo.toml"), 
         &PathBuf::from("Cargo.lock"), 
         &PathBuf::from("../ariel-os"), 
-        &builder.to_string())
+        builder
+    )
 }
 
 #[allow(dead_code)]

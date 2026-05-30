@@ -30,9 +30,8 @@ pub struct CycloneDxSbomV1_7 {
     dependencies: Vec<CycloneDxDependencyV1_7>,
 }
 
-impl CycloneDxSbomV1_7 {
-    
-    pub fn default() -> CycloneDxSbomV1_7 {
+impl Default for CycloneDxSbomV1_7 {
+    fn default() -> Self {
         CycloneDxSbomV1_7 {
             bomFormat: "CycloneDX".into(), 
             specVersion: CycloneDxSpecVersion::V1_7, 
@@ -48,6 +47,9 @@ impl CycloneDxSbomV1_7 {
             dependencies: vec![],
         }
     }
+}
+
+impl CycloneDxSbomV1_7 {
 
     pub fn from_raw(raw_sbom: &RawSbom) -> CycloneDxSbomV1_7 {
         let mut cdx_bom = CycloneDxSbomV1_7::default();
@@ -190,7 +192,7 @@ struct CycloneDxDependencyV1_7 {
 }
 
 impl CycloneDxDependencyV1_7 {
-    fn from_raw(component_id: String, raw_dependencies: &Vec<RawDependency>) -> CycloneDxDependencyV1_7 {
+    fn from_raw(component_id: String, raw_dependencies: &[RawDependency]) -> CycloneDxDependencyV1_7 {
         CycloneDxDependencyV1_7 { 
             bom_ref: component_id.into(), 
             dependsOn: raw_dependencies

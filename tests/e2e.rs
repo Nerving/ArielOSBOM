@@ -16,7 +16,6 @@ use arielosbom::{
     ArielOsBuildContext,
     tree::generate_cargo_tree_component_list,
 };
-use jsonschema;
 use serde_json::Value;
 
 use common::{
@@ -43,14 +42,15 @@ const OOT_TREE_DATA_FILE_NAME: &str = "e2e-oot_nrf52840dk.tree.txt";
 fn generate_sbom(context: &ArielOsBuildContext, output_name: &str, emit_cargo_artifacts: bool) -> Result<Output, Error> {
     
     test_binary(
+        context,
         Some(create_e2e_envs()),
-        context.root_path(), 
+        //context.root_path(), 
         &vec!["cdx_1.6"], 
         Some(vec![STANDARD_BUILDER]), 
         output_name, 
-        Some(context.manifest_path()), 
-        None, 
-        Some(context.import_path()),
+        //Some(context.manifest_path()), 
+        //None, 
+        //Some(context.import_path()),
         emit_cargo_artifacts,
     )
 

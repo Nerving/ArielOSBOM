@@ -30,14 +30,14 @@ pub struct ArielOsBuildContext {
 
 impl ArielOsBuildContext {
 
-    pub fn from_paths(root_path: &PathBuf, manifest_path: &PathBuf, lock_path: &PathBuf, import_path: &PathBuf, builder: &String) -> ArielOsBuildContext {
+    pub fn from_paths(root_path: &Path, manifest_path: &Path, lock_path: &Path, import_path: &Path, builder: &str) -> ArielOsBuildContext {
         ArielOsBuildContext { 
-            root_path: root_path.clone(), 
-            manifest_path: manifest_path.clone(), 
-            lock_path: lock_path.clone(), 
-            import_path: import_path.clone(),
+            root_path: root_path.to_path_buf(), 
+            manifest_path: manifest_path.to_path_buf(), 
+            lock_path: lock_path.to_path_buf(), 
+            import_path: import_path.to_path_buf(),
             build_command: ArielOsBuildCommand::default(), 
-            builder: builder.clone()
+            builder: builder.to_owned()
         }
     }
 
@@ -68,17 +68,17 @@ pub struct GeneratorOutput {
 
 pub fn generate_raw_sbom(context: &mut ArielOsBuildContext, emit_cargo_artifacts: bool) -> GeneratorOutput {
 
-    let mut sbom = RawSbom::default();
+    let mut sbom = RawSbom::empty();
 
     if context.build_command == ArielOsBuildCommand::default() {
         context.get_build_command(None);
     }
 
-    let cargo_tree_data = generate_cargo_tree_output(&context);
+    let cargo_tree_data = generate_cargo_tree_output(context);
     let original_cargo_tree = if emit_cargo_artifacts {Some(cargo_tree_data.clone())} else {None};
     let cargo_tree_component_list = generate_cargo_tree_component_list(cargo_tree_data);
 
-    let cargo_metadata = match generate_cargo_metadata(&context) {
+    let cargo_metadata = match generate_cargo_metadata(context) {
         Ok(metadata) => metadata,
         Err(e) => panic!("error generating cargo metadata:\n{e:?}"),
     };
@@ -86,7 +86,7 @@ pub fn generate_raw_sbom(context: &mut ArielOsBuildContext, emit_cargo_artifacts
 
     let filtered_metadata: Metadata = filter_cargo_metadata(&cargo_tree_component_list, cargo_metadata);
 
-    let checksum_map = lockfile::generate_checksum_map(&context, cargo_tree_component_list);
+    let checksum_map = lockfile::generate_checksum_map(context, cargo_tree_component_list);
 
     sbom.convert_cargo_data_to_components(&filtered_metadata, checksum_map);
 

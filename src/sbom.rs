@@ -29,7 +29,7 @@ pub struct RawSbom {
 
 impl RawSbom {
 
-    pub fn default() -> RawSbom {
+    pub fn empty() -> RawSbom {
         RawSbom {
             bom_metadata: BomMetadata { 
                 creator: "ArielOSBOM (provisional name)".into(),
@@ -42,8 +42,8 @@ impl RawSbom {
     pub fn convert_cargo_data_to_components(&mut self, metadata: &Metadata, checksum_map: HashMap<(String, String), Checksum>) {
 
         assert!(metadata.packages.len() == metadata.resolve.as_ref().unwrap().nodes.len());
-        let mut index = 0;
-        for package in metadata.packages.iter() {
+        //let mut index = 0;
+        for (index, package) in metadata.packages.iter().enumerate() {
             self.components
                 .push(Component::create_component_from_metadata(
                     package, 
@@ -62,7 +62,7 @@ impl RawSbom {
                         )
                         .collect()
                 ));
-            index += 1;
+            //index += 1;
         }
     }
 
@@ -87,10 +87,10 @@ impl RawSbom {
 
 pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_name: &str, output_dir: &Path, builder: &str) {
     match bom_format {
-        BomFormat::Raw => sbom.write_to_file(&output_name, &output_dir, builder),
+        BomFormat::Raw => sbom.write_to_file(output_name, output_dir, builder),
         BomFormat::SPDX => println!("No SPDX conversion currently"),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(&sbom, output_name, output_dir, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(sbom, output_name, output_dir, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(sbom, output_name, output_dir, builder),
     }
 }
 

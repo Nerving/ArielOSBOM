@@ -48,8 +48,8 @@ macro_rules! generate_without_feature_tests {
     }
 }
 
-const BUILD_COMMAND_FIXTURE_PATH: &'static str = "tests/fixtures/feature_resolution/";
-const FIXED_ENVS: &[(&'static str, &'static str)] = &[
+const BUILD_COMMAND_FIXTURE_PATH: &str = "tests/fixtures/feature_resolution/";
+const FIXED_ENVS: &[(&str, &str)] = &[
     ("OPENOCD_ARGS","\"-f board/nordic_nrf52_dk.cfg\""),
     ("SCRIPTS","./scripts"),
     ("CONFIG_BOARD","nrf52840dk"),
@@ -63,8 +63,8 @@ const FIXED_ENVS: &[(&'static str, &'static str)] = &[
     ("CFLAGS","\"\""),
     ("DEFMT_LOG","info,"),   
 ];
-const FIXED_FEATURES: &'static str = "--features=ariel-os/liboscore-provide-abort,ariel-os/liboscore-provide-assert,ariel-os/hwrng,ariel-os/random,ariel-os/dhcpv4,ariel-os/ipv4,ariel-os/semihosting,ariel-os/single-core,ariel-os/executor-interrupt,ariel-os/defmt-rtt,ariel-os/panic-printing,ariel-os/defmt,ariel-os/debug-console,ariel-os/usb,ariel-os/usb-ethernet,ariel-os/coap-transport-udp,ariel-os/coap,";
-const FIXED_MANIFEST_PATH: &'static str = "examples/coap-client/Cargo.toml";
+const FIXED_FEATURES: &str = "--features=ariel-os/liboscore-provide-abort,ariel-os/liboscore-provide-assert,ariel-os/hwrng,ariel-os/random,ariel-os/dhcpv4,ariel-os/ipv4,ariel-os/semihosting,ariel-os/single-core,ariel-os/executor-interrupt,ariel-os/defmt-rtt,ariel-os/panic-printing,ariel-os/defmt,ariel-os/debug-console,ariel-os/usb,ariel-os/usb-ethernet,ariel-os/coap-transport-udp,ariel-os/coap,";
+const FIXED_MANIFEST_PATH: &str = "examples/coap-client/Cargo.toml";
 
 fn generate_fixed_feature_list() -> Vec<&'static str> {
     FIXED_FEATURES.split_once("=").unwrap().1.split_inclusive(",").collect()
@@ -73,7 +73,7 @@ fn generate_fixed_feature_list() -> Vec<&'static str> {
 fn generate_fixed_tree_output(features: &str) -> Vec<u8> {
 
     Command::new("cargo")
-        .envs(FIXED_ENVS.iter().map(|entry| *entry))
+        .envs(FIXED_ENVS.iter().copied())
         .current_dir(PATHS.ariel_os)
         .arg("tree")
         .arg("--manifest-path")
@@ -139,7 +139,7 @@ fn no_features_matches_cargo_tree() {
 
     assert_eq!(context.build_command().features, tree_features_all_removed);
     
-    let command_output = generate_fixed_tree_output(&tree_features_all_removed);
+    let command_output = generate_fixed_tree_output(tree_features_all_removed);
 
     let fixed_tree_set = parse_fixed_tree_data(command_output);
     let tool_tree_set = generate_cargo_tree_data(&context);

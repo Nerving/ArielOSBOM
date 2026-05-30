@@ -66,7 +66,7 @@ impl Component {
 
             whatever_additional_temp: vec![],
 
-            dependencies: dependencies,
+            dependencies,
         }
     }
 
