@@ -12,6 +12,9 @@ jobs:
     cargo-test:
         runs-on: ubuntu-latest
 
+        env: 
+            CARGO_TERM_COLOR: never
+
         steps:
             - name: Check out repository code
               uses: actions/checkout@v6
