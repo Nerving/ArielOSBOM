@@ -86,9 +86,11 @@ pub fn test_binary(
     manifest_path: Option<&Path>,
     lock_path: Option<&Path>,
     import_path: Option<&Path>,
+    emit_cargo_artifacts: bool,
 ) -> Result<Output, Error> {
 
-    let sbom_generation = Command::new(env!("CARGO_BIN_EXE_arielosbom"))
+    let mut sbom_generation_command = Command::new(env!("CARGO_BIN_EXE_arielosbom"));
+    sbom_generation_command
         .envs(envs.unwrap_or(vec![]))
         .arg("-r").arg(project_path)
         .arg("-m").arg(manifest_path.unwrap_or(Path::new("Cargo.toml")))
@@ -97,10 +99,13 @@ pub fn test_binary(
         .arg("-o").arg(output_name)
         .arg("--output-directory").arg(Path::new(CONSTPATHS.output))
         .arg("-l").arg(lock_path.unwrap_or(Path::new("Cargo.lock")))
-        .arg("-i").arg(import_path.unwrap_or(Path::new("build/imports/ariel-os")))
-        .output();
+        .arg("-i").arg(import_path.unwrap_or(Path::new("build/imports/ariel-os")));
+    if emit_cargo_artifacts {
+        sbom_generation_command.arg("--emit-cargo-artifacts");
+    }
 
-    sbom_generation
+    sbom_generation_command.output()
+    
 }
 
 #[allow(dead_code)]

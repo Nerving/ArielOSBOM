@@ -1,7 +1,9 @@
 mod common;
 
 use std::{
+    collections::HashSet,
     env::current_dir,
+    fs::read,
     io::Error,
     path::Path, 
     process::Output,
@@ -9,6 +11,7 @@ use std::{
 
 use arielosbom::{
     ArielOsBuildContext,
+    tree::generate_cargo_tree_component_list,
 };
 use jsonschema;
 use serde_json::Value;
@@ -27,12 +30,12 @@ use common::{
 
 const FIXTURE_DIRECTORY_PATH: &str = "tests/fixtures/e2e";
 const FIXTURE_MAIN_REPO_NAME: &str = "e2e-example-fixture_nrf52840dk.1-6.cdx.json";
-const FIXTURE_OOT_NAME: &str = "e2e-oot-fixture_nrf52840dk.1-6.cdx.json";
 
 const TEMP_FULL_FILE_NAME_MAIN_REPO: &str = "e2e-main-repo_nrf52840dk.1-6.cdx.json";
 const TEMP_FULL_FILE_NAME_OUT_OF_TREE: &str = "e2e-oot_nrf52840dk.1-6.cdx.json";
+const OOT_TREE_DATA_FILE_NAME: &str = "e2e-oot_nrf52840dk.tree.txt";
 
-fn generate_sbom(context: &ArielOsBuildContext, output_name: &str) -> Result<Output, Error> {
+fn generate_sbom(context: &ArielOsBuildContext, output_name: &str, emit_cargo_artifacts: bool) -> Result<Output, Error> {
     
     test_binary(
         Some(create_e2e_envs()),
@@ -43,6 +46,7 @@ fn generate_sbom(context: &ArielOsBuildContext, output_name: &str) -> Result<Out
         Some(context.manifest_path()), 
         None, 
         Some(context.import_path()),
+        emit_cargo_artifacts,
     )
 
 }
@@ -89,7 +93,7 @@ fn e2e_main_repo() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     context.get_build_command(None);
 
-    let output = generate_sbom(&context, "e2e-main-repo");
+    let output = generate_sbom(&context, "e2e-main-repo", false);
 
     assert_sbom_generation_status(output, true);
 
@@ -131,7 +135,7 @@ fn e2e_out_of_tree() {
     let mut context = generate_out_of_tree_build_context(STANDARD_BUILDER);
     context.get_build_command(None);
 
-    let output = generate_sbom(&context, "e2e-oot");
+    let output = generate_sbom(&context, "e2e-oot", true);
 
     assert_sbom_generation_status(output, true);
 
@@ -142,22 +146,28 @@ fn e2e_out_of_tree() {
         &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
         "CycloneDx 1.6 schema");
     
-    let mut to_validate = parse_sbom(
+    let to_validate = parse_sbom(
         &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE), 
         "error_message"
     );
     
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
-    // compare against fixture
-    to_validate["metadata"]["timestamp"] = Value::String("".to_string());
-    to_validate["serialNumber"] = Value::String("".to_string());
+    //  Because of dependency resolution behaviour due do the separate Ariel OS workspace(?), 
+    //  the import's Cargo.lock file is not considered and thus it cannot be guaranteed that all 
+    //  dependencies are resolved the same, so a comparison against an old SBOM will eventually fail.
+    //  Instead, as done previously, it is compared whether the components match the ones found by cargo tree.
 
-    let fixture = parse_sbom(&Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_OOT_NAME), "SBOM fixture");
+    let mut component_set: HashSet<String> = HashSet::new();
+    let components = &to_validate["components"].as_array().unwrap();
+    for component in components.iter() {
+        component_set.insert(format!("{} v{}", component["name"], component["version"]).replace("\"", ""));
+    }
 
-    let cropped_to_validate_cdx = crop_bom_refs(to_validate, false);
-    let cropped_fixture_cdx = crop_bom_refs(fixture, true);
+    let cargo_tree_data = read(Path::new(PATHS.output).join(OOT_TREE_DATA_FILE_NAME))
+        .expect("failed to read cargo tree artifact");
+    let cargo_tree_component_list = generate_cargo_tree_component_list(cargo_tree_data);
 
-    assert_eq!(cropped_fixture_cdx, cropped_to_validate_cdx , "generated SBOM does not match fixture");
+    assert_eq!(component_set, cargo_tree_component_list, "SBOM components and cargo tree output do not match");
     
 }
