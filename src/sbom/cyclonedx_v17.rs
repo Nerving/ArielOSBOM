@@ -1,5 +1,5 @@
 //      https://cyclonedx.org/docs/1.7/json/#
-#![allow(non_snake_case,non_camel_case_types)]
+#![allow(non_snake_case, non_camel_case_types)]
 
 use std::{
     fmt::Debug,
@@ -15,7 +15,6 @@ use uuid::Uuid;
 
 use crate::component::{Component as RawComponent, Dependency as RawDependency};
 use crate::sbom::{CycloneDxSpecVersion, FileFormat, RawSbom, generate_sbom_timestamp};
-
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct CycloneDxSbomV1_7 {
@@ -33,30 +32,34 @@ pub struct CycloneDxSbomV1_7 {
 impl Default for CycloneDxSbomV1_7 {
     fn default() -> Self {
         CycloneDxSbomV1_7 {
-            bomFormat: "CycloneDX".into(), 
-            specVersion: CycloneDxSpecVersion::V1_7, 
+            bomFormat: "CycloneDX".into(),
+            specVersion: CycloneDxSpecVersion::V1_7,
             serialNumber: Uuid::new_v4(),
-            metadata: CycloneDxMetadataV1_7 { 
+            metadata: CycloneDxMetadataV1_7 {
                 timestamp: None, // timestamp will be set before writing to file
                 tools: CycloneDxToolsV1_7 {
                     components: vec![CycloneDxComponentV1_7::generate_tool_component()],
                 },
                 manufacturer: CycloneDxManufacturerV1_7::generate_tool_component_manufacturer(),
-            }, 
-            components: vec![], 
+            },
+            components: vec![],
             dependencies: vec![],
         }
     }
 }
 
 impl CycloneDxSbomV1_7 {
-
     pub fn from_raw(raw_sbom: &RawSbom) -> CycloneDxSbomV1_7 {
         let mut cdx_bom = CycloneDxSbomV1_7::default();
 
         for component in &raw_sbom.components {
-            cdx_bom.components.push(CycloneDxComponentV1_7::from_raw(component));
-            cdx_bom.dependencies.push(CycloneDxDependencyV1_7::from_raw(component.id.clone(), &component.dependencies));
+            cdx_bom
+                .components
+                .push(CycloneDxComponentV1_7::from_raw(component));
+            cdx_bom.dependencies.push(CycloneDxDependencyV1_7::from_raw(
+                component.id.clone(),
+                &component.dependencies,
+            ));
         }
 
         cdx_bom
@@ -65,21 +68,27 @@ impl CycloneDxSbomV1_7 {
     pub fn write_to_file(&mut self, file_name: &str, output_dir: &Path, builder: &str) {
         let file_format = FileFormat::Json;
         let full_file_name = format!("{}_{}.1-7.cdx.{}", file_name, builder, file_format);
-        let mut file = match File::create([output_dir, Path::new(&full_file_name)].iter().collect::<PathBuf>()) {
+        let mut file = match File::create(
+            [output_dir, Path::new(&full_file_name)]
+                .iter()
+                .collect::<PathBuf>(),
+        ) {
             Ok(file) => file,
             Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
         };
 
         self.metadata.timestamp = generate_sbom_timestamp();
 
-        file.write_all(serde_json::
-                            to_string_pretty(&self)
-                            .unwrap()
-                            .as_bytes()
-                        ).expect("Could not write SBOM data to file.");
+        file.write_all(serde_json::to_string_pretty(&self).unwrap().as_bytes())
+            .expect("Could not write SBOM data to file.");
     }
 
-    pub fn convert_from_raw_and_write_to_file(raw_sbom: &RawSbom, file_name: &str, output_dir: &Path, builder: &str) {
+    pub fn convert_from_raw_and_write_to_file(
+        raw_sbom: &RawSbom,
+        file_name: &str,
+        output_dir: &Path,
+        builder: &str,
+    ) {
         let mut cdx_bom = CycloneDxSbomV1_7::from_raw(raw_sbom);
         cdx_bom.write_to_file(file_name, output_dir, builder);
     }
@@ -87,7 +96,6 @@ impl CycloneDxSbomV1_7 {
     pub fn default_uuid(&mut self) {
         self.serialNumber = Uuid::default();
     }
-
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
@@ -101,7 +109,7 @@ struct CycloneDxMetadataV1_7 {
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 struct CycloneDxToolsV1_7 {
-    components: Vec<CycloneDxComponentV1_7>
+    components: Vec<CycloneDxComponentV1_7>,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
@@ -117,7 +125,7 @@ struct CycloneDxComponentV1_7 {
     #[serde(skip_serializing_if = "Option::is_none")]
     id: Option<CycloneDxBomRefV1_7>,
 
-    manufacturer: Option<CycloneDxManufacturerV1_7>,  // needs manufacturer according to BSI spec for URL if no email to provide
+    manufacturer: Option<CycloneDxManufacturerV1_7>, // needs manufacturer according to BSI spec for URL if no email to provide
 
     #[serde(skip_serializing_if = "Option::is_none")]
     licenses: Option<Vec<CycloneDxLicenseExpressionV1_7>>, // just License expression for now
@@ -132,54 +140,53 @@ struct CycloneDxComponentV1_7 {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     properties: Option<Vec<CycloneDxPropertyV1_7>>,
-
-    // to address (for BSI): 
-        // filename, SHA-512 hash (of what specifically?)
-        // exec/arch/struc property (default for library: arch/struc; main application: exec)
-        // hash source code
-        // uri deployable/security text
+    // to address (for BSI):
+    // filename, SHA-512 hash (of what specifically?)
+    // exec/arch/struc property (default for library: arch/struc; main application: exec)
+    // hash source code
+    // uri deployable/security text
 }
 
 impl CycloneDxComponentV1_7 {
     fn generate_tool_component() -> CycloneDxComponentV1_7 {
-        CycloneDxComponentV1_7 { 
-            name: "ArielOSBOM (provisional name)".into(), 
-            component_type: CycloneDxComponentTypeV1_7::application, 
-            version: Version::new(0, 0, 0), 
-            id: None, 
+        CycloneDxComponentV1_7 {
+            name: "ArielOSBOM (provisional name)".into(),
+            component_type: CycloneDxComponentTypeV1_7::application,
+            version: Version::new(0, 0, 0),
+            id: None,
             manufacturer: Some(CycloneDxManufacturerV1_7::generate_tool_component_manufacturer()),
-            licenses: Some(vec!["MIT License".to_string().into()]), 
-            purl: None, 
-            hashes: None, 
+            licenses: Some(vec!["MIT License".to_string().into()]),
+            purl: None,
+            hashes: None,
             externalReferences: vec![
                 CycloneDxExternalReferenceV1_7::generate_tool_component_reference(),
             ],
-            properties: None 
+            properties: None,
         }
     }
 
     fn from_raw(raw_component: &RawComponent) -> CycloneDxComponentV1_7 {
-        CycloneDxComponentV1_7 { 
-            name: raw_component.name.clone(), 
-            component_type: CycloneDxComponentTypeV1_7::library, //just defaulting for now 
-            version: raw_component.version.clone(), 
-            id: Some(raw_component.id.clone().into()), 
-            manufacturer: Some(CycloneDxManufacturerV1_7::from_raw_component(raw_component)), 
-            licenses: Some(vec![
-                match raw_component.licenses.clone() {
-                    Some(license_statement) => license_statement.into(),
-                    _ => String::new().into()
-                }]), 
-            purl: None, 
-            hashes: Some(raw_component.identifiers
-                .iter()
-                .map(
-                    |hash| CycloneDxHashV1_7::from_lock_checksum(hash.clone())
-                )
-                .collect()
-            ), 
-            externalReferences: CycloneDxExternalReferenceV1_7::from_raw_component(raw_component), 
-            properties: Some(vec![]) }
+        CycloneDxComponentV1_7 {
+            name: raw_component.name.clone(),
+            component_type: CycloneDxComponentTypeV1_7::library, //just defaulting for now
+            version: raw_component.version.clone(),
+            id: Some(raw_component.id.clone().into()),
+            manufacturer: Some(CycloneDxManufacturerV1_7::from_raw_component(raw_component)),
+            licenses: Some(vec![match raw_component.licenses.clone() {
+                Some(license_statement) => license_statement.into(),
+                _ => String::new().into(),
+            }]),
+            purl: None,
+            hashes: Some(
+                raw_component
+                    .identifiers
+                    .iter()
+                    .map(|hash| CycloneDxHashV1_7::from_lock_checksum(hash.clone()))
+                    .collect(),
+            ),
+            externalReferences: CycloneDxExternalReferenceV1_7::from_raw_component(raw_component),
+            properties: Some(vec![]),
+        }
     }
 }
 
@@ -192,15 +199,16 @@ struct CycloneDxDependencyV1_7 {
 }
 
 impl CycloneDxDependencyV1_7 {
-    fn from_raw(component_id: String, raw_dependencies: &[RawDependency]) -> CycloneDxDependencyV1_7 {
-        CycloneDxDependencyV1_7 { 
-            bom_ref: component_id.into(), 
+    fn from_raw(
+        component_id: String,
+        raw_dependencies: &[RawDependency],
+    ) -> CycloneDxDependencyV1_7 {
+        CycloneDxDependencyV1_7 {
+            bom_ref: component_id.into(),
             dependsOn: raw_dependencies
                 .iter()
-                .map(
-                    |dep| dep.id.clone().into()
-                )
-                .collect()
+                .map(|dep| dep.id.clone().into())
+                .collect(),
         }
     }
 }
@@ -214,7 +222,6 @@ struct CycloneDxPropertyV1_7 {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 struct CycloneDxManufacturerV1_7 {
     //bom-ref,
-
     #[serde(skip_serializing_if = "Option::is_none")]
     name: Option<String>,
 
@@ -222,23 +229,27 @@ struct CycloneDxManufacturerV1_7 {
     address: Option<String>, // type temporary?
 
     url: Vec<String>, // type temporary?
-    
-    //contact,
+
+                      //contact,
 }
 
 impl CycloneDxManufacturerV1_7 {
     fn generate_tool_component_manufacturer() -> CycloneDxManufacturerV1_7 {
-        CycloneDxManufacturerV1_7 { name: None, address: None, url: vec!["https://github.com/Nerving/ArielOSBOM".into()] }
+        CycloneDxManufacturerV1_7 {
+            name: None,
+            address: None,
+            url: vec!["https://github.com/Nerving/ArielOSBOM".into()],
+        }
     }
 
     fn from_raw_component(raw_component: &RawComponent) -> CycloneDxManufacturerV1_7 {
-        CycloneDxManufacturerV1_7 { 
+        CycloneDxManufacturerV1_7 {
             name: Some(raw_component.creators.clone().join(", ")),
             address: None,
             url: match raw_component.uri_source_code.clone() {
                 Some(url) => vec![url],
                 None => vec![],
-            }
+            },
         }
     }
 }
@@ -271,9 +282,10 @@ struct CycloneDxHashV1_7 {
 
 impl CycloneDxHashV1_7 {
     fn from_lock_checksum(checksum: String) -> CycloneDxHashV1_7 {
-        CycloneDxHashV1_7 { 
-            alg: CycloneDxHashAlgV1_7::SHA_256, 
-            content: checksum }
+        CycloneDxHashV1_7 {
+            alg: CycloneDxHashAlgV1_7::SHA_256,
+            content: checksum,
+        }
     }
 }
 
@@ -291,27 +303,27 @@ struct CycloneDxExternalReferenceV1_7 {
     hashes: Option<Vec<CycloneDxHashV1_7>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    properties: Option<Vec<CycloneDxPropertyV1_7>>
+    properties: Option<Vec<CycloneDxPropertyV1_7>>,
 }
 
 impl CycloneDxExternalReferenceV1_7 {
     fn generate_tool_component_reference() -> CycloneDxExternalReferenceV1_7 {
-        CycloneDxExternalReferenceV1_7 { 
-            url: "https://github.com/Nerving/ArielOSBOM".into(), 
-        comment: None, 
-        reference_type: CycloneDxExternalReferenceTypeV1_7::source_distribution, 
-        hashes: None, 
-        properties: None 
+        CycloneDxExternalReferenceV1_7 {
+            url: "https://github.com/Nerving/ArielOSBOM".into(),
+            comment: None,
+            reference_type: CycloneDxExternalReferenceTypeV1_7::source_distribution,
+            hashes: None,
+            properties: None,
         }
     }
 
     fn from_uri_source_code(uri: String) -> CycloneDxExternalReferenceV1_7 {
-        CycloneDxExternalReferenceV1_7 { 
-            url: uri.clone(), 
-            comment: None, 
-            reference_type: CycloneDxExternalReferenceTypeV1_7::source_distribution, 
-            hashes: None, 
-            properties: None 
+        CycloneDxExternalReferenceV1_7 {
+            url: uri.clone(),
+            comment: None,
+            reference_type: CycloneDxExternalReferenceTypeV1_7::source_distribution,
+            hashes: None,
+            properties: None,
         }
     }
 
@@ -319,7 +331,9 @@ impl CycloneDxExternalReferenceV1_7 {
         let mut references_vector = vec![];
 
         if let Some(uri_source_code) = raw_component.uri_source_code.clone() {
-            references_vector.push(CycloneDxExternalReferenceV1_7::from_uri_source_code(uri_source_code));
+            references_vector.push(CycloneDxExternalReferenceV1_7::from_uri_source_code(
+                uri_source_code,
+            ));
         }
 
         references_vector
@@ -343,7 +357,7 @@ enum CycloneDxComponentTypeV1_7 {
     file,
     machine_learning_model,
     data,
-    cryptographic_asset
+    cryptographic_asset,
 }
 
 #[derive(Clone, Deserialize, Debug, PartialEq, Eq)]
@@ -361,16 +375,16 @@ enum CycloneDxHashAlgV1_7 {
     BLAKE2b_512,
     BLAKE3,
     Streebog_256,
-    Streebog_512
+    Streebog_512,
 }
 
 impl Serialize for CycloneDxHashAlgV1_7 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: serde::Serializer 
+    where
+        S: serde::Serializer,
     {
         let replaced = format!("{:?}", self).replace("_", "-");
-        serializer.serialize_str(&replaced)    
+        serializer.serialize_str(&replaced)
     }
 }
 
@@ -385,6 +399,4 @@ enum CycloneDxExternalReferenceTypeV1_7 {
     distribution,
     license,
     // list not complete
-}   
-
-
+}

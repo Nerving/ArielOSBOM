@@ -3,31 +3,19 @@ mod common;
 use std::{
     collections::HashSet,
     env::current_dir,
-    fs::{
-        read,
-        remove_file,
-    },
+    fs::{read, remove_file},
     io::Error,
-    path::Path, 
+    path::Path,
     process::Output,
 };
 
-use arielosbom::{
-    ArielOsBuildContext,
-    tree::generate_cargo_tree_component_list,
-};
+use arielosbom::{ArielOsBuildContext, tree::generate_cargo_tree_component_list};
 use serde_json::Value;
 
 use common::{
-    assert_sbom_generation_status,
-    CONSTPATHS as PATHS,
-    create_e2e_envs,
-    generate_example_build_context,
-    generate_out_of_tree_build_context,
-    parse_sbom,
-    STANDARD_BUILDER,
-    STANDARD_EXAMPLE,
-    test_binary,
+    CONSTPATHS as PATHS, STANDARD_BUILDER, STANDARD_EXAMPLE, assert_sbom_generation_status,
+    create_e2e_envs, generate_example_build_context, generate_out_of_tree_build_context,
+    parse_sbom, test_binary,
 };
 
 const FIXTURE_DIRECTORY_PATH: &str = "tests/fixtures/e2e";
@@ -38,26 +26,26 @@ const TEMP_FULL_FILE_NAME_OUT_OF_TREE: &str = "e2e-oot_nrf52840dk.1-6.cdx.json";
 const OOT_METADATA_FILE_NAME: &str = "e2e-oot_nrf52840dk.metadata.json";
 const OOT_TREE_DATA_FILE_NAME: &str = "e2e-oot_nrf52840dk.tree.txt";
 
-
-fn generate_sbom(context: &ArielOsBuildContext, output_name: &str, emit_cargo_artifacts: bool) -> Result<Output, Error> {
-    
+fn generate_sbom(
+    context: &ArielOsBuildContext,
+    output_name: &str,
+    emit_cargo_artifacts: bool,
+) -> Result<Output, Error> {
     test_binary(
         context,
         Some(create_e2e_envs()),
-        //context.root_path(), 
-        &vec!["cdx_1.6"], 
-        Some(vec![STANDARD_BUILDER]), 
-        output_name, 
-        //Some(context.manifest_path()), 
-        //None, 
+        //context.root_path(),
+        &vec!["cdx_1.6"],
+        Some(vec![STANDARD_BUILDER]),
+        output_name,
+        //Some(context.manifest_path()),
+        //None,
         //Some(context.import_path()),
         emit_cargo_artifacts,
     )
-
 }
 
 fn crop_bom_refs(mut sbom: Value, is_fixture: bool) -> Value {
-
     for entry in sbom["components"].as_array_mut().unwrap() {
         replace_bom_ref_in_entry(entry, "bom-ref", is_fixture);
     }
@@ -71,36 +59,27 @@ fn crop_bom_refs(mut sbom: Value, is_fixture: bool) -> Value {
 }
 
 fn replace_bom_ref_in_entry(entry: &mut Value, field: &str, is_fixture: bool) {
-    
     let project_dir = current_dir().unwrap();
-    
-    entry[field] = Value::String(
-        entry[field]
-            .to_string()
-            .replace(
-                if is_fixture {
-                    "/home/nerving/Thesis/ArielOSBOM"
-                } else {
-                    project_dir.to_str().unwrap()
-                }
-                ,"<PATH_TO_PROJECT_ROOT>"
-            )
-    );
+
+    entry[field] = Value::String(entry[field].to_string().replace(
+        if is_fixture {
+            "/home/nerving/Thesis/ArielOSBOM"
+        } else {
+            project_dir.to_str().unwrap()
+        },
+        "<PATH_TO_PROJECT_ROOT>",
+    ));
 }
 
 fn remove_old_test_output(file_name: &str) {
-
     let file_path = Path::new(PATHS.output).join(file_name);
     if file_path.exists() {
-        remove_file(file_path)
-            .expect("failed to remove old test file");
+        remove_file(file_path).expect("failed to remove old test file");
     }
-
 }
 
 #[test]
 fn e2e_main_repo() {
-
     common::check_environment();
     remove_old_test_output(TEMP_FULL_FILE_NAME_MAIN_REPO);
 
@@ -113,16 +92,22 @@ fn e2e_main_repo() {
 
     assert_sbom_generation_status(output, true);
 
-    assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO).exists(), "failed to find generated SBOM file");
-    
+    assert!(
+        Path::new(PATHS.output)
+            .join(TEMP_FULL_FILE_NAME_MAIN_REPO)
+            .exists(),
+        "failed to find generated SBOM file"
+    );
+
     // check if CycloneDx conform
     let cyclonedx_16_schema: serde_json::Value = parse_sbom(
-        &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
-        "CycloneDx 1.6 schema");
-    
+        &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"),
+        "CycloneDx 1.6 schema",
+    );
+
     let mut to_validate = parse_sbom(
-        &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO), 
-        "error_message"
+        &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_MAIN_REPO),
+        "error_message",
     );
 
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
@@ -131,19 +116,23 @@ fn e2e_main_repo() {
     to_validate["metadata"]["timestamp"] = Value::String("".to_string());
     to_validate["serialNumber"] = Value::String("".to_string());
 
-    let fixture = parse_sbom(&Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_MAIN_REPO_NAME), "SBOM fixture");
+    let fixture = parse_sbom(
+        &Path::new(FIXTURE_DIRECTORY_PATH).join(FIXTURE_MAIN_REPO_NAME),
+        "SBOM fixture",
+    );
 
     // crop out path to project route in bom-refs
     let cropped_to_validate_cdx = crop_bom_refs(to_validate, false);
     let cropped_fixture_cdx = crop_bom_refs(fixture, true);
 
-    assert_eq!(cropped_fixture_cdx, cropped_to_validate_cdx , "generated SBOM does not match fixture");
-    
+    assert_eq!(
+        cropped_fixture_cdx, cropped_to_validate_cdx,
+        "generated SBOM does not match fixture"
+    );
 }
 
 #[test]
 fn e2e_out_of_tree() {
-
     common::check_environment();
     remove_old_test_output(TEMP_FULL_FILE_NAME_OUT_OF_TREE);
     remove_old_test_output(OOT_METADATA_FILE_NAME);
@@ -158,37 +147,56 @@ fn e2e_out_of_tree() {
 
     assert_sbom_generation_status(output, true);
 
-    assert!(Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE).exists(), "failed to find generated SBOM file");
-    assert!(Path::new(PATHS.output).join(OOT_METADATA_FILE_NAME).exists(), "failed to find generated metadata");
-    assert!(Path::new(PATHS.output).join(OOT_TREE_DATA_FILE_NAME).exists(), "failed to find generated tree data");
+    assert!(
+        Path::new(PATHS.output)
+            .join(TEMP_FULL_FILE_NAME_OUT_OF_TREE)
+            .exists(),
+        "failed to find generated SBOM file"
+    );
+    assert!(
+        Path::new(PATHS.output)
+            .join(OOT_METADATA_FILE_NAME)
+            .exists(),
+        "failed to find generated metadata"
+    );
+    assert!(
+        Path::new(PATHS.output)
+            .join(OOT_TREE_DATA_FILE_NAME)
+            .exists(),
+        "failed to find generated tree data"
+    );
 
     // check if CycloneDx conform
     let cyclonedx_16_schema = parse_sbom(
-        &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"), 
-        "CycloneDx 1.6 schema");
-    
-    let to_validate = parse_sbom(
-        &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE), 
-        "error_message"
+        &Path::new(PATHS.schemata).join("cyclonedx_1.6.json"),
+        "CycloneDx 1.6 schema",
     );
-    
+
+    let to_validate = parse_sbom(
+        &Path::new(PATHS.output).join(TEMP_FULL_FILE_NAME_OUT_OF_TREE),
+        "error_message",
+    );
+
     assert!(jsonschema::is_valid(&cyclonedx_16_schema, &to_validate));
 
-    //  Because of dependency resolution behaviour due do the separate Ariel OS workspace(?), 
-    //  the import's Cargo.lock file is not considered and thus it cannot be guaranteed that all 
+    //  Because of dependency resolution behaviour due do the separate Ariel OS workspace(?),
+    //  the import's Cargo.lock file is not considered and thus it cannot be guaranteed that all
     //  dependencies are resolved the same, so a comparison against an old SBOM will eventually fail.
     //  Instead, as done previously, it is compared whether the components match the ones found by cargo tree.
 
     let mut component_set: HashSet<String> = HashSet::new();
     let components = &to_validate["components"].as_array().unwrap();
     for component in components.iter() {
-        component_set.insert(format!("{} v{}", component["name"], component["version"]).replace("\"", ""));
+        component_set
+            .insert(format!("{} v{}", component["name"], component["version"]).replace("\"", ""));
     }
 
     let cargo_tree_data = read(Path::new(PATHS.output).join(OOT_TREE_DATA_FILE_NAME))
         .expect("failed to read cargo tree artifact");
     let cargo_tree_component_list = generate_cargo_tree_component_list(cargo_tree_data);
 
-    assert_eq!(component_set, cargo_tree_component_list, "SBOM components and cargo tree output do not match");
-    
+    assert_eq!(
+        component_set, cargo_tree_component_list,
+        "SBOM components and cargo tree output do not match"
+    );
 }

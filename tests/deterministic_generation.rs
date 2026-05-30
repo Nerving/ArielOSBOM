@@ -1,19 +1,15 @@
 mod common;
 
-use std::{
-    env,
-};
+use std::env;
 
-use arielosbom::{   
+use arielosbom::{
     generate_raw_sbom,
     sbom::{cyclonedx_v16::CycloneDxSbomV1_6, cyclonedx_v17::CycloneDxSbomV1_7},
 };
 
 use common::{
-    generate_build_command_locked,
+    STANDARD_BUILDER, STANDARD_EXAMPLE, generate_build_command_locked,
     generate_example_build_context,
-    STANDARD_BUILDER,
-    STANDARD_EXAMPLE
 };
 
 // to be removed later when stuff is handled with some config or whatever to determine whether testing is happening
@@ -25,7 +21,6 @@ fn set_test_env() {
 
 #[test]
 fn deterministic_generation_raw() {
-
     common::check_environment();
 
     set_test_env();
@@ -36,14 +31,12 @@ fn deterministic_generation_raw() {
     let sbom1 = generate_raw_sbom(&mut context, false).sbom;
 
     let sbom2 = generate_raw_sbom(&mut context, false).sbom;
-    
-    assert_eq!(sbom1, sbom2);
 
+    assert_eq!(sbom1, sbom2);
 }
 
 #[test]
 fn deterministic_generation_cdx16() {
-
     common::check_environment();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
@@ -54,14 +47,12 @@ fn deterministic_generation_cdx16() {
 
     let mut sbom2 = CycloneDxSbomV1_6::from_raw(&generate_raw_sbom(&mut context, false).sbom);
     sbom2.default_uuid();
-    
-    assert_eq!(sbom1, sbom2);
 
+    assert_eq!(sbom1, sbom2);
 }
 
 #[test]
 fn deterministic_generation_cdx17() {
-
     common::check_environment();
 
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
@@ -72,7 +63,6 @@ fn deterministic_generation_cdx17() {
 
     let mut sbom2 = CycloneDxSbomV1_7::from_raw(&generate_raw_sbom(&mut context, false).sbom);
     sbom2.default_uuid();
-    
-    assert_eq!(sbom1, sbom2);
 
+    assert_eq!(sbom1, sbom2);
 }

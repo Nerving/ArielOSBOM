@@ -11,15 +11,14 @@ use std::{
     str::FromStr,
 };
 
-use cargo_lock::{Checksum};
+use cargo_lock::Checksum;
 use cargo_metadata::{DependencyKind, Metadata};
 use chrono::{DateTime, Local};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use crate::component::{Component, Dependency};
 use crate::sbom::cyclonedx_v16::CycloneDxSbomV1_6;
 use crate::sbom::cyclonedx_v17::CycloneDxSbomV1_7;
-
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct RawSbom {
@@ -28,39 +27,39 @@ pub struct RawSbom {
 }
 
 impl RawSbom {
-
     pub fn empty() -> RawSbom {
         RawSbom {
-            bom_metadata: BomMetadata { 
+            bom_metadata: BomMetadata {
                 creator: "ArielOSBOM (provisional name)".into(),
                 timestamp: None,
-             },
+            },
             components: vec![],
         }
     }
 
-    pub fn convert_cargo_data_to_components(&mut self, metadata: &Metadata, checksum_map: HashMap<(String, String), Checksum>) {
-
+    pub fn convert_cargo_data_to_components(
+        &mut self,
+        metadata: &Metadata,
+        checksum_map: HashMap<(String, String), Checksum>,
+    ) {
         assert!(metadata.packages.len() == metadata.resolve.as_ref().unwrap().nodes.len());
         //let mut index = 0;
         for (index, package) in metadata.packages.iter().enumerate() {
             self.components
                 .push(Component::create_component_from_metadata(
-                    package, 
+                    package,
                     checksum_map.get(&(package.name.to_string(), package.version.to_string())),
-                    metadata.resolve
-                        .as_ref()
-                        .unwrap()
-                        .nodes[index].deps
+                    metadata.resolve.as_ref().unwrap().nodes[index]
+                        .deps
                         .iter()
                         .map(|dep| Dependency {
-                            id: dep.pkg.repr.clone(), 
-                            build: dep.dep_kinds
+                            id: dep.pkg.repr.clone(),
+                            build: dep
+                                .dep_kinds
                                 .iter()
-                                .any(|info| info.kind == DependencyKind::Build)
-                            }
-                        )
-                        .collect()
+                                .any(|info| info.kind == DependencyKind::Build),
+                        })
+                        .collect(),
                 ));
             //index += 1;
         }
@@ -69,36 +68,55 @@ impl RawSbom {
     pub fn write_to_file(&mut self, file_name: &str, output_dir: &Path, builder: &str) {
         let file_format = FileFormat::Json;
         let full_file_name = format!("{}_{}.raw.{}", file_name, builder, file_format);
-        let mut file = match File::create([output_dir, Path::new(&full_file_name)].iter().collect::<PathBuf>()) {
+        let mut file = match File::create(
+            [output_dir, Path::new(&full_file_name)]
+                .iter()
+                .collect::<PathBuf>(),
+        ) {
             Ok(file) => file,
             Err(e) => panic!("Could not create file: {}: {}", full_file_name, e),
         };
 
         self.bom_metadata.timestamp = generate_sbom_timestamp();
 
-        file.write_all(serde_json::
-                            to_string(&self)
-                            .unwrap()
-                            .as_bytes()
-                        ).expect("Could not write SBOM data to file.");
+        file.write_all(serde_json::to_string(&self).unwrap().as_bytes())
+            .expect("Could not write SBOM data to file.");
     }
-
 }
 
-pub fn write_sbom_to_file(sbom: &mut RawSbom, bom_format: &BomFormat, output_name: &str, output_dir: &Path, builder: &str) {
+pub fn write_sbom_to_file(
+    sbom: &mut RawSbom,
+    bom_format: &BomFormat,
+    output_name: &str,
+    output_dir: &Path,
+    builder: &str,
+) {
     match bom_format {
         BomFormat::Raw => sbom.write_to_file(output_name, output_dir, builder),
         BomFormat::SPDX => println!("No SPDX conversion currently"),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(sbom, output_name, output_dir, builder),
-        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(sbom, output_name, output_dir, builder),
+        BomFormat::CDX(CycloneDxSpecVersion::V1_6) => {
+            CycloneDxSbomV1_6::convert_from_raw_and_write_to_file(
+                sbom,
+                output_name,
+                output_dir,
+                builder,
+            )
+        }
+        BomFormat::CDX(CycloneDxSpecVersion::V1_7) => {
+            CycloneDxSbomV1_7::convert_from_raw_and_write_to_file(
+                sbom,
+                output_name,
+                output_dir,
+                builder,
+            )
+        }
     }
 }
 
 pub fn generate_sbom_timestamp() -> Option<DateTime<Local>> {
-    
     match env::var("TESTING_DETERMINISTIC") {
         Ok(value) if value == "1" => None,
-        _ => Some(Local::now())
+        _ => Some(Local::now()),
     }
 }
 
@@ -125,9 +143,13 @@ impl FromStr for BomFormat {
         match s.to_lowercase().as_ref() {
             "raw" => Ok(BomFormat::Raw),
             "spdx" => Ok(BomFormat::SPDX),
-            "cdx_1.6" | "cyclonedx_1.6" | "cyclone-dx_1.6" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_6)),
-            "cdx_1.7" | "cyclonedx_1.7" | "cyclone-dx_1.7" => Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_7)),
-            other => Err(format!("Invalid or unsupported BOM format: {}", other))
+            "cdx_1.6" | "cyclonedx_1.6" | "cyclone-dx_1.6" => {
+                Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_6))
+            }
+            "cdx_1.7" | "cyclonedx_1.7" | "cyclone-dx_1.7" => {
+                Ok(BomFormat::CDX(CycloneDxSpecVersion::V1_7))
+            }
+            other => Err(format!("Invalid or unsupported BOM format: {}", other)),
         }
     }
 }
@@ -135,15 +157,19 @@ impl FromStr for BomFormat {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum FileFormat {
     Json,
-    Txt
+    Txt,
 }
 
 impl std::fmt::Display for FileFormat {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
-        write!(f, "{}", match self {
-            FileFormat::Json => "json",
-            FileFormat::Txt => "txt",
-        })
+        write!(
+            f,
+            "{}",
+            match self {
+                FileFormat::Json => "json",
+                FileFormat::Txt => "txt",
+            }
+        )
     }
 }
 
@@ -153,7 +179,7 @@ impl FromStr for FileFormat {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.to_lowercase().as_ref() {
             "json" => Ok(FileFormat::Json),
-            other => Err(format!("Invalid or unsupported file format: {}", other))
+            other => Err(format!("Invalid or unsupported file format: {}", other)),
         }
     }
 }

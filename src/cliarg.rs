@@ -1,23 +1,19 @@
 use arielosbom::sbom::{BomFormat, FileFormat};
 
-use clap::{Parser};
+use clap::Parser;
 
-use std::{
-    path::PathBuf,
-};
-
+use std::path::PathBuf;
 
 #[derive(Debug, Parser)]
 pub struct Args {
-
     #[arg(
         id = "project_root_path",
-        value_name = "PATH", 
-        default_value = "./", 
-        short = 'r', 
+        value_name = "PATH",
+        default_value = "./",
+        short = 'r',
         long = "root-path",
         required = true,
-        help = "Path to project root",
+        help = "Path to project root"
     )]
     pub project_root_path: PathBuf,
 
@@ -34,7 +30,7 @@ pub struct Args {
     )]
     pub bom_formats: Vec<BomFormat>,
 
-    #[arg (
+    #[arg(
         id = "file_format",
         value_name = "FILE_EXTENSION",
         default_value = "json",
@@ -42,9 +38,9 @@ pub struct Args {
         long = "file-format",
         required = false,
         help = "File format of the generated SBOM",
-        long_help = "File format of the generated SBOM\nPossible values (case-insensitive):\n\t-json",
+        long_help = "File format of the generated SBOM\nPossible values (case-insensitive):\n\t-json"
     )]
-    pub file_format: FileFormat, // potentially Vec later if needed, same as BOM_formats    
+    pub file_format: FileFormat, // potentially Vec later if needed, same as BOM_formats
 
     #[arg(
         id = "builders",
@@ -69,7 +65,7 @@ pub struct Args {
         help = "File name of the generated SBOM(s)",
         long_help = "File name of the generated SBOM(s)\nDepending on the chosen SBOM format, the full file name will be <FILE_NAME>_<BUILDER>.<BOM_FORMAT>.<FILE_EXTENSION>"
     )]
-    pub output_name: String,    // again potentially Vec if multiple in future
+    pub output_name: String, // again potentially Vec if multiple in future
 
     #[arg(
         id = "output_directory",
@@ -77,9 +73,9 @@ pub struct Args {
         default_value = "./output",
         long = "output-directory",
         required = false,
-        help = "Path to where the generated SBOMs are to be stored (relative to execution path or absolute)",
+        help = "Path to where the generated SBOMs are to be stored (relative to execution path or absolute)"
     )]
-    pub output_dir : PathBuf,
+    pub output_dir: PathBuf,
 
     #[arg(
         id = "project_manifest_path",
@@ -88,7 +84,7 @@ pub struct Args {
         short = 'm',
         long = "manifest-path",
         required = false,
-        help = "Path to the build's manifest file relative to its root",
+        help = "Path to the build's manifest file relative to its root"
     )]
     pub project_manifest_path: PathBuf,
 
@@ -99,7 +95,7 @@ pub struct Args {
         short = 'l',
         long = "lock-path",
         required = false,
-        help = "Path to the project's lock file relative to its root",
+        help = "Path to the project's lock file relative to its root"
     )]
     pub project_lock_path: PathBuf,
 
@@ -110,7 +106,7 @@ pub struct Args {
         short = 'i',
         long = "import-path",
         required = false,
-        help = "Path to the project's ArielOS import directory relative to its root",
+        help = "Path to the project's ArielOS import directory relative to its root"
     )]
     pub arielos_import_path: PathBuf,
 
@@ -118,8 +114,7 @@ pub struct Args {
         id = "emit_cargo_artifacts",
         long = "emit-cargo-artifacts",
         help = "Determines whether cargo tree and cargo metadata are also written to the output directory",
-        long_help = "Determines whether cargo tree and cargo metadata are also written to the output directory; the full file names will be <FILE_NAME>_<BUILDER>.metadata/tree.json/txt",
+        long_help = "Determines whether cargo tree and cargo metadata are also written to the output directory; the full file names will be <FILE_NAME>_<BUILDER>.metadata/tree.json/txt"
     )]
     pub emit_cargo_artifacts: bool,
-
 }

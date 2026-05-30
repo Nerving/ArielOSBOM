@@ -1,12 +1,11 @@
 use std::{
+    fs,
     io::Error,
-    fs, 
-    path::{Path, PathBuf}, 
-    process::{Command, Output}
+    path::{Path, PathBuf},
+    process::{Command, Output},
 };
 
 use arielosbom::ArielOsBuildContext;
-
 
 #[allow(dead_code)]
 pub struct ConstPaths {
@@ -36,11 +35,10 @@ pub const STANDARD_BUILDER: &str = "nrf52840dk";
 
 pub const TESTENVS: TestEnvs = TestEnvs {
     testing: "TESTING",
-    deterministic: "TESTING_DETERMINISTIC"
+    deterministic: "TESTING_DETERMINISTIC",
 };
 
 pub fn check_environment() {
-
     if !(Path::new(CONSTPATHS.ariel_os).exists()) {
         Command::new("git")
             .arg("clone")
@@ -66,20 +64,18 @@ pub fn check_environment() {
 
 #[allow(dead_code)]
 pub fn parse_sbom(path: &Path, error_message: &str) -> serde_json::Value {
-    
-    let sbom_file = fs::File::open(path)
-        .unwrap_or_else(|_| panic!("failed to open {} SBOM", error_message));
+    let sbom_file =
+        fs::File::open(path).unwrap_or_else(|_| panic!("failed to open {} SBOM", error_message));
 
     serde_json::from_reader(sbom_file)
         .unwrap_or_else(|_| panic!("failed to parse {} SBOM", error_message))
-
 }
 
 #[allow(dead_code)]
 pub fn test_binary(
     build_context: &ArielOsBuildContext,
     envs: Option<Vec<(&str, &str)>>,
-    //project_path: &Path, 
+    //project_path: &Path,
     bom_formats: &Vec<&str>,
     builders: Option<Vec<&str>>,
     output_name: &str,
@@ -89,67 +85,69 @@ pub fn test_binary(
     //import_path: Option<&Path>,
     emit_cargo_artifacts: bool,
 ) -> Result<Output, Error> {
-
     let mut sbom_generation_command = Command::new(env!("CARGO_BIN_EXE_arielosbom"));
     sbom_generation_command
         .envs(envs.unwrap_or(vec![]))
-        .arg("-r").arg(build_context.root_path())
-        .arg("-m").arg(build_context.manifest_path())
-        .arg("-b").args(bom_formats)
-        .arg("--builders").args(builders.unwrap_or(vec!["none"]))
-        .arg("-o").arg(output_name)
-        .arg("--output-directory").arg(Path::new(CONSTPATHS.output))
-        .arg("-l").arg(build_context.lock_path())
-        .arg("-i").arg(build_context.import_path());
+        .arg("-r")
+        .arg(build_context.root_path())
+        .arg("-m")
+        .arg(build_context.manifest_path())
+        .arg("-b")
+        .args(bom_formats)
+        .arg("--builders")
+        .args(builders.unwrap_or(vec!["none"]))
+        .arg("-o")
+        .arg(output_name)
+        .arg("--output-directory")
+        .arg(Path::new(CONSTPATHS.output))
+        .arg("-l")
+        .arg(build_context.lock_path())
+        .arg("-i")
+        .arg(build_context.import_path());
     if emit_cargo_artifacts {
         sbom_generation_command.arg("--emit-cargo-artifacts");
     }
 
     sbom_generation_command.output()
-    
 }
 
 #[allow(dead_code)]
 pub fn generate_example_build_context(example_name: &str, builder: &str) -> ArielOsBuildContext {
-
     ArielOsBuildContext::from_paths(
-        &PathBuf::from(CONSTPATHS.ariel_os), 
-        &Path::new("examples").join(example_name).join("Cargo.toml"), 
-        &PathBuf::from("Cargo.lock"), 
-        &PathBuf::from("."), 
-        builder
+        &PathBuf::from(CONSTPATHS.ariel_os),
+        &Path::new("examples").join(example_name).join("Cargo.toml"),
+        &PathBuf::from("Cargo.lock"),
+        &PathBuf::from("."),
+        builder,
     )
-
 }
 
 #[allow(dead_code)]
 pub fn generate_out_of_tree_build_context(builder: &str) -> ArielOsBuildContext {
     ArielOsBuildContext::from_paths(
-        &PathBuf::from(CONSTPATHS.out_of_tree), 
-        &PathBuf::from("Cargo.toml"), 
-        &PathBuf::from("Cargo.lock"), 
-        &PathBuf::from("../ariel-os"), 
-        builder
+        &PathBuf::from(CONSTPATHS.out_of_tree),
+        &PathBuf::from("Cargo.toml"),
+        &PathBuf::from("Cargo.lock"),
+        &PathBuf::from("../ariel-os"),
+        builder,
     )
 }
 
 #[allow(dead_code)]
 pub fn generate_build_command_locked(context: &mut ArielOsBuildContext) {
-
     // locking so that parallel tests don't screw each other up
-    let compile_commands_file = std::fs::File::open(context.root_path().join("compile_commands.json")).expect("boohoo");
+    let compile_commands_file =
+        std::fs::File::open(context.root_path().join("compile_commands.json")).expect("boohoo");
     _ = compile_commands_file.lock();
     context.get_build_command(None);
     _ = compile_commands_file.unlock();
-
 }
 
 #[allow(dead_code)]
 pub fn assert_sbom_generation_status(command_output: Result<Output, Error>, success: bool) {
-    
     assert!(
-        command_output.is_ok(), 
-        "arielosbom execution failed: {:?}", 
+        command_output.is_ok(),
+        "arielosbom execution failed: {:?}",
         command_output.err()
     );
 
@@ -157,7 +155,7 @@ pub fn assert_sbom_generation_status(command_output: Result<Output, Error>, succ
 
     if success {
         assert!(
-            output.status.success(), 
+            output.status.success(),
             "SBOM generation failed: {}",
             String::from_utf8_lossy(&output.stderr)
         );
@@ -168,7 +166,8 @@ pub fn assert_sbom_generation_status(command_output: Result<Output, Error>, succ
         assert!(
             !output.status.success(),
             "SBOM generation did not fail \nSBOM file located: {}\nSBOM file removed: {}",
-            file_exists, file_removed.is_ok()
+            file_exists,
+            file_removed.is_ok()
         );
     }
 }

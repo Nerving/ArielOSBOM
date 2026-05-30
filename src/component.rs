@@ -1,17 +1,16 @@
 use cargo_lock::Checksum;
-use cargo_metadata::{Package};
-use semver::{Version};
-use serde::{Serialize, Deserialize};
+use cargo_metadata::Package;
+use semver::Version;
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Dependency {
     pub id: String,
-    pub build: bool
+    pub build: bool,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct Component {
-
     pub name: String,
     source: ComponentSource,
     pub id: String,
@@ -33,14 +32,17 @@ pub struct Component {
 
     // dependencies to be simply stored as index references into the packages
     // whether it's in the executable or build related (or if everything used: completely out of scope?)
-        // not used right now
+    // not used right now
     pub dependencies: Vec<Dependency>,
 }
 
 impl Component {
-
     // bunch of stuff not yet addressed, for future
-    pub fn create_component_from_metadata(package: &Package, hash: Option<&Checksum>, dependencies: Vec<Dependency>) -> Component {
+    pub fn create_component_from_metadata(
+        package: &Package,
+        hash: Option<&Checksum>,
+        dependencies: Vec<Dependency>,
+    ) -> Component {
         Component {
             source: ComponentSource::CargoMetadata,
             // maybe make more unique package ID later
@@ -69,15 +71,14 @@ impl Component {
             dependencies,
         }
     }
-
 }
 
 // maybe Source instead per field basis?
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub enum ComponentSource {
     CargoMetadata,
-    CargoBloat, // 
-    Other
+    CargoBloat, //
+    Other,
 }
 
 //#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
