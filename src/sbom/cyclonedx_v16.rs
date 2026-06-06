@@ -49,23 +49,6 @@ impl Default for CycloneDxSbomV1_6 {
 }
 
 impl CycloneDxSbomV1_6 {
-    pub fn new() -> CycloneDxSbomV1_6 {
-        CycloneDxSbomV1_6 {
-            bomFormat: "CycloneDX".into(),
-            specVersion: CycloneDxSpecVersion::V1_6,
-            serialNumber: Uuid::new_v4(),
-            metadata: CycloneDxMetadataV1_6 {
-                timestamp: None, // timestamp will be set before writing to file
-                tools: CycloneDxToolsV1_6 {
-                    components: vec![CycloneDxComponentV1_6::generate_tool_component()],
-                },
-                manufacturer: CycloneDxManufacturerV1_6::generate_tool_component_manufacturer(),
-            },
-            components: vec![],
-            dependencies: vec![],
-        }
-    }
-
     pub fn from_raw(raw_sbom: &RawSbom) -> CycloneDxSbomV1_6 {
         let mut cdx_bom = CycloneDxSbomV1_6::default();
 

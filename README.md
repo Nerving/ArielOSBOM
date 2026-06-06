@@ -116,6 +116,7 @@ Option 2 (last builder used):
 - provide the project's root path via the command line (`-r <PATH>`)
 - provide other arguments as desired/necessary, but no `--builders`!
 
+---
 
 ### Use case 1 (out-of-tree Ariel OS project root)
 
@@ -127,9 +128,9 @@ Installation + Setup:
 
 Execution:
 
-- Run ArielOSBOM with your project root path and your desired builders as cli arguments.
+- Run ArielOSBOM with your project root path and your desired builders and other cli arguments as wanted.
 
-        arielosbom -r <PATH_TO_PROJECT_ROOT> [--builders <BUILDER1> <BUILDER2> ...]
+        arielosbom -r <PATH_TO_PROJECT_ROOT> [--builders <BUILDER1> <BUILDER2> ...] [...]
 
 - The output file will be put into `./output/`.
 
@@ -145,9 +146,9 @@ Installation + Setup:
 
 Execution:
 
-- Run ArielOSBOM with Ariel OS repo's root path, the relative path to the test case's Cargo.toml, because it is not in the root directory, and your desired builders as cli arguments. Since we are in the original ArielOS repository, we do not have an import, so we only have the lock file at the root:
+- Run ArielOSBOM with Ariel OS repo's root path, the relative path to the test case's Cargo.toml, because it is not in the root directory, and your desired builders and other cli arguments as wanted. Since we are in the original ArielOS repository, we do not have an import, so we only have the lock file at the root:
 
-        arielosbom -r <PATH_TO_MAINREPO_ROOT> -m ./tests/coap/Cargo.toml --import-path ./ [--builders <BUILDER1> <BUILDER2> ...]
+        arielosbom -r <PATH_TO_MAINREPO_ROOT> -m ./tests/coap/Cargo.toml --import-path ./ [--builders <BUILDER1> <BUILDER2> ...] [...]
 
 - The output file will be put into `./output/`.
 
@@ -172,7 +173,7 @@ Execution:
     -f, --file-format <FILE_EXTENSION>
             File format of the generated SBOM
             Possible values (case-insensitive):
-                -json
+                - json
             
             [default: json]
 
