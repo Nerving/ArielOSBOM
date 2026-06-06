@@ -189,7 +189,7 @@ fn e2e_out_of_tree() {
     let mut component_set: HashSet<CrateIdentifier> = HashSet::new();
     let components = &to_validate["components"].as_array().unwrap();
     for component in components.iter() {
-        println!("{}", component["name"].to_string());
+        println!("{}", component["name"]);
         component_set.insert(CrateIdentifier::new(
             component["name"]
                 .as_str()
