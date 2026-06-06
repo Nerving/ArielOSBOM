@@ -1,9 +1,13 @@
+use std::collections::HashMap;
+
 use cargo_lock::Checksum;
-use cargo_metadata::Package;
+use cargo_metadata::{Node, Package, PackageId};
 use semver::Version;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+use crate::{CrateIdentifier, tree::CargoTreeGraph};
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Dependency {
     pub id: String,
     pub build: bool,
@@ -12,9 +16,9 @@ pub struct Dependency {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct Component {
     pub name: String,
-    source: ComponentSource,
-    pub id: String,
+    //source: ComponentSource,
     pub version: Version,
+    pub id: String,
     pub creators: Vec<String>, // TODO: enhance authors
     pub filename: Option<String>,
     pub licenses: Option<String>, // more specified later
@@ -38,25 +42,46 @@ pub struct Component {
 
 impl Component {
     // bunch of stuff not yet addressed, for future
-    pub fn create_component_from_metadata(
+    pub fn create_component_from_cargo_data(
         package: &Package,
-        hash: Option<&Checksum>,
-        dependencies: Vec<Dependency>,
-    ) -> Component {
+        resolve_node: &Node,
+        checksum: Option<&Checksum>,
+        tree_graph: &CargoTreeGraph,
+        node_index: usize,
+        crate_identifier_map: &HashMap<PackageId, CrateIdentifier>
+    ) -> Self {
+        let identifiers = if let Some(hash) = checksum {
+            vec![hash.to_string()]
+        } else {
+            Vec::new()
+        };
+
+        let mut dependencies: Vec<Dependency> = Vec::new();
+        for dependency in &resolve_node.dependencies {
+            if let Some(identifier) = crate_identifier_map.get(dependency) {
+                for tree_dependency in &tree_graph.dependencies[node_index] {
+                    if tree_graph.nodes[tree_dependency.node_index].get_identifier() == identifier {
+                        dependencies.push(
+                            Dependency { 
+                                id: dependency.to_string(), 
+                                build: tree_dependency.is_build() 
+                            }
+                        );
+                    }
+                }
+            } else {
+                panic!(); // should not happen I guess
+            }
+        }
+            
         Component {
-            source: ComponentSource::CargoMetadata,
-            // maybe make more unique package ID later
             id: package.id.repr.clone(),
             name: package.name.to_string(),
             version: package.version.clone(),
             creators: package.authors.clone(),
             filename: None,
             licenses: package.license.clone(),
-            identifiers: match hash {
-                Some(hash) => vec![hash.to_string()],
-                None => vec![],
-            },
-
+            identifiers,
             executable_property: None,
             archive_property: None,
             structured_property: None,
@@ -72,16 +97,3 @@ impl Component {
         }
     }
 }
-
-// maybe Source instead per field basis?
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub enum ComponentSource {
-    CargoMetadata,
-    CargoBloat, //
-    Other,
-}
-
-//#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-//enum License {
-//
-//}

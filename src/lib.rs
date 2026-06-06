@@ -11,11 +11,12 @@ use std::{
 };
 
 use cargo_metadata::{Error as MetadataError, Metadata, MetadataCommand};
+use semver::Version;
 
 use crate::{
     build_command::{ArielOsBuildCommand, CompileCommandsJson},
     sbom::{FileFormat, RawSbom},
-    tree::{filter_cargo_metadata, generate_cargo_tree_component_list, generate_cargo_tree_output},
+    tree::{generate_cargo_tree_output, parse_cargo_tree},
 };
 
 pub struct ArielOsBuildContext {
@@ -65,6 +66,21 @@ impl ArielOsBuildContext {
     }
 }
 
+#[derive(Clone, PartialEq, Eq, Hash, Debug)]
+pub struct CrateIdentifier {
+    name: String,
+    version: Version
+}
+
+impl CrateIdentifier {
+    pub fn new(name: String, version: Version) -> Self {
+        CrateIdentifier { 
+            name, 
+            version 
+        }
+    }
+}
+
 pub struct GeneratorOutput {
     pub sbom: RawSbom,
     pub metadata: Option<Metadata>,
@@ -87,7 +103,7 @@ pub fn generate_raw_sbom(
     } else {
         None
     };
-    let cargo_tree_component_list = generate_cargo_tree_component_list(cargo_tree_data);
+    let parsed_tree = parse_cargo_tree(cargo_tree_data);
 
     let cargo_metadata = match generate_cargo_metadata(context) {
         Ok(metadata) => metadata,
@@ -99,12 +115,9 @@ pub fn generate_raw_sbom(
         None
     };
 
-    let filtered_metadata: Metadata =
-        filter_cargo_metadata(&cargo_tree_component_list, cargo_metadata);
+    let checksum_map = lockfile::generate_checksum_map(context, &parsed_tree);
 
-    let checksum_map = lockfile::generate_checksum_map(context, cargo_tree_component_list);
-
-    sbom.convert_cargo_data_to_components(&filtered_metadata, checksum_map);
+    sbom.convert_cargo_data_to_components(&cargo_metadata, checksum_map,parsed_tree);
 
     GeneratorOutput {
         sbom,

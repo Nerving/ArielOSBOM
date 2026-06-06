@@ -12,13 +12,14 @@ use std::{
 };
 
 use cargo_lock::Checksum;
-use cargo_metadata::{DependencyKind, Metadata};
+use cargo_metadata::{Metadata, PackageId};
 use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 
-use crate::component::{Component, Dependency};
+use crate::{CrateIdentifier, component::Component};
 use crate::sbom::cyclonedx_v16::CycloneDxSbomV1_6;
 use crate::sbom::cyclonedx_v17::CycloneDxSbomV1_7;
+use crate::tree::CargoTreeGraph;
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct RawSbom {
@@ -40,28 +41,22 @@ impl RawSbom {
     pub fn convert_cargo_data_to_components(
         &mut self,
         metadata: &Metadata,
-        checksum_map: HashMap<(String, String), Checksum>,
+        checksum_map: HashMap<CrateIdentifier, Checksum>,
+        tree_graph: CargoTreeGraph 
     ) {
-        assert!(metadata.packages.len() == metadata.resolve.as_ref().unwrap().nodes.len());
-        //let mut index = 0;
-        for (index, package) in metadata.packages.iter().enumerate() {
-            self.components
-                .push(Component::create_component_from_metadata(
-                    package,
-                    checksum_map.get(&(package.name.to_string(), package.version.to_string())),
-                    metadata.resolve.as_ref().unwrap().nodes[index]
-                        .deps
-                        .iter()
-                        .map(|dep| Dependency {
-                            id: dep.pkg.repr.clone(),
-                            build: dep
-                                .dep_kinds
-                                .iter()
-                                .any(|info| info.kind == DependencyKind::Build),
-                        })
-                        .collect(),
-                ));
-            //index += 1;
+        let crate_identifier_map: HashMap<PackageId, CrateIdentifier> = HashMap::from_iter(metadata.packages
+            .iter()
+            .map(|package| (package.id.clone(), CrateIdentifier::new(package.name.to_string(), package.version.clone())))
+        );
+
+        for (package, resolve_node) in metadata.packages.iter().zip(metadata.resolve.as_ref().unwrap().nodes.iter()) {
+            let package_name = package.name.clone().to_string();
+            let package_version = package.version.clone();
+            let identifier = CrateIdentifier::new(package_name, package_version);
+            if let Some(node_index) = tree_graph.node_index(&identifier) {
+                let checksum = checksum_map.get(&identifier);
+                self.components.push(Component::create_component_from_cargo_data(package, resolve_node, checksum, &tree_graph, *node_index, &crate_identifier_map));
+            }
         }
     }
 
