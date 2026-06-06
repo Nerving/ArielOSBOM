@@ -16,10 +16,10 @@ use cargo_metadata::{Metadata, PackageId};
 use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 
-use crate::{CrateIdentifier, component::Component};
 use crate::sbom::cyclonedx_v16::CycloneDxSbomV1_6;
 use crate::sbom::cyclonedx_v17::CycloneDxSbomV1_7;
 use crate::tree::CargoTreeGraph;
+use crate::{CrateIdentifier, component::Component};
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct RawSbom {
@@ -42,20 +42,35 @@ impl RawSbom {
         &mut self,
         metadata: &Metadata,
         checksum_map: HashMap<CrateIdentifier, Checksum>,
-        tree_graph: CargoTreeGraph 
+        tree_graph: CargoTreeGraph,
     ) {
-        let crate_identifier_map: HashMap<PackageId, CrateIdentifier> = HashMap::from_iter(metadata.packages
-            .iter()
-            .map(|package| (package.id.clone(), CrateIdentifier::new(package.name.to_string(), package.version.clone())))
-        );
+        let crate_identifier_map: HashMap<PackageId, CrateIdentifier> =
+            HashMap::from_iter(metadata.packages.iter().map(|package| {
+                (
+                    package.id.clone(),
+                    CrateIdentifier::new(package.name.to_string(), package.version.clone()),
+                )
+            }));
 
-        for (package, resolve_node) in metadata.packages.iter().zip(metadata.resolve.as_ref().unwrap().nodes.iter()) {
+        for (package, resolve_node) in metadata
+            .packages
+            .iter()
+            .zip(metadata.resolve.as_ref().unwrap().nodes.iter())
+        {
             let package_name = package.name.clone().to_string();
             let package_version = package.version.clone();
             let identifier = CrateIdentifier::new(package_name, package_version);
             if let Some(node_index) = tree_graph.node_index(&identifier) {
                 let checksum = checksum_map.get(&identifier);
-                self.components.push(Component::create_component_from_cargo_data(package, resolve_node, checksum, &tree_graph, *node_index, &crate_identifier_map));
+                self.components
+                    .push(Component::create_component_from_cargo_data(
+                        package,
+                        resolve_node,
+                        checksum,
+                        &tree_graph,
+                        *node_index,
+                        &crate_identifier_map,
+                    ));
             }
         }
     }

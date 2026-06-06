@@ -7,7 +7,7 @@ use crate::{ArielOsBuildContext, CrateIdentifier, sbom::FileFormat};
 pub struct CargoTreeGraph {
     pub nodes: Vec<TreeNode>,
     pub dependencies: Vec<Vec<TreeDependency>>,
-    node_index_map: HashMap<CrateIdentifier, usize>   // assumption: no two crates with the same name and version can be present
+    node_index_map: HashMap<CrateIdentifier, usize>, // assumption: no two crates with the same name and version can be present
 }
 
 impl CargoTreeGraph {
@@ -26,7 +26,7 @@ impl CargoTreeGraph {
 
 pub struct TreeNode {
     identifier: CrateIdentifier,
-    _source: Option<String>
+    _source: Option<String>,
 }
 
 impl TreeNode {
@@ -82,9 +82,9 @@ struct DepthStackEntry {
 
 impl DepthStackEntry {
     fn new(node_index: usize) -> DepthStackEntry {
-        DepthStackEntry { 
+        DepthStackEntry {
             node_index,
-            dependency_kind_state: DependencyKind::Normal, 
+            dependency_kind_state: DependencyKind::Normal,
         }
     }
 }
@@ -112,20 +112,21 @@ pub fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
 }
 
 pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
-    let tree_data = String::from_utf8(tree_data)
-        .expect("could not convert cargo tree output from UTF8 to str");
+    let tree_data =
+        String::from_utf8(tree_data).expect("could not convert cargo tree output from UTF8 to str");
 
     let mut nodes: Vec<TreeNode> = Vec::new();
     let mut dependencies: Vec<Vec<TreeDependency>> = Vec::new();
     let mut node_index_map: HashMap<CrateIdentifier, usize> = HashMap::new();
     let mut depth_stack: DepthStack = Vec::new();
     for tree_line in tree_data.lines() {
-        let trimmed_line = tree_line.trim_start_matches(|c: char| c == ' ' || c == '├' || c == '│' || c == '└' || c == '─');
-        let depth = (tree_line.chars().count() - trimmed_line.chars().count())/4;   // check if depth <= depth_stack.len()? otherwise error parsing
+        let trimmed_line =
+            tree_line.trim_start_matches(|c: char| [' ', '├', '│', '└', '─'].contains(&c));
+        let depth = (tree_line.chars().count() - trimmed_line.chars().count()) / 4; // check if depth <= depth_stack.len()? otherwise error parsing
 
         if trimmed_line == "[build-dependencies]" {
             if depth != 0 {
-                depth_stack[depth-1].dependency_kind_state = DependencyKind::BuildDependency;
+                depth_stack[depth - 1].dependency_kind_state = DependencyKind::BuildDependency;
             }
             continue;
         }
@@ -138,7 +139,7 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
                 dependencies.push(Vec::new());
                 nodes.len() - 1
             });
-        
+
         let depth_stack_entry = DepthStackEntry::new(node_index);
         if depth >= depth_stack.len() {
             depth_stack.push(depth_stack_entry);
@@ -147,54 +148,47 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
         }
 
         if depth != 0 {
-            dependencies[depth_stack[depth-1].node_index].push(
-                TreeDependency { 
-                    node_index, 
-                    is_proc_macro,
-                    dependency_kind: depth_stack[depth-1].dependency_kind_state 
-                }
-            );
+            dependencies[depth_stack[depth - 1].node_index].push(TreeDependency {
+                node_index,
+                is_proc_macro,
+                dependency_kind: depth_stack[depth - 1].dependency_kind_state,
+            });
         }
     }
 
-    CargoTreeGraph { 
-        nodes, 
+    CargoTreeGraph {
+        nodes,
         dependencies,
-        node_index_map
+        node_index_map,
     }
 }
 
 pub fn parse_tree_line(line: &str) -> (TreeNode, bool) {
     let end_trimmed = line.trim_end_matches(" (*)");
     let mut split_line = end_trimmed.split_whitespace();
-    
+
     //we are guaranteed to have name and version; would technically want to check for errors though
-    let identifier  = CrateIdentifier::new(
-        split_line
-            .next()
-            .unwrap()
-            .to_string(),
-        Version::from_str(&split_line
-            .next()
-            .unwrap()[1..]
-        ).unwrap()
+    let identifier = CrateIdentifier::new(
+        split_line.next().unwrap().to_string(),
+        Version::from_str(&split_line.next().unwrap()[1..]).unwrap(),
     );
     let mut is_proc_macro = false;
     let mut _source: Option<String> = None;
     for part in split_line {
         if part == "(proc-macro)" {
             is_proc_macro = true;
-        } else { // can't have anything else there afaik
-            _source = Some(part[1..part.len()-1].to_string());
+        } else {
+            // can't have anything else there afaik with the regular cargo tree call
+            _source = Some(part[1..part.len() - 1].to_string());
         }
     }
-    
+
     (
-        TreeNode { 
+        TreeNode {
             identifier,
-            _source 
+            _source,
         },
-        is_proc_macro
+        is_proc_macro,
     )
 }
 

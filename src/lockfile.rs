@@ -56,10 +56,11 @@ fn enrich_lockfile(
         .collect();
 
     let missing_checksum_list: HashSet<&CrateIdentifier> = HashSet::from_iter(
-        tree_graph.nodes
+        tree_graph
+            .nodes
             .iter()
             .filter(|entry| !main_lockfile_package_set.contains(entry.identifier()))
-            .map(|entry| entry.identifier())
+            .map(|entry| entry.identifier()),
     );
 
     main_lockfile
@@ -79,7 +80,10 @@ fn extract_missing_checksums(
     import_lockdata
         .into_iter()
         .filter(|package| {
-            checklist.contains(&CrateIdentifier::new(package.name.to_string(), package.version.clone()))
+            checklist.contains(&CrateIdentifier::new(
+                package.name.to_string(),
+                package.version.clone(),
+            ))
         })
         .collect::<Vec<LockPackage>>()
 }

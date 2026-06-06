@@ -6,7 +6,8 @@ use std::{
     fs::{read, remove_file},
     io::Error,
     path::Path,
-    process::Output, str::FromStr,
+    process::Output,
+    str::FromStr,
 };
 
 use arielosbom::{ArielOsBuildContext, CrateIdentifier, tree::parse_cargo_tree};
@@ -189,15 +190,25 @@ fn e2e_out_of_tree() {
     let components = &to_validate["components"].as_array().unwrap();
     for component in components.iter() {
         println!("{}", component["name"].to_string());
-        component_set
-            .insert(CrateIdentifier::new(component["name"].as_str().unwrap().replace("\"", "").to_string(), Version::from_str(component["version"].as_str().unwrap()).unwrap()));
+        component_set.insert(CrateIdentifier::new(
+            component["name"]
+                .as_str()
+                .unwrap()
+                .replace("\"", "")
+                .to_string(),
+            Version::from_str(component["version"].as_str().unwrap()).unwrap(),
+        ));
     }
 
-    let cargo_tree = parse_cargo_tree(read(Path::new(PATHS.output).join(OOT_TREE_DATA_FILE_NAME))
-        .expect("failed to read cargo tree artifact"));
-    let cargo_tree_component_list = HashSet::from_iter(cargo_tree.nodes
-        .iter()
-        .map(|node| node.identifier().clone())
+    let cargo_tree = parse_cargo_tree(
+        read(Path::new(PATHS.output).join(OOT_TREE_DATA_FILE_NAME))
+            .expect("failed to read cargo tree artifact"),
+    );
+    let cargo_tree_component_list = HashSet::from_iter(
+        cargo_tree
+            .nodes
+            .iter()
+            .map(|node| node.identifier().clone()),
     );
 
     assert_eq!(

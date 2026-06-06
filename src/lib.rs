@@ -69,15 +69,12 @@ impl ArielOsBuildContext {
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]
 pub struct CrateIdentifier {
     name: String,
-    version: Version
+    version: Version,
 }
 
 impl CrateIdentifier {
     pub fn new(name: String, version: Version) -> Self {
-        CrateIdentifier { 
-            name, 
-            version 
-        }
+        CrateIdentifier { name, version }
     }
 
     pub fn name(&self) -> &str {
@@ -121,7 +118,7 @@ pub fn generate_raw_sbom(
 
     let checksum_map = lockfile::generate_checksum_map(context, &parsed_tree);
 
-    sbom.convert_cargo_data_to_components(&cargo_metadata, checksum_map,parsed_tree);
+    sbom.convert_cargo_data_to_components(&cargo_metadata, checksum_map, parsed_tree);
 
     GeneratorOutput {
         sbom,

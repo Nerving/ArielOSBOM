@@ -5,12 +5,14 @@ use cargo_metadata::{Node, Package, PackageId};
 use semver::Version;
 use serde::{Deserialize, Serialize};
 
-use crate::{CrateIdentifier, tree::{CargoTreeGraph, TreeDependency}};
+use crate::{
+    CrateIdentifier,
+    tree::{CargoTreeGraph, TreeDependency},
+};
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct Component {
     pub name: String,
-    //source: ComponentSource,
     pub version: Version,
     pub id: String,
     pub creators: Vec<String>, // TODO: enhance authors
@@ -26,11 +28,6 @@ pub struct Component {
     pub uri_deployable_form: Option<String>,
     pub url_security_text: Option<String>,
 
-    pub whatever_additional_temp: Vec<String>,
-
-    // dependencies to be simply stored as index references into the packages
-    // whether it's in the executable or build related (or if everything used: completely out of scope?)
-    // not used right now
     pub dependencies: Vec<Dependency>,
 }
 
@@ -42,7 +39,7 @@ impl Component {
         checksum: Option<&Checksum>,
         tree_graph: &CargoTreeGraph,
         node_index: usize,
-        crate_identifier_map: &HashMap<PackageId, CrateIdentifier>
+        crate_identifier_map: &HashMap<PackageId, CrateIdentifier>,
     ) -> Self {
         let identifiers = if let Some(hash) = checksum {
             vec![hash.to_string()]
@@ -66,7 +63,7 @@ impl Component {
                 panic!(); // should not happen I guess
             }
         }
-            
+
         Component {
             id: package.id.repr.clone(),
             name: package.name.to_string(),
@@ -84,8 +81,6 @@ impl Component {
             uri_deployable_form: None,
             url_security_text: None,
 
-            whatever_additional_temp: vec![],
-
             dependencies,
         }
     }
@@ -101,11 +96,11 @@ pub struct Dependency {
 
 impl Dependency {
     fn new(package_id: &PackageId) -> Self {
-        Dependency { 
-            id: package_id.to_string(), 
-            build: false, 
-            normal: false, 
-            proc_macro: false 
+        Dependency {
+            id: package_id.to_string(),
+            build: false,
+            normal: false,
+            proc_macro: false,
         }
     }
 

@@ -3,7 +3,8 @@ mod common;
 use std::{collections::HashSet, path::Path, process::Command};
 
 use arielosbom::{
-    ArielOsBuildContext, CrateIdentifier, tree::{generate_cargo_tree_output, parse_cargo_tree, parse_tree_line}
+    ArielOsBuildContext, CrateIdentifier,
+    tree::{generate_cargo_tree_output, parse_cargo_tree, parse_tree_line},
 };
 
 use common::{
@@ -105,9 +106,11 @@ fn parse_fixed_tree_data(command_output: Vec<u8>) -> HashSet<CrateIdentifier> {
 
 fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<CrateIdentifier> {
     let cargo_tree = parse_cargo_tree(generate_cargo_tree_output(context));
-    HashSet::from_iter(cargo_tree.nodes
-        .iter()
-        .map(|node| node.identifier().clone())
+    HashSet::from_iter(
+        cargo_tree
+            .nodes
+            .iter()
+            .map(|node| node.identifier().clone()),
     )
 }
 
