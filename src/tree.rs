@@ -19,32 +19,40 @@ impl CargoTreeGraph {
         if node_index >= self.nodes.len() {
             None
         } else {
-            Some(self.nodes[node_index].get_identifier())
+            Some(self.nodes[node_index].identifier())
         }
     }
 }
 
 pub struct TreeNode {
     identifier: CrateIdentifier,
-    _is_proc_macro: bool,
     _source: Option<String>
 }
 
 impl TreeNode {
-    pub fn get_identifier(&self) -> &CrateIdentifier {
+    pub fn identifier(&self) -> &CrateIdentifier {
         &self.identifier
+    }
+
+    pub fn name(&self) -> &str {
+        self.identifier.name()
     }
 }
 
 #[derive(Debug)]
 pub struct TreeDependency {
     pub node_index: usize,
+    pub is_proc_macro: bool,
     pub dependency_kind: DependencyKind,
 }
 
 impl TreeDependency {
     pub fn is_build(&self) -> bool {
         self.dependency_kind.is_build()
+    }
+
+    pub fn is_normal(&self) -> bool {
+        self.dependency_kind.is_normal()
     }
 }
 
@@ -57,6 +65,10 @@ pub enum DependencyKind {
 impl DependencyKind {
     fn is_build(&self) -> bool {
         matches!(self, DependencyKind::BuildDependency)
+    }
+
+    fn is_normal(&self) -> bool {
+        matches!(self, DependencyKind::Normal)
     }
 }
 
@@ -118,7 +130,7 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
             continue;
         }
 
-        let node = parse_tree_line(trimmed_line);
+        let (node, is_proc_macro) = parse_tree_line(trimmed_line);
         let node_index = *node_index_map
             .entry(node.identifier.clone())
             .or_insert_with(|| {
@@ -138,13 +150,12 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
             dependencies[depth_stack[depth-1].node_index].push(
                 TreeDependency { 
                     node_index, 
+                    is_proc_macro,
                     dependency_kind: depth_stack[depth-1].dependency_kind_state 
                 }
             );
         }
     }
-
-    println!("{}", dependencies.len());
 
     CargoTreeGraph { 
         nodes, 
@@ -153,7 +164,7 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
     }
 }
 
-pub fn parse_tree_line(line: &str) -> TreeNode {
+pub fn parse_tree_line(line: &str) -> (TreeNode, bool) {
     let end_trimmed = line.trim_end_matches(" (*)");
     let mut split_line = end_trimmed.split_whitespace();
     
@@ -168,21 +179,23 @@ pub fn parse_tree_line(line: &str) -> TreeNode {
             .unwrap()[1..]
         ).unwrap()
     );
-    let mut _is_proc_macro = false;
+    let mut is_proc_macro = false;
     let mut _source: Option<String> = None;
     for part in split_line {
         if part == "(proc-macro)" {
-            _is_proc_macro = true;
+            is_proc_macro = true;
         } else { // can't have anything else there afaik
             _source = Some(part[1..part.len()-1].to_string());
         }
     }
     
-    TreeNode { 
-        identifier,
-        _is_proc_macro, 
-        _source 
-    }
+    (
+        TreeNode { 
+            identifier,
+            _source 
+        },
+        is_proc_macro
+    )
 }
 
 pub fn write_tree_to_file(tree: Vec<u8>, file_name: &str, output_dir: &Path, builder: &str) {

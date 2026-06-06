@@ -97,7 +97,7 @@ fn parse_fixed_tree_data(command_output: Vec<u8>) -> HashSet<CrateIdentifier> {
 
     let mapped_tree_data_lines: Vec<CrateIdentifier> = tree_data
         .lines()
-        .map(|string| parse_tree_line(string).get_identifier().clone())
+        .map(|string| parse_tree_line(string).0.identifier().clone())
         .collect();
 
     HashSet::from_iter(mapped_tree_data_lines)
@@ -107,7 +107,7 @@ fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<CrateIdent
     let cargo_tree = parse_cargo_tree(generate_cargo_tree_output(context));
     HashSet::from_iter(cargo_tree.nodes
         .iter()
-        .map(|node| node.get_identifier().clone())
+        .map(|node| node.identifier().clone())
     )
 }
 

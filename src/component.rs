@@ -5,13 +5,7 @@ use cargo_metadata::{Node, Package, PackageId};
 use semver::Version;
 use serde::{Deserialize, Serialize};
 
-use crate::{CrateIdentifier, tree::CargoTreeGraph};
-
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Dependency {
-    pub id: String,
-    pub build: bool,
-}
+use crate::{CrateIdentifier, tree::{CargoTreeGraph, TreeDependency}};
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct Component {
@@ -59,16 +53,15 @@ impl Component {
         let mut dependencies: Vec<Dependency> = Vec::new();
         for dependency in &resolve_node.dependencies {
             if let Some(identifier) = crate_identifier_map.get(dependency) {
+                let mut dependency_summary = Dependency::new(dependency);
                 for tree_dependency in &tree_graph.dependencies[node_index] {
-                    if tree_graph.nodes[tree_dependency.node_index].get_identifier() == identifier {
-                        dependencies.push(
-                            Dependency { 
-                                id: dependency.to_string(), 
-                                build: tree_dependency.is_build() 
-                            }
-                        );
+                    if tree_graph.nodes[tree_dependency.node_index].identifier() == identifier {
+                        dependency_summary.update(tree_dependency);
                     }
                 }
+                if dependency_summary.is_valid() {
+                    dependencies.push(dependency_summary)
+                };
             } else {
                 panic!(); // should not happen I guess
             }
@@ -95,5 +88,34 @@ impl Component {
 
             dependencies,
         }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+pub struct Dependency {
+    pub id: String,
+    pub build: bool,
+    pub normal: bool,
+    pub proc_macro: bool,
+}
+
+impl Dependency {
+    fn new(package_id: &PackageId) -> Self {
+        Dependency { 
+            id: package_id.to_string(), 
+            build: false, 
+            normal: false, 
+            proc_macro: false 
+        }
+    }
+
+    fn update(&mut self, tree_dependency: &TreeDependency) {
+        self.build = self.build || tree_dependency.is_build();
+        self.normal = self.normal || tree_dependency.is_normal();
+        self.proc_macro = self.proc_macro || tree_dependency.is_proc_macro;
+    }
+
+    fn is_valid(&self) -> bool {
+        self.build || self.normal
     }
 }

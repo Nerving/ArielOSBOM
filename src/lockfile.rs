@@ -58,8 +58,8 @@ fn enrich_lockfile(
     let missing_checksum_list: HashSet<&CrateIdentifier> = HashSet::from_iter(
         tree_graph.nodes
             .iter()
-            .filter(|entry| !main_lockfile_package_set.contains(entry.get_identifier()))
-            .map(|entry| entry.get_identifier())
+            .filter(|entry| !main_lockfile_package_set.contains(entry.identifier()))
+            .map(|entry| entry.identifier())
     );
 
     main_lockfile

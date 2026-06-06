@@ -79,6 +79,10 @@ impl CrateIdentifier {
             version 
         }
     }
+
+    pub fn name(&self) -> &str {
+        &self.name
+    }
 }
 
 pub struct GeneratorOutput {
