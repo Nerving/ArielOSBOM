@@ -1,5 +1,6 @@
 // TODO: look at more concrete examples with additional crates on boards?; also check if any other board families/specific singular boards
-// do all checks on minimal for baseline components?
+// OR: do all checks on minimal for baseline components?
+// also check if components of other boards are NOT present
 
 mod common;
 

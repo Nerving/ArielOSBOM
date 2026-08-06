@@ -46,6 +46,9 @@ fn generate_sbom(
 }
 
 fn crop_bom_refs(mut sbom: Value, is_fixture: bool) -> Value {
+    let root_component = &mut sbom["metadata"]["component"];
+    replace_bom_ref_in_entry(root_component, "bom-ref", is_fixture);
+
     for entry in sbom["components"].as_array_mut().unwrap() {
         replace_bom_ref_in_entry(entry, "bom-ref", is_fixture);
     }
@@ -185,9 +188,15 @@ fn e2e_out_of_tree() {
     //  Instead, as done previously, it is compared whether the components match the ones found by cargo tree.
 
     let mut component_set: HashSet<CrateId> = HashSet::new();
+    let root_component = CrateId::from_package_id(
+        &to_validate["metadata"]["component"]["bom-ref"]
+            .as_str()
+            .unwrap(),
+    );
+    component_set.insert(root_component);
     let components = &to_validate["components"].as_array().unwrap();
     for component in components.iter() {
-        println!("{}", component["name"]);
+        // println!("{}", component["name"]);
         component_set.insert(CrateId::from_package_id(
             component["bom-ref"].as_str().unwrap(),
         ));

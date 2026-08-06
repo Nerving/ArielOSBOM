@@ -41,6 +41,7 @@ impl Default for CycloneDxSbomV1_6 {
                     components: vec![CycloneDxComponentV1_6::generate_tool_component()],
                 },
                 manufacturer: CycloneDxManufacturerV1_6::generate_tool_component_manufacturer(),
+                component: None,
             },
             components: vec![],
             dependencies: vec![],
@@ -52,14 +53,20 @@ impl CycloneDxSbomV1_6 {
     pub fn from_raw(raw_sbom: &RawSbom) -> CycloneDxSbomV1_6 {
         let mut cdx_bom = CycloneDxSbomV1_6::default();
 
-        for component in &raw_sbom.components {
-            cdx_bom
-                .components
-                .push(CycloneDxComponentV1_6::from_raw(component));
+        for (index, component) in raw_sbom.components.iter().enumerate() {
+            let mut cdx_component = CycloneDxComponentV1_6::from_raw(component);
             cdx_bom.dependencies.push(CycloneDxDependencyV1_6::from_raw(
                 component.id.clone(),
                 &component.dependencies,
             ));
+
+            if index == raw_sbom.bom_metadata.root_component_index {
+                // statically for now as the root component is the described application
+                cdx_component.component_type = CycloneDxComponentTypeV1_6::application;
+                cdx_bom.metadata.component = Some(cdx_component);
+            } else {
+                cdx_bom.components.push(cdx_component);
+            }
         }
 
         cdx_bom
@@ -103,7 +110,7 @@ struct CycloneDxMetadataV1_6 {
     timestamp: Option<DateTime<Local>>,
     tools: CycloneDxToolsV1_6,
     manufacturer: CycloneDxManufacturerV1_6,
-    //component: CycloneDxComponentV1_6,
+    component: Option<CycloneDxComponentV1_6>,
     //properties: Vec<CycloneDxPropertyV1_6,
 }
 

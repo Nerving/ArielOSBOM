@@ -33,6 +33,7 @@ impl RawSbom {
             bom_metadata: BomMetadata {
                 creator: "ArielOSBOM (provisional name)".into(),
                 timestamp: None,
+                root_component_index: 0,
             },
             components: vec![],
         }
@@ -62,6 +63,9 @@ impl RawSbom {
             let identifier = CrateId::from_package_id(&package.id.repr);
             if let Some(node_index) = tree_graph.node_index(&identifier) {
                 let checksum = checksum_map.get(&identifier);
+                if *node_index == 0 {
+                    self.bom_metadata.root_component_index = self.components.len();
+                }
                 self.components
                     .push(Component::create_component_from_cargo_data(
                         package,
@@ -134,6 +138,7 @@ pub fn generate_sbom_timestamp() -> Option<DateTime<Local>> {
 pub struct BomMetadata {
     creator: String,
     timestamp: Option<DateTime<Local>>,
+    root_component_index: usize,
     // target
     // other BomFormat related metadata
     // other general project related data? (features, protocols, program size, ...)

@@ -33,6 +33,24 @@
       "url": [
         "https://github.com/Nerving/ArielOSBOM"
       ]
+    },
+    "component": {
+      "name": "example-coap-client",
+      "type": "library",
+      "version": "0.0.0",
+      "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/examples/coap-client#example-coap-client@0.0.0",
+      "manufacturer": {
+        "name": "",
+        "url": []
+      },
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "hashes": [],
+      "externalReferences": [],
+      "properties": []
     }
   },
   "components": [
@@ -3877,24 +3895,6 @@
           "type": "source-distribution"
         }
       ],
-      "properties": []
-    },
-    {
-      "name": "example-coap-client",
-      "type": "library",
-      "version": "0.0.0",
-      "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/examples/coap-client#example-coap-client@0.0.0",
-      "manufacturer": {
-        "name": "",
-        "url": []
-      },
-      "licenses": [
-        {
-          "expression": "MIT OR Apache-2.0"
-        }
-      ],
-      "hashes": [],
-      "externalReferences": [],
       "properties": []
     },
     {
