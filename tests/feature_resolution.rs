@@ -3,8 +3,8 @@ mod common;
 use std::{collections::HashSet, path::Path, process::Command};
 
 use arielosbom::{
-    ArielOsBuildContext, CrateIdentifier,
-    tree::{generate_cargo_tree_output, parse_cargo_tree, parse_tree_line},
+    ArielOsBuildContext, CrateId,
+    tree::{generate_cargo_tree_output, parse_cargo_tree},
 };
 
 use common::{
@@ -88,7 +88,7 @@ fn generate_fixed_tree_output(features: &str) -> Vec<u8> {
         .stdout
 }
 
-fn parse_fixed_tree_data(command_output: Vec<u8>) -> HashSet<CrateIdentifier> {
+fn parse_fixed_tree_data(command_output: Vec<u8>) -> HashSet<CrateId> {
     let tree_data = match String::from_utf8(command_output) {
         Ok(data) => data,
         Err(_) => panic!("could not convert cargo tree output from UTF8 to str."),
@@ -96,22 +96,17 @@ fn parse_fixed_tree_data(command_output: Vec<u8>) -> HashSet<CrateIdentifier> {
 
     // just basic filtering for now, without checking for features or potentially checking accuracy of dependencies in cargo metadata
 
-    let mapped_tree_data_lines: Vec<CrateIdentifier> = tree_data
+    let mapped_tree_data_lines: Vec<CrateId> = tree_data
         .lines()
-        .map(|string| parse_tree_line(string).0.identifier().clone())
+        .map(|string| CrateId::from_cargo_tree_line(string).0)
         .collect();
 
     HashSet::from_iter(mapped_tree_data_lines)
 }
 
-fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<CrateIdentifier> {
+fn generate_cargo_tree_data(context: &ArielOsBuildContext) -> HashSet<CrateId> {
     let cargo_tree = parse_cargo_tree(generate_cargo_tree_output(context));
-    HashSet::from_iter(
-        cargo_tree
-            .nodes
-            .iter()
-            .map(|node| node.identifier().clone()),
-    )
+    HashSet::from_iter(cargo_tree.nodes.iter().cloned())
 }
 
 #[test]

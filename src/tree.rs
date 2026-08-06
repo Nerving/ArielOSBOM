@@ -1,43 +1,41 @@
-use std::{collections::HashMap, fs::File, io::Write, path::Path, process::Command, str::FromStr};
+use std::{collections::HashMap, fs::File, io::Write, path::Path, process::Command};
 
-use semver::Version;
-
-use crate::{ArielOsBuildContext, CrateIdentifier, sbom::FileFormat};
+use crate::{ArielOsBuildContext, CrateId, sbom::FileFormat};
 
 pub struct CargoTreeGraph {
-    pub nodes: Vec<TreeNode>,
+    pub nodes: Vec<CrateId>,
     pub dependencies: Vec<Vec<TreeDependency>>,
-    node_index_map: HashMap<CrateIdentifier, usize>, // assumption: no two crates with the same name and version can be present
+    node_index_map: HashMap<CrateId, usize>,
 }
 
 impl CargoTreeGraph {
-    pub fn node_index(&self, identifier: &CrateIdentifier) -> Option<&usize> {
-        self.node_index_map.get(identifier)
+    pub fn node_index(&self, node: &CrateId) -> Option<&usize> {
+        self.node_index_map.get(node)
     }
 
-    pub fn node_identifier(&self, node_index: usize) -> Option<&CrateIdentifier> {
-        if node_index >= self.nodes.len() {
-            None
-        } else {
-            Some(self.nodes[node_index].identifier())
-        }
-    }
+    // pub fn node_identifier(&self, node_index: usize) -> Option<&CrateIdentifier> {
+    //     if node_index >= self.nodes.len() {
+    //         None
+    //     } else {
+    //         Some(self.nodes[node_index].identifier())
+    //     }
+    // }
 }
 
-pub struct TreeNode {
-    identifier: CrateIdentifier,
-    _source: Option<String>,
-}
+// pub struct TreeNode {
+//     identifier: CrateIdentifier,
+//     _source: Option<String>,
+// }
 
-impl TreeNode {
-    pub fn identifier(&self) -> &CrateIdentifier {
-        &self.identifier
-    }
+// impl TreeNode {
+//     pub fn identifier(&self) -> &CrateIdentifier {
+//         &self.identifier
+//     }
 
-    pub fn name(&self) -> &str {
-        self.identifier.name()
-    }
-}
+//     pub fn name(&self) -> &str {
+//         self.identifier.name()
+//     }
+// }
 
 #[derive(Debug)]
 pub struct TreeDependency {
@@ -115,9 +113,9 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
     let tree_data =
         String::from_utf8(tree_data).expect("could not convert cargo tree output from UTF8 to str");
 
-    let mut nodes: Vec<TreeNode> = Vec::new();
+    let mut nodes: Vec<CrateId> = Vec::new();
     let mut dependencies: Vec<Vec<TreeDependency>> = Vec::new();
-    let mut node_index_map: HashMap<CrateIdentifier, usize> = HashMap::new();
+    let mut node_index_map: HashMap<CrateId, usize> = HashMap::new();
     let mut depth_stack: DepthStack = Vec::new();
     for tree_line in tree_data.lines() {
         let trimmed_line =
@@ -131,14 +129,12 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
             continue;
         }
 
-        let (node, is_proc_macro) = parse_tree_line(trimmed_line);
-        let node_index = *node_index_map
-            .entry(node.identifier.clone())
-            .or_insert_with(|| {
-                nodes.push(node);
-                dependencies.push(Vec::new());
-                nodes.len() - 1
-            });
+        let (node, is_proc_macro) = CrateId::from_cargo_tree_line(trimmed_line);
+        let node_index = *node_index_map.entry(node.clone()).or_insert_with(|| {
+            nodes.push(node);
+            dependencies.push(Vec::new());
+            nodes.len() - 1
+        });
 
         let depth_stack_entry = DepthStackEntry::new(node_index);
         if depth >= depth_stack.len() {
@@ -163,34 +159,34 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
     }
 }
 
-pub fn parse_tree_line(line: &str) -> (TreeNode, bool) {
-    let end_trimmed = line.trim_end_matches(" (*)");
-    let mut split_line = end_trimmed.split_whitespace();
+// pub fn parse_tree_line(line: &str) -> (TreeNode, bool) {
+//     let end_trimmed = line.trim_end_matches(" (*)");
+//     let mut split_line = end_trimmed.split_whitespace();
 
-    //we are guaranteed to have name and version; would technically want to check for errors though
-    let identifier = CrateIdentifier::new(
-        split_line.next().unwrap().to_string(),
-        Version::from_str(&split_line.next().unwrap()[1..]).unwrap(),
-    );
-    let mut is_proc_macro = false;
-    let mut _source: Option<String> = None;
-    for part in split_line {
-        if part == "(proc-macro)" {
-            is_proc_macro = true;
-        } else {
-            // can't have anything else there afaik with the regular cargo tree call
-            _source = Some(part[1..part.len() - 1].to_string());
-        }
-    }
+//     //we are guaranteed to have name and version; would technically want to check for errors though
+//     let identifier = CrateIdentifier::new(
+//         split_line.next().unwrap().to_string(),
+//         Version::from_str(&split_line.next().unwrap()[1..]).unwrap(),
+//     );
+//     let mut is_proc_macro = false;
+//     let mut _source: Option<String> = None;
+//     for part in split_line {
+//         if part == "(proc-macro)" {
+//             is_proc_macro = true;
+//         } else {
+//             // can't have anything else there afaik with the regular cargo tree call
+//             _source = Some(part[1..part.len() - 1].to_string());
+//         }
+//     }
 
-    (
-        TreeNode {
-            identifier,
-            _source,
-        },
-        is_proc_macro,
-    )
-}
+//     (
+//         TreeNode {
+//             identifier,
+//             _source,
+//         },
+//         is_proc_macro,
+//     )
+// }
 
 pub fn write_tree_to_file(tree: Vec<u8>, file_name: &str, output_dir: &Path, builder: &str) {
     let file_format = FileFormat::Txt;

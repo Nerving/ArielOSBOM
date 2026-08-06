@@ -19,7 +19,7 @@ use serde::{Deserialize, Serialize};
 use crate::sbom::cyclonedx_v16::CycloneDxSbomV1_6;
 use crate::sbom::cyclonedx_v17::CycloneDxSbomV1_7;
 use crate::tree::CargoTreeGraph;
-use crate::{CrateIdentifier, component::Component};
+use crate::{CrateId, component::Component};
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct RawSbom {
@@ -41,14 +41,14 @@ impl RawSbom {
     pub fn convert_cargo_data_to_components(
         &mut self,
         metadata: &Metadata,
-        checksum_map: HashMap<CrateIdentifier, Checksum>,
+        checksum_map: HashMap<CrateId, Checksum>,
         tree_graph: CargoTreeGraph,
     ) {
-        let crate_identifier_map: HashMap<PackageId, CrateIdentifier> =
+        let crate_identifier_map: HashMap<PackageId, CrateId> =
             HashMap::from_iter(metadata.packages.iter().map(|package| {
                 (
                     package.id.clone(),
-                    CrateIdentifier::new(package.name.to_string(), package.version.clone()),
+                    CrateId::from_package_id(&package.id.repr),
                 )
             }));
 
@@ -57,9 +57,9 @@ impl RawSbom {
             .iter()
             .zip(metadata.resolve.as_ref().unwrap().nodes.iter())
         {
-            let package_name = package.name.clone().to_string();
-            let package_version = package.version.clone();
-            let identifier = CrateIdentifier::new(package_name, package_version);
+            // let package_name = package.name.clone().to_string();
+            // let package_version = package.version.clone();
+            let identifier = CrateId::from_package_id(&package.id.repr);
             if let Some(node_index) = tree_graph.node_index(&identifier) {
                 let checksum = checksum_map.get(&identifier);
                 self.components

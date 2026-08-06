@@ -6,7 +6,7 @@ use semver::Version;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    CrateIdentifier,
+    CrateId,
     tree::{CargoTreeGraph, TreeDependency},
 };
 
@@ -39,7 +39,7 @@ impl Component {
         checksum: Option<&Checksum>,
         tree_graph: &CargoTreeGraph,
         node_index: usize,
-        crate_identifier_map: &HashMap<PackageId, CrateIdentifier>,
+        crate_identifier_map: &HashMap<PackageId, CrateId>,
     ) -> Self {
         let identifiers = if let Some(hash) = checksum {
             vec![hash.to_string()]
@@ -52,7 +52,7 @@ impl Component {
             if let Some(identifier) = crate_identifier_map.get(dependency) {
                 let mut dependency_summary = Dependency::new(dependency);
                 for tree_dependency in &tree_graph.dependencies[node_index] {
-                    if tree_graph.nodes[tree_dependency.node_index].identifier() == identifier {
+                    if &tree_graph.nodes[tree_dependency.node_index] == identifier {
                         dependency_summary.update(tree_dependency);
                     }
                 }

@@ -5,12 +5,12 @@ use std::{
 
 use cargo_lock::{Checksum, Error as LockError, Lockfile, Package as LockPackage};
 
-use crate::{ArielOsBuildContext, CrateIdentifier, tree::CargoTreeGraph};
+use crate::{ArielOsBuildContext, CrateId, tree::CargoTreeGraph};
 
 pub fn generate_checksum_map(
     context: &ArielOsBuildContext,
     tree_graph: &CargoTreeGraph,
-) -> HashMap<CrateIdentifier, Checksum> {
+) -> HashMap<CrateId, Checksum> {
     let root_lock_data = match read_lockfile(&context.root_path, &context.lock_path) {
         Ok(lock_data) => lock_data,
         Err(e) => panic!("error loading Cargo.lock data:\n{e:?}"),
@@ -30,10 +30,7 @@ pub fn generate_checksum_map(
             .filter(|lock_package| lock_package.checksum.is_some())
             .map(|lock_package| {
                 (
-                    CrateIdentifier::new(
-                        lock_package.name.to_string(),
-                        lock_package.version.clone(),
-                    ),
+                    CrateId::from_lockfile_package(lock_package),
                     lock_package.checksum.clone().unwrap(),
                 )
             }),
@@ -49,18 +46,17 @@ fn enrich_lockfile(
     secondary_lockfile: Lockfile,
     tree_graph: &CargoTreeGraph,
 ) -> Lockfile {
-    let main_lockfile_package_set: HashSet<CrateIdentifier> = main_lockfile
+    let main_lockfile_package_set: HashSet<CrateId> = main_lockfile
         .packages
         .iter()
-        .map(|package| CrateIdentifier::new(package.name.to_string(), package.version.clone()))
+        .map(|package| CrateId::from_lockfile_package(package))
         .collect();
 
-    let missing_checksum_list: HashSet<&CrateIdentifier> = HashSet::from_iter(
+    let missing_checksum_list: HashSet<&CrateId> = HashSet::from_iter(
         tree_graph
             .nodes
             .iter()
-            .filter(|entry| !main_lockfile_package_set.contains(entry.identifier()))
-            .map(|entry| entry.identifier()),
+            .filter(|tree_crate| !main_lockfile_package_set.contains(tree_crate)),
     );
 
     main_lockfile
@@ -74,16 +70,11 @@ fn enrich_lockfile(
 }
 
 fn extract_missing_checksums(
-    checklist: HashSet<&CrateIdentifier>,
+    checklist: HashSet<&CrateId>,
     import_lockdata: Vec<LockPackage>,
 ) -> Vec<LockPackage> {
     import_lockdata
         .into_iter()
-        .filter(|package| {
-            checklist.contains(&CrateIdentifier::new(
-                package.name.to_string(),
-                package.version.clone(),
-            ))
-        })
+        .filter(|package| checklist.contains(&CrateId::from_lockfile_package(package)))
         .collect::<Vec<LockPackage>>()
 }

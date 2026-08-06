@@ -7,11 +7,9 @@ use std::{
     io::Error,
     path::Path,
     process::Output,
-    str::FromStr,
 };
 
-use arielosbom::{ArielOsBuildContext, CrateIdentifier, tree::parse_cargo_tree};
-use semver::Version;
+use arielosbom::{ArielOsBuildContext, CrateId, tree::parse_cargo_tree};
 use serde_json::Value;
 
 use common::{
@@ -186,17 +184,12 @@ fn e2e_out_of_tree() {
     //  dependencies are resolved the same, so a comparison against an old SBOM will eventually fail.
     //  Instead, as done previously, it is compared whether the components match the ones found by cargo tree.
 
-    let mut component_set: HashSet<CrateIdentifier> = HashSet::new();
+    let mut component_set: HashSet<CrateId> = HashSet::new();
     let components = &to_validate["components"].as_array().unwrap();
     for component in components.iter() {
         println!("{}", component["name"]);
-        component_set.insert(CrateIdentifier::new(
-            component["name"]
-                .as_str()
-                .unwrap()
-                .replace("\"", "")
-                .to_string(),
-            Version::from_str(component["version"].as_str().unwrap()).unwrap(),
+        component_set.insert(CrateId::from_package_id(
+            component["bom-ref"].as_str().unwrap(),
         ));
     }
 
@@ -204,12 +197,7 @@ fn e2e_out_of_tree() {
         read(Path::new(PATHS.output).join(OOT_TREE_DATA_FILE_NAME))
             .expect("failed to read cargo tree artifact"),
     );
-    let cargo_tree_component_list = HashSet::from_iter(
-        cargo_tree
-            .nodes
-            .iter()
-            .map(|node| node.identifier().clone()),
-    );
+    let cargo_tree_component_list = HashSet::from_iter(cargo_tree.nodes.iter().cloned());
 
     assert_eq!(
         component_set, cargo_tree_component_list,
