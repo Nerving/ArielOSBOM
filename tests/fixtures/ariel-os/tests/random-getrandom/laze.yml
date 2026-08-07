@@ -1,5 +1,0 @@
-apps:
-  - name: test-random-getrandom
-    selects:
-      - random
-      - hwrng

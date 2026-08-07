@@ -1,7 +1,0 @@
-apps:
-  - name: threading-dynamic-prios
-    selects:
-      - single-core
-      - sw/threading
-    conflicts:
-      - ram-tiny

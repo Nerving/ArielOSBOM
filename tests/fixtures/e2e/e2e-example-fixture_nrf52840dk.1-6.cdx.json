@@ -294,7 +294,7 @@
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os#0.4.0",
       "manufacturer": {
         "url": [
-          "https://github.com/Nerving/ArielOSBOM"
+          "https://github.com/ariel-os/ariel-os"
         ]
       },
       "licenses": [
@@ -305,7 +305,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -318,7 +318,7 @@
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-boards#0.0.0",
       "manufacturer": {
         "url": [
-          "https://github.com/Nerving/ArielOSBOM"
+          "https://github.com/ariel-os/ariel-os"
         ]
       },
       "licenses": [
@@ -329,7 +329,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -353,7 +353,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -377,7 +377,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -401,7 +401,31 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
+          "type": "vcs"
+        }
+      ],
+      "properties": []
+    },
+    {
+      "name": "ariel-os-debug-log",
+      "type": "library",
+      "version": "0.4.0",
+      "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug-log#0.4.0",
+      "manufacturer": {
+        "url": [
+          "https://github.com/ariel-os/ariel-os"
+        ]
+      },
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "hashes": [],
+      "externalReferences": [
+        {
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -414,7 +438,7 @@
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-embassy#0.4.0",
       "manufacturer": {
         "url": [
-          "https://github.com/Nerving/ArielOSBOM"
+          "https://github.com/ariel-os/ariel-os"
         ]
       },
       "licenses": [
@@ -425,7 +449,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -449,7 +473,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -462,7 +486,7 @@
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-hal#0.4.0",
       "manufacturer": {
         "url": [
-          "https://github.com/Nerving/ArielOSBOM"
+          "https://github.com/ariel-os/ariel-os"
         ]
       },
       "licenses": [
@@ -473,7 +497,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -497,31 +521,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
-          "type": "vcs"
-        }
-      ],
-      "properties": []
-    },
-    {
-      "name": "ariel-os-log",
-      "type": "library",
-      "version": "0.4.0",
-      "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
-      "manufacturer": {
-        "url": [
-          "https://github.com/ariel-os/ariel-os"
-        ]
-      },
-      "licenses": [
-        {
-          "expression": "MIT OR Apache-2.0"
-        }
-      ],
-      "hashes": [],
-      "externalReferences": [
-        {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -545,7 +545,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -569,7 +569,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -593,7 +593,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -617,7 +617,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -630,7 +630,7 @@
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-rt#0.4.0",
       "manufacturer": {
         "url": [
-          "https://github.com/Nerving/ArielOSBOM"
+          "https://github.com/ariel-os/ariel-os"
         ]
       },
       "licenses": [
@@ -641,7 +641,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -654,7 +654,7 @@
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-utils#0.4.0",
       "manufacturer": {
         "url": [
-          "https://github.com/Nerving/ArielOSBOM"
+          "https://github.com/ariel-os/ariel-os"
         ]
       },
       "licenses": [
@@ -665,7 +665,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -1907,7 +1907,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "url": "https://github.com/ariel-os/ariel-os/tree/2002a036f49848e9c049b735ed0053bce23b6172",
           "type": "vcs"
         }
       ],
@@ -3156,8 +3156,8 @@
     {
       "name": "embassy-net-driver-channel",
       "type": "library",
-      "version": "0.4.0",
-      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver-channel@0.4.0",
+      "version": "0.3.2",
+      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver-channel@0.3.2",
       "manufacturer": {
         "url": [
           "https://github.com/embassy-rs/embassy"
@@ -3171,7 +3171,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "a07d2eb9f05a6fc876500949856ea1be40773d866d8cb99384f72d0ae4568c16"
+          "content": "b7b2739fbcf6cd206ae08779c7d709087b16577d255f2ea4a45bc4bbbf305b3f"
         }
       ],
       "externalReferences": [
@@ -3236,39 +3236,10 @@
       "properties": []
     },
     {
-      "name": "embassy-sync",
-      "type": "library",
-      "version": "0.8.0",
-      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.8.0",
-      "manufacturer": {
-        "url": [
-          "https://github.com/embassy-rs/embassy"
-        ]
-      },
-      "licenses": [
-        {
-          "expression": "MIT OR Apache-2.0"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-256",
-          "content": "7bbd85cf5a5ae56bdf26f618364af642d1d0a4e245cdd75cd9aabda382f65a81"
-        }
-      ],
-      "externalReferences": [
-        {
-          "url": "https://github.com/embassy-rs/embassy",
-          "type": "vcs"
-        }
-      ],
-      "properties": []
-    },
-    {
       "name": "embassy-time",
       "type": "library",
-      "version": "0.5.1",
-      "bom-ref": "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
+      "version": "0.5.0",
+      "bom-ref": "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
       "manufacturer": {
         "url": [
           "https://github.com/embassy-rs/embassy"
@@ -3282,7 +3253,7 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/embassy/tree/3c1b5fbf28237ea7144ae970c3aec11c38023c3f",
+          "url": "https://github.com/ariel-os/embassy/tree/32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9",
           "type": "vcs"
         }
       ],
@@ -3291,8 +3262,8 @@
     {
       "name": "embassy-time-driver",
       "type": "library",
-      "version": "0.2.2",
-      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.2",
+      "version": "0.2.1",
+      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.1",
       "manufacturer": {
         "url": [
           "https://github.com/embassy-rs/embassy"
@@ -3306,7 +3277,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "6ee71af1b3a0deaa53eaf2d39252f83504c853646e472400b763060389b9fcc9"
+          "content": "a0a244c7dc22c8d0289379c8d8830cae06bb93d8f990194d0de5efb3b5ae7ba6"
         }
       ],
       "externalReferences": [
@@ -3349,8 +3320,8 @@
     {
       "name": "embassy-usb",
       "type": "library",
-      "version": "0.6.0",
-      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-usb@0.6.0",
+      "version": "0.5.1",
+      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-usb@0.5.1",
       "manufacturer": {
         "url": [
           "https://github.com/embassy-rs/embassy"
@@ -3364,7 +3335,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "a25746d8b152b72fbf2a217f489a083dbbe243f281f09184a1f2cfbe9bbb245f"
+          "content": "dc4462e48b19a4f401a11901bdd981aab80c6a826608016a0bdc73cbbab31954"
         }
       ],
       "externalReferences": [
@@ -4145,8 +4116,8 @@
     {
       "name": "futures-core",
       "type": "library",
-      "version": "0.3.32",
-      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.32",
+      "version": "0.3.31",
+      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.31",
       "manufacturer": {
         "url": [
           "https://rust-lang.github.io/futures-rs"
@@ -4160,7 +4131,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "7e3450815272ef58cec6d564423f6e755e25379b217b0bc688e295ba24df6b1d"
+          "content": "05f29059c0c2090612e8d742178b0580d2dc940c837851ad723096f87af6663e"
         }
       ],
       "externalReferences": [
@@ -4174,8 +4145,8 @@
     {
       "name": "futures-sink",
       "type": "library",
-      "version": "0.3.32",
-      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.32",
+      "version": "0.3.31",
+      "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.31",
       "manufacturer": {
         "url": [
           "https://rust-lang.github.io/futures-rs"
@@ -4189,7 +4160,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "c39754e157331b013978ec91992bde1ac089843443c49cbc7f46150b0fad0893"
+          "content": "e575fab7d1e0dcb8d0c7bcf9a63ee213816ab51902e6d244a95819acacf1d4f7"
         }
       ],
       "externalReferences": [
@@ -8961,7 +8932,6 @@
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-embassy#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-hal#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-identity#0.4.0",
-        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-macros#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-power#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-random#0.4.0",
@@ -8989,8 +8959,8 @@
     {
       "ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-coap#0.4.0",
       "dependsOn": [
+        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-embassy#0.4.0",
-        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-macros#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-random#0.4.0",
         "registry+https://github.com/rust-lang/crates.io-index#build-rs@0.3.3",
@@ -9021,13 +8991,20 @@
     {
       "ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug#0.4.0",
       "dependsOn": [
-        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
+        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug-log#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-utils#0.4.0",
         "registry+https://github.com/rust-lang/crates.io-index#const-str@1.1.0",
         "registry+https://github.com/rust-lang/crates.io-index#defmt-rtt@1.1.0",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2",
         "registry+https://github.com/rust-lang/crates.io-index#featurecomb@0.2.0",
         "registry+https://github.com/rust-lang/crates.io-index#semihosting@0.1.24"
+      ]
+    },
+    {
+      "ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug-log#0.4.0",
+      "dependsOn": [
+        "registry+https://github.com/rust-lang/crates.io-index#defmt@1.0.1",
+        "registry+https://github.com/rust-lang/crates.io-index#featurecomb@0.2.0"
       ]
     },
     {
@@ -9039,7 +9016,6 @@
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-embassy-common#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-hal#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-identity#0.4.0",
-        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-macros#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-random#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-rt#0.4.0",
@@ -9053,9 +9029,9 @@
         "git+https://github.com/ariel-os/embassy?rev=3b185bf1b3852867e4b932456600621f86f78bce#embassy-net@0.8.0",
         "git+https://github.com/ariel-os/embassy?rev=3940a79a29ae578a35625cae949bea473abf21d1#embassy-nrf@0.8.0",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2",
-        "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
+        "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-time-queue-utils@0.3.0",
-        "registry+https://github.com/rust-lang/crates.io-index#embassy-usb@0.6.0",
+        "registry+https://github.com/rust-lang/crates.io-index#embassy-usb@0.5.1",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal@1.0.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal-async@1.0.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.6.1",
@@ -9073,6 +9049,7 @@
         "registry+https://github.com/rust-lang/crates.io-index#const-sha1@0.3.0",
         "registry+https://github.com/rust-lang/crates.io-index#defmt@1.0.1",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-executor@0.9.1",
+        "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal@1.0.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal-async@1.0.0"
       ]
@@ -9096,13 +9073,6 @@
       ]
     },
     {
-      "ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
-      "dependsOn": [
-        "registry+https://github.com/rust-lang/crates.io-index#defmt@1.0.1",
-        "registry+https://github.com/rust-lang/crates.io-index#featurecomb@0.2.0"
-      ]
-    },
-    {
       "ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-macros#0.4.0",
       "dependsOn": [
         "registry+https://github.com/rust-lang/crates.io-index#proc-macro-crate@3.4.0",
@@ -9114,8 +9084,8 @@
     {
       "ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-nrf#0.4.0",
       "dependsOn": [
+        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-embassy-common#0.4.0",
-        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-random#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-rt#0.4.0",
         "registry+https://github.com/rust-lang/crates.io-index#cfg-if@1.0.3",
@@ -9151,7 +9121,6 @@
       "ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-rt#0.4.0",
       "dependsOn": [
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug#0.4.0",
-        "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
         "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-utils#0.4.0",
         "registry+https://github.com/rust-lang/crates.io-index#cfg-if@1.0.3",
         "registry+https://github.com/rust-lang/crates.io-index#cortex-m@0.7.7",
@@ -9749,7 +9718,7 @@
         "registry+https://github.com/rust-lang/crates.io-index#embassy-futures@0.1.2",
         "git+https://github.com/ariel-os/embassy?rev=0feffeb3c90748112a64c6570a39e1251311accb#embassy-hal-internal@0.3.0",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2",
-        "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
+        "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal@0.2.7",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal@1.0.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal-async@1.0.0",
@@ -9801,7 +9770,7 @@
         "registry+https://github.com/rust-lang/crates.io-index#document-features@0.2.12",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver@0.2.0",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2",
-        "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
+        "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.7.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-nal-async@0.9.0",
         "registry+https://github.com/rust-lang/crates.io-index#heapless@0.8.0",
@@ -9816,11 +9785,11 @@
       ]
     },
     {
-      "ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver-channel@0.4.0",
+      "ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver-channel@0.3.2",
       "dependsOn": [
         "registry+https://github.com/rust-lang/crates.io-index#embassy-futures@0.1.2",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver@0.2.0",
-        "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.8.0"
+        "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2"
       ]
     },
     {
@@ -9836,8 +9805,8 @@
         "registry+https://github.com/rust-lang/crates.io-index#embassy-embedded-hal@0.5.0",
         "git+https://github.com/ariel-os/embassy?rev=0feffeb3c90748112a64c6570a39e1251311accb#embassy-hal-internal@0.3.0",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2",
-        "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
-        "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.2",
+        "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
+        "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.1",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-time-queue-utils@0.3.0",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-usb-driver@0.2.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal@0.2.7",
@@ -9861,38 +9830,27 @@
         "registry+https://github.com/rust-lang/crates.io-index#critical-section@1.2.0",
         "registry+https://github.com/rust-lang/crates.io-index#defmt@1.0.1",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.6.1",
-        "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.32",
-        "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.32",
+        "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.31",
+        "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.31",
         "registry+https://github.com/rust-lang/crates.io-index#heapless@0.8.0"
       ]
     },
     {
-      "ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.8.0",
-      "dependsOn": [
-        "registry+https://github.com/rust-lang/crates.io-index#cfg-if@1.0.3",
-        "registry+https://github.com/rust-lang/crates.io-index#critical-section@1.2.0",
-        "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.7.0",
-        "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.32",
-        "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.32",
-        "registry+https://github.com/rust-lang/crates.io-index#heapless@0.9.1"
-      ]
-    },
-    {
-      "ref": "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
+      "ref": "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
       "dependsOn": [
         "registry+https://github.com/rust-lang/crates.io-index#cfg-if@1.0.3",
         "registry+https://github.com/rust-lang/crates.io-index#critical-section@1.2.0",
         "registry+https://github.com/rust-lang/crates.io-index#defmt@1.0.1",
         "registry+https://github.com/rust-lang/crates.io-index#document-features@0.2.12",
-        "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.2",
+        "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.1",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal@0.2.7",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal@1.0.0",
         "registry+https://github.com/rust-lang/crates.io-index#embedded-hal-async@1.0.0",
-        "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.32"
+        "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.31"
       ]
     },
     {
-      "ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.2",
+      "ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.1",
       "dependsOn": [
         "registry+https://github.com/rust-lang/crates.io-index#document-features@0.2.12"
       ]
@@ -9905,17 +9863,15 @@
       ]
     },
     {
-      "ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-usb@0.6.0",
+      "ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-usb@0.5.1",
       "dependsOn": [
-        "registry+https://github.com/rust-lang/crates.io-index#bitflags@2.9.1",
         "registry+https://github.com/rust-lang/crates.io-index#defmt@1.0.1",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-futures@0.1.2",
-        "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver-channel@0.4.0",
-        "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.8.0",
-        "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
+        "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver-channel@0.3.2",
+        "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2",
         "registry+https://github.com/rust-lang/crates.io-index#embassy-usb-driver@0.2.0",
-        "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.7.0",
-        "registry+https://github.com/rust-lang/crates.io-index#heapless@0.9.1"
+        "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.6.1",
+        "registry+https://github.com/rust-lang/crates.io-index#heapless@0.8.0"
       ]
     },
     {
@@ -10103,11 +10059,11 @@
       ]
     },
     {
-      "ref": "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.32",
+      "ref": "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.31",
       "dependsOn": []
     },
     {
-      "ref": "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.32",
+      "ref": "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.31",
       "dependsOn": []
     },
     {

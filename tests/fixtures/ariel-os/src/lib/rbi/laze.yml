@@ -1,4 +1,0 @@
-apps:
-  - name: crates/rbi
-    selects:
-      - host-test-only

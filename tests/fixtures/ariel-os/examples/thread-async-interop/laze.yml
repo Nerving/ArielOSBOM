@@ -1,4 +1,0 @@
-apps:
-  - name: thread-async-interop
-    selects:
-      - sw/threading

@@ -1,9 +1,0 @@
-version: 0.3.0
-targets:
-  st-nucleo-f042k6:
-    chip: stm32f042k6
-    ariel:
-      swi: USART2
-    leds:
-      led0:
-        pin: PA5

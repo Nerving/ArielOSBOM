@@ -1,4 +1,0 @@
-apps:
-  - name: tcp-client
-    selects:
-      - network

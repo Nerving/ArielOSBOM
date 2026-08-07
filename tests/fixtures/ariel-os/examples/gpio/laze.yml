@@ -1,5 +1,0 @@
-apps:
-  - name: gpio
-    selects:
-      - has_leds
-      - has_buttons

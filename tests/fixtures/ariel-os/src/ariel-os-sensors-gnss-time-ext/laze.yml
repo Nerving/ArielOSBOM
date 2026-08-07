@@ -1,4 +1,0 @@
-apps:
-  - name: crates/ariel-os-sensors-gnss-time-ext
-    selects:
-      - host-test-only

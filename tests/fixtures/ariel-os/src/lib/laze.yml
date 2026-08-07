@@ -1,4 +1,0 @@
-subdirs:
-  - coapcore
-  - rbi
-  - ringbuffer

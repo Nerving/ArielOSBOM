@@ -1,8 +1,0 @@
-[
-  {
-    "directory": "/home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os",
-    "command": "test \"\" = \"1\" && exit 0; cd examples/coap-client &&  OPENOCD_ARGS=\"-f board/nordic_nrf52_dk.cfg\" SCRIPTS=../../scripts CONFIG_BOARD=nrf52840dk CARGO_BUILD_TARGET=thumbv7em-none-eabihf CARGO_TARGET_THUMBV7EM_NONE_EABIHF_RUNNER='probe-rs run --protocol=swd --chip nrf52840_xxAA --preverify' CARGO_TARGET_THUMBV7EM_NONE_EABIHF_RUSTFLAGS=\"--cfg context=\\\"nrf52840dk\\\" --cfg context=\\\"nrf52840\\\" --cfg context=\\\"nrf52\\\" --cfg context=\\\"nrf\\\" --cfg context=\\\"ariel-os\\\" --cfg context=\\\"default\\\" --cfg getrandom_backend=\\\"custom\\\" --cfg stable -Cembed-bitcode=yes -Clto=fat -Ccodegen-units=1 --cfg capability=\\\"hw/device-identity\\\" -Clink-arg=-Tdefmt.x --cfg armv7m --cfg armv7m_eabihf -Clink-arg=--nmagic -Clink-arg=--no-eh-frame-hdr -Clink-arg=-Tlinkme.x -Clink-arg=-Tlink.x -Clink-arg=-Teheap.x -Clink-arg=-Tdevice.x -Clink-arg=-Tisr_stack.x --cfg context=\\\"cortex-m\\\" --cfg context=\\\"cortex-m4f\\\" --cfg capability=\\\"hw/usb-device-port\\\"\" CARGO_TARGET_DIR=../../build/bin/nrf52840dk/cargo CONFIG_EXECUTOR_STACKSIZE=32768 CONFIG_ISR_STACKSIZE=2048 CC=\"\" CFLAGS=\"\" DEFMT_LOG=info,  cargo   build --profile=release --features=ariel-os/liboscore-provide-abort,ariel-os/liboscore-provide-assert,ariel-os/hwrng,ariel-os/random,ariel-os/dhcpv4,ariel-os/ipv4,ariel-os/semihosting,ariel-os/single-core,ariel-os/executor-interrupt,ariel-os/defmt-rtt,ariel-os/panic-printing,ariel-os/defmt,ariel-os/debug-console,ariel-os/usb,ariel-os/usb-ethernet,ariel-os/coap-transport-udp,ariel-os/coap ",
-    "file": "ALWAYS",
-    "output": "build/bin/nrf52840dk/cargo/thumbv7em-none-eabihf/release/example-coap-client"
-  }
-]

@@ -1,3 +1,0 @@
-subdirs:
-  - bench_sched_flags
-  - bench_sched_yield

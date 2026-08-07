@@ -1,8 +1,0 @@
-apps:
-  - name: udp-echo
-    env:
-      global:
-        executor_stacksize_required:
-          - "16384"
-    selects:
-      - network

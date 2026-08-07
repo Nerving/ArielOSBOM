@@ -1,4 +1,0 @@
-apps:
-  - name: example-alloc
-    selects:
-      - alloc

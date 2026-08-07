@@ -1,4 +1,0 @@
-apps:
-  - name: crates/ringbuffer
-    selects:
-      - host-test-only

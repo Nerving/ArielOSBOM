@@ -1,0 +1,3 @@
+[submodule "tests/fixtures/ariel-os"]
+	path = tests/fixtures/ariel-os
+	url = https://github.com/ariel-os/ariel-os.git

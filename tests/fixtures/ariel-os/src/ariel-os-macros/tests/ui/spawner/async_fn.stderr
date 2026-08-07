@@ -1,7 +1,0 @@
-error: custom attribute panicked
- --> tests/ui/spawner/async_fn.rs:8:1
-  |
-8 | #[ariel_os::spawner(autostart)]
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  |
-  = help: message: spawner functions cannot be async, consider using `task` instead

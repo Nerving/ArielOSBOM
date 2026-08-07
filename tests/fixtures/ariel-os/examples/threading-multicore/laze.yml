@@ -1,5 +1,0 @@
-apps:
-  - name: threading-multicore
-    selects:
-      - sw/threading
-      - multi-core
