@@ -135,9 +135,15 @@ pub fn generate_out_of_tree_build_context(builder: &str) -> ArielOsBuildContext 
 
 #[allow(dead_code)]
 pub fn generate_build_command_locked(context: &mut ArielOsBuildContext) {
-    // locking so that parallel tests don't screw each other up
-    let compile_commands_file =
-        std::fs::File::open(context.root_path().join("compile_commands.json")).expect("boohoo");
+    // create file empty if not present so we can lock it
+    let compile_commands_file = fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .open(context.root_path().join("compile_commands.json"))
+        .expect("failed to open or create compile_commands.json");
+
     _ = compile_commands_file.lock();
     context.get_build_command(None);
     _ = compile_commands_file.unlock();
