@@ -235,6 +235,7 @@ struct CycloneDxManufacturerV1_7 {
     #[serde(skip_serializing_if = "Option::is_none")]
     address: Option<String>, // type temporary?
 
+    #[serde(skip_serializing_if = "Vec::is_empty")]
     url: Vec<String>, // type temporary?
 
                       //contact,
@@ -250,12 +251,38 @@ impl CycloneDxManufacturerV1_7 {
     }
 
     fn from_raw_component(raw_component: &RawComponent) -> CycloneDxManufacturerV1_7 {
+        let url = if let Some(url) = raw_component.metadata_website.clone() {
+            url
+        } else if let Some(url) = raw_component.metadata_repository.clone() {
+            url
+        } else if let Some(url) = raw_component.vcs.clone() {
+            if url.contains("/tree/") {
+                url.rsplit_once('/')
+                    .unwrap()
+                    .0
+                    .rsplit_once('/')
+                    .unwrap()
+                    .0
+                    .to_string()
+            } else {
+                url
+            }
+        } else {
+            "".into()
+        };
+
+        let name = if raw_component.creators.is_empty() {
+            None
+        } else {
+            Some(raw_component.creators.clone().join(", "))
+        };
+
         CycloneDxManufacturerV1_7 {
-            name: Some(raw_component.creators.clone().join(", ")),
+            name,
             address: None,
-            url: match raw_component.uri_source_code.clone() {
-                Some(url) => vec![url],
-                None => vec![],
+            url: match url.len() {
+                0 => vec![],
+                _ => vec![url],
             },
         }
     }
@@ -318,7 +345,7 @@ impl CycloneDxExternalReferenceV1_7 {
         CycloneDxExternalReferenceV1_7 {
             url: "https://github.com/Nerving/ArielOSBOM".into(),
             comment: None,
-            reference_type: CycloneDxExternalReferenceTypeV1_7::source_distribution,
+            reference_type: CycloneDxExternalReferenceTypeV1_7::vcs,
             hashes: None,
             properties: None,
         }
@@ -328,7 +355,7 @@ impl CycloneDxExternalReferenceV1_7 {
         CycloneDxExternalReferenceV1_7 {
             url: uri.clone(),
             comment: None,
-            reference_type: CycloneDxExternalReferenceTypeV1_7::source_distribution,
+            reference_type: CycloneDxExternalReferenceTypeV1_7::vcs,
             hashes: None,
             properties: None,
         }
@@ -337,10 +364,8 @@ impl CycloneDxExternalReferenceV1_7 {
     fn from_raw_component(raw_component: &RawComponent) -> Vec<CycloneDxExternalReferenceV1_7> {
         let mut references_vector = vec![];
 
-        if let Some(uri_source_code) = raw_component.uri_source_code.clone() {
-            references_vector.push(CycloneDxExternalReferenceV1_7::from_uri_source_code(
-                uri_source_code,
-            ));
+        if let Some(vcs) = raw_component.vcs.clone() {
+            references_vector.push(CycloneDxExternalReferenceV1_7::from_uri_source_code(vcs));
         }
 
         references_vector

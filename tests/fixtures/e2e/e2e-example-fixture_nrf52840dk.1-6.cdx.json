@@ -23,7 +23,7 @@
           "externalReferences": [
             {
               "url": "https://github.com/Nerving/ArielOSBOM",
-              "type": "source-distribution"
+              "type": "vcs"
             }
           ]
         }
@@ -36,13 +36,10 @@
     },
     "component": {
       "name": "example-coap-client",
-      "type": "library",
+      "type": "application",
       "version": "0.0.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/examples/coap-client#example-coap-client@0.0.0",
-      "manufacturer": {
-        "name": "",
-        "url": []
-      },
+      "manufacturer": {},
       "licenses": [
         {
           "expression": "MIT OR Apache-2.0"
@@ -79,7 +76,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/traits",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -109,7 +106,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/block-ciphers",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -139,7 +136,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/AEADs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -169,7 +166,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/BurntSushi/aho-corasick",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -180,9 +177,8 @@
       "version": "0.6.18",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#anstream@0.6.18",
       "manufacturer": {
-        "name": "",
         "url": [
-          "https://github.com/rust-cli/anstyle.git"
+          "https://github.com/rust-cli/anstyle"
         ]
       },
       "licenses": [
@@ -199,7 +195,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-cli/anstyle.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -210,9 +206,8 @@
       "version": "1.0.10",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#anstyle@1.0.10",
       "manufacturer": {
-        "name": "",
         "url": [
-          "https://github.com/rust-cli/anstyle.git"
+          "https://github.com/rust-cli/anstyle"
         ]
       },
       "licenses": [
@@ -229,7 +224,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-cli/anstyle.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -240,9 +235,8 @@
       "version": "0.2.6",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#anstyle-parse@0.2.6",
       "manufacturer": {
-        "name": "",
         "url": [
-          "https://github.com/rust-cli/anstyle.git"
+          "https://github.com/rust-cli/anstyle"
         ]
       },
       "licenses": [
@@ -259,7 +253,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-cli/anstyle.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -270,7 +264,6 @@
       "version": "1.1.2",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#anstyle-query@1.1.2",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-cli/anstyle.git"
         ]
@@ -289,7 +282,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-cli/anstyle.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -300,8 +293,9 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os#0.4.0",
       "manufacturer": {
-        "name": "",
-        "url": []
+        "url": [
+          "https://github.com/Nerving/ArielOSBOM"
+        ]
       },
       "licenses": [
         {
@@ -309,7 +303,12 @@
         }
       ],
       "hashes": [],
-      "externalReferences": [],
+      "externalReferences": [
+        {
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
+        }
+      ],
       "properties": []
     },
     {
@@ -318,8 +317,9 @@
       "version": "0.0.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-boards#0.0.0",
       "manufacturer": {
-        "name": "",
-        "url": []
+        "url": [
+          "https://github.com/Nerving/ArielOSBOM"
+        ]
       },
       "licenses": [
         {
@@ -327,7 +327,12 @@
         }
       ],
       "hashes": [],
-      "externalReferences": [],
+      "externalReferences": [
+        {
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
+        }
+      ],
       "properties": []
     },
     {
@@ -336,7 +341,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-buildinfo#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -349,8 +353,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -361,7 +365,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-coap#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -374,8 +377,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -386,7 +389,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-debug#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -399,8 +401,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -411,8 +413,9 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-embassy#0.4.0",
       "manufacturer": {
-        "name": "",
-        "url": []
+        "url": [
+          "https://github.com/Nerving/ArielOSBOM"
+        ]
       },
       "licenses": [
         {
@@ -420,7 +423,12 @@
         }
       ],
       "hashes": [],
-      "externalReferences": [],
+      "externalReferences": [
+        {
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
+        }
+      ],
       "properties": []
     },
     {
@@ -429,7 +437,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-embassy-common#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -442,8 +449,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -454,8 +461,9 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-hal#0.4.0",
       "manufacturer": {
-        "name": "",
-        "url": []
+        "url": [
+          "https://github.com/Nerving/ArielOSBOM"
+        ]
       },
       "licenses": [
         {
@@ -463,7 +471,12 @@
         }
       ],
       "hashes": [],
-      "externalReferences": [],
+      "externalReferences": [
+        {
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
+        }
+      ],
       "properties": []
     },
     {
@@ -472,7 +485,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-identity#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -485,8 +497,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -497,7 +509,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-log#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -510,8 +521,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -522,7 +533,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-macros#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -535,8 +545,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -547,7 +557,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-nrf#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -560,8 +569,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -572,7 +581,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-power#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -585,8 +593,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -597,7 +605,6 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-random#0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -610,8 +617,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -622,8 +629,9 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-rt#0.4.0",
       "manufacturer": {
-        "name": "",
-        "url": []
+        "url": [
+          "https://github.com/Nerving/ArielOSBOM"
+        ]
       },
       "licenses": [
         {
@@ -631,7 +639,12 @@
         }
       ],
       "hashes": [],
-      "externalReferences": [],
+      "externalReferences": [
+        {
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
+        }
+      ],
       "properties": []
     },
     {
@@ -640,8 +653,9 @@
       "version": "0.4.0",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/ariel-os-utils#0.4.0",
       "manufacturer": {
-        "name": "",
-        "url": []
+        "url": [
+          "https://github.com/Nerving/ArielOSBOM"
+        ]
       },
       "licenses": [
         {
@@ -649,7 +663,12 @@
         }
       ],
       "hashes": [],
-      "externalReferences": [],
+      "externalReferences": [
+        {
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
+        }
+      ],
       "properties": []
     },
     {
@@ -677,7 +696,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/bluss/arrayvec",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -707,7 +726,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/cuviper/autocfg",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -718,7 +737,6 @@
       "version": "1.2.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#az@1.2.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://gitlab.com/tspiteri/az"
         ]
@@ -737,7 +755,7 @@
       "externalReferences": [
         {
           "url": "https://gitlab.com/tspiteri/az",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -767,7 +785,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/japaric/bare-metal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -797,7 +815,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/formats/tree/master/base16ct",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -810,7 +828,7 @@
       "manufacturer": {
         "name": "Jyun-Yan You <jyyou.tw@gmail.com>, Emilio Cobos Álvarez <emilio@crisal.io>, Nick Fitzgerald <fitzgen@gmail.com>, The Servo project developers",
         "url": [
-          "https://github.com/rust-lang/rust-bindgen"
+          "https://rust-lang.github.io/rust-bindgen/"
         ]
       },
       "licenses": [
@@ -827,7 +845,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/rust-bindgen",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -857,7 +875,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dzamlo/rust-bitfield",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -887,7 +905,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/bitflags/bitflags",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -917,7 +935,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/bitflags/bitflags",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -947,7 +965,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/utils",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -958,7 +976,6 @@
       "version": "0.5.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#bs58@0.5.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/Nullus157/bs58-rs"
         ]
@@ -977,7 +994,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Nullus157/bs58-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -988,7 +1005,6 @@
       "version": "0.3.3",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#build-rs@0.3.3",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-lang/cargo"
         ]
@@ -1007,7 +1023,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/cargo",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1037,7 +1053,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Lokathor/bytemuck",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1067,7 +1083,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/BurntSushi/byteorder",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1097,7 +1113,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/mozilla/cbindgen",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1108,7 +1124,6 @@
       "version": "0.1.12",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#cbor-diag@0.1.12",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/Nullus157/cbor-diag-rs"
         ]
@@ -1127,7 +1142,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Nullus157/cbor-diag-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1138,7 +1153,6 @@
       "version": "0.0.9",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#cbor-edn@0.0.9",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/chrysn/cbor-edn"
         ]
@@ -1157,7 +1171,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/cbor-edn",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1168,7 +1182,6 @@
       "version": "0.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#cbor-macro@0.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/chrysn/cbor-macro"
         ]
@@ -1187,7 +1200,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/cbor-macro",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1198,7 +1211,6 @@
       "version": "0.1.3",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#cboritem@0.1.3",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/chrysn/cboritem"
         ]
@@ -1217,7 +1229,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/cboritem",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1247,7 +1259,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/cc-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1260,7 +1272,7 @@
       "manufacturer": {
         "name": "RustCrypto Developers",
         "url": [
-          "https://github.com/RustCrypto/AEADs/tree/master/ccm"
+          "https://github.com/RustCrypto/AEADs"
         ]
       },
       "licenses": [
@@ -1277,7 +1289,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/AEADs/tree/master/ccm",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1307,7 +1319,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/jethrogb/rust-cexpr",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1337,7 +1349,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/cfg-if",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1367,7 +1379,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/stream-ciphers",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1397,7 +1409,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/AEADs/tree/master/chacha20poly1305",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1408,7 +1420,6 @@
       "version": "0.4.41",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#chrono@0.4.41",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/chronotope/chrono"
         ]
@@ -1427,7 +1438,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/chronotope/chrono",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1457,7 +1468,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/traits",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1487,7 +1498,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/KyleMayes/clang-sys",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1498,7 +1509,6 @@
       "version": "4.5.38",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#clap@4.5.38",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/clap-rs/clap"
         ]
@@ -1517,7 +1527,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/clap-rs/clap",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1528,7 +1538,6 @@
       "version": "4.5.38",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#clap_builder@4.5.38",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/clap-rs/clap"
         ]
@@ -1547,7 +1556,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/clap-rs/clap",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1558,7 +1567,6 @@
       "version": "4.5.32",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#clap_derive@4.5.32",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/clap-rs/clap"
         ]
@@ -1577,7 +1585,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/clap-rs/clap",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1588,7 +1596,6 @@
       "version": "0.7.4",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#clap_lex@0.7.4",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/clap-rs/clap"
         ]
@@ -1607,7 +1614,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/clap-rs/clap",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1637,7 +1644,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/aj-bagwell/clio",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1667,7 +1674,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/coap-handler",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1697,7 +1704,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/coap-tools",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1727,7 +1734,7 @@
       "externalReferences": [
         {
           "url": "https://gitlab.com/chrysn/coap-message",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1757,7 +1764,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/coap-tools",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1787,7 +1794,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/coap-tools",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1817,7 +1824,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/coap-numbers",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1847,7 +1854,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/coap-request",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1877,7 +1884,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/coap-request-implementations",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1888,7 +1895,6 @@
       "version": "0.1.1",
       "bom-ref": "path+file:///home/nerving/Thesis/ArielOSBOM/tests/fixtures/ariel-os/src/lib/coapcore#0.1.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/ariel-os/ariel-os"
         ]
@@ -1901,8 +1907,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/ariel-os/ariel-os",
-          "type": "source-distribution"
+          "url": "https://github.com/Nerving/ArielOSBOM/tree/e68e4c6769b98180f8d1c7e2defa17c401827082",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1913,7 +1919,6 @@
       "version": "1.0.3",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#colorchoice@1.0.3",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-cli/anstyle.git"
         ]
@@ -1932,7 +1937,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-cli/anstyle.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1962,7 +1967,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/formats/tree/master/const-oid",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -1992,7 +1997,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rylev/const-sha1",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2022,7 +2027,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Nugine/const-str",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2052,7 +2057,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rodrimati1992/const_panic/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2082,7 +2087,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/cortex-m",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2112,7 +2117,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/cortex-m",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2142,7 +2147,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/cortex-m",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2172,7 +2177,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/mrhooray/crc-rs.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2202,7 +2207,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/akhilles/crc-catalog.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2213,7 +2218,6 @@
       "version": "1.2.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#critical-section@1.2.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded/critical-section"
         ]
@@ -2232,7 +2236,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/critical-section",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2262,7 +2266,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/crypto-bigint",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2292,7 +2296,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/traits",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2322,7 +2326,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/block-modes",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2352,7 +2356,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/TedDriggs/darling",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2382,7 +2386,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/TedDriggs/darling",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2412,7 +2416,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/TedDriggs/darling",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2442,7 +2446,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/ia0/data-encoding",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2472,7 +2476,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/ia0/data-encoding",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2502,7 +2506,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/ia0/data-encoding",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2515,7 +2519,7 @@
       "manufacturer": {
         "name": "The Knurling-rs developers",
         "url": [
-          "https://github.com/knurling-rs/defmt"
+          "https://knurling.ferrous-systems.com/"
         ]
       },
       "licenses": [
@@ -2532,7 +2536,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/knurling-rs/defmt",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2545,7 +2549,7 @@
       "manufacturer": {
         "name": "The Knurling-rs developers",
         "url": [
-          "https://github.com/knurling-rs/defmt"
+          "https://knurling.ferrous-systems.com/"
         ]
       },
       "licenses": [
@@ -2562,7 +2566,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/knurling-rs/defmt",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2592,7 +2596,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/knurling-rs/defmt",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2622,7 +2626,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/t-moe/defmt-or-log",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2652,7 +2656,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/t-moe/defmt-or-log",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2682,7 +2686,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/knurling-rs/defmt",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2712,7 +2716,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/knurling-rs/defmt",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2742,7 +2746,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/formats/tree/master/der",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2772,7 +2776,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/traits",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2802,7 +2806,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/yaahc/displaydoc",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2815,7 +2819,7 @@
       "manufacturer": {
         "name": "Slint Developers <info@slint.dev>",
         "url": [
-          "https://github.com/slint-ui/document-features"
+          "https://slint.rs"
         ]
       },
       "licenses": [
@@ -2832,7 +2836,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/slint-ui/document-features",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2862,7 +2866,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/signatures/tree/master/ecdsa",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2892,7 +2896,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rayon-rs/either",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2922,7 +2926,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/traits/tree/master/elliptic-curve",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2933,7 +2937,6 @@
       "version": "0.5.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-embedded-hal@0.5.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -2952,7 +2955,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2963,7 +2966,6 @@
       "version": "0.9.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-executor@0.9.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -2982,7 +2984,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -2993,7 +2995,6 @@
       "version": "0.7.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-executor-macros@0.7.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3012,7 +3013,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3023,7 +3024,6 @@
       "version": "0.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-executor-timer-queue@0.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3042,7 +3042,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3053,7 +3053,6 @@
       "version": "0.1.2",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-futures@0.1.2",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3072,7 +3071,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3083,7 +3082,6 @@
       "version": "0.3.0",
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=0feffeb3c90748112a64c6570a39e1251311accb#embassy-hal-internal@0.3.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3096,8 +3094,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "url": "https://github.com/ariel-os/embassy/tree/0feffeb3c90748112a64c6570a39e1251311accb",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3108,7 +3106,6 @@
       "version": "0.8.0",
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=3b185bf1b3852867e4b932456600621f86f78bce#embassy-net@0.8.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3121,8 +3118,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "url": "https://github.com/ariel-os/embassy/tree/3b185bf1b3852867e4b932456600621f86f78bce",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3133,7 +3130,6 @@
       "version": "0.2.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver@0.2.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3152,7 +3148,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3163,7 +3159,6 @@
       "version": "0.4.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-net-driver-channel@0.4.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3182,7 +3177,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3193,7 +3188,6 @@
       "version": "0.8.0",
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=3940a79a29ae578a35625cae949bea473abf21d1#embassy-nrf@0.8.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3206,8 +3200,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "url": "https://github.com/ariel-os/embassy/tree/3940a79a29ae578a35625cae949bea473abf21d1",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3218,7 +3212,6 @@
       "version": "0.7.2",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.7.2",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3237,7 +3230,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3248,7 +3241,6 @@
       "version": "0.8.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-sync@0.8.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3267,7 +3259,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3278,7 +3270,6 @@
       "version": "0.5.1",
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=3c1b5fbf28237ea7144ae970c3aec11c38023c3f#embassy-time@0.5.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3291,8 +3282,8 @@
       "hashes": [],
       "externalReferences": [
         {
-          "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "url": "https://github.com/ariel-os/embassy/tree/3c1b5fbf28237ea7144ae970c3aec11c38023c3f",
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3303,7 +3294,6 @@
       "version": "0.2.2",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-time-driver@0.2.2",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3322,7 +3312,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3333,7 +3323,6 @@
       "version": "0.3.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-time-queue-utils@0.3.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3352,7 +3341,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3363,7 +3352,6 @@
       "version": "0.6.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-usb@0.6.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3382,7 +3370,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3393,7 +3381,6 @@
       "version": "0.2.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embassy-usb-driver@0.2.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/embassy"
         ]
@@ -3412,7 +3399,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/embassy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3442,7 +3429,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3472,7 +3459,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3502,7 +3489,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3513,7 +3500,6 @@
       "version": "0.6.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embedded-io@0.6.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded/embedded-hal"
         ]
@@ -3532,7 +3518,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3543,7 +3529,6 @@
       "version": "0.7.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embedded-io@0.7.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded/embedded-hal"
         ]
@@ -3562,7 +3547,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3573,7 +3558,6 @@
       "version": "0.7.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embedded-io-adapters@0.7.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded/embedded-hal"
         ]
@@ -3592,7 +3576,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3603,7 +3587,6 @@
       "version": "0.6.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.6.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded/embedded-hal"
         ]
@@ -3622,7 +3605,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3633,7 +3616,6 @@
       "version": "0.7.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embedded-io-async@0.7.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded/embedded-hal"
         ]
@@ -3652,7 +3634,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/embedded-hal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3682,7 +3664,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded-community/embedded-nal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3693,7 +3675,6 @@
       "version": "0.8.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embedded-nal-async@0.8.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded-community/embedded-nal"
         ]
@@ -3712,7 +3693,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded-community/embedded-nal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3723,7 +3704,6 @@
       "version": "0.9.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#embedded-nal-async@0.9.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/rust-embedded-community/embedded-nal"
         ]
@@ -3742,7 +3722,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded-community/embedded-nal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3772,7 +3752,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/embedded-nal-coap",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3802,7 +3782,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded-community/embedded-storage",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3832,7 +3812,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded-community/embedded-storage",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3845,7 +3825,7 @@
       "manufacturer": {
         "name": "Henri Sivonen <hsivonen@hsivonen.fi>",
         "url": [
-          "https://github.com/hsivonen/encoding_rs"
+          "https://docs.rs/encoding_rs/"
         ]
       },
       "licenses": [
@@ -3862,7 +3842,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/hsivonen/encoding_rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3873,7 +3853,6 @@
       "version": "1.0.2",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#equivalent@1.0.2",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/indexmap-rs/equivalent"
         ]
@@ -3892,7 +3871,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/indexmap-rs/equivalent",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3903,7 +3882,6 @@
       "version": "0.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#extra-embedded-io-adapters@0.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/chrysn/windowed-infinity"
         ]
@@ -3922,7 +3900,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/windowed-infinity",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3952,7 +3930,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/eyre-rs/eyre",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3982,7 +3960,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/smol-rs/fastrand",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -3993,7 +3971,6 @@
       "version": "0.2.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#featurecomb@0.2.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/AudaciousAxiom/featurecomb"
         ]
@@ -4012,7 +3989,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/AudaciousAxiom/featurecomb",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4023,7 +4000,6 @@
       "version": "0.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#featurecomb-schema@0.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/AudaciousAxiom/featurecomb"
         ]
@@ -4042,7 +4018,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/AudaciousAxiom/featurecomb",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4072,7 +4048,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/zkcrypto/ff",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4083,7 +4059,6 @@
       "version": "1.29.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#fixed@1.29.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://gitlab.com/tspiteri/fixed"
         ]
@@ -4102,7 +4077,7 @@
       "externalReferences": [
         {
           "url": "https://gitlab.com/tspiteri/fixed",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4132,7 +4107,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/servo/rust-fnv",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4162,7 +4137,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/servo/rust-url",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4173,9 +4148,8 @@
       "version": "0.3.32",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#futures-core@0.3.32",
       "manufacturer": {
-        "name": "",
         "url": [
-          "https://github.com/rust-lang/futures-rs"
+          "https://rust-lang.github.io/futures-rs"
         ]
       },
       "licenses": [
@@ -4192,7 +4166,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/futures-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4203,9 +4177,8 @@
       "version": "0.3.32",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#futures-sink@0.3.32",
       "manufacturer": {
-        "name": "",
         "url": [
-          "https://github.com/rust-lang/futures-rs"
+          "https://rust-lang.github.io/futures-rs"
         ]
       },
       "licenses": [
@@ -4222,7 +4195,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/futures-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4252,7 +4225,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/fizyk20/generic-array.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4282,7 +4255,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-random/getrandom",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4312,7 +4285,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/universal-hashes",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4342,7 +4315,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/glob",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4372,7 +4345,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/zkcrypto/group",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4402,7 +4375,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/VoidStarKat/half-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4432,7 +4405,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/japaric/hash32",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4462,7 +4435,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/hashbrown",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4492,7 +4465,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/heapless",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4522,7 +4495,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/heapless",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4533,7 +4506,6 @@
       "version": "0.5.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#heck@0.5.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/withoutboats/heck"
         ]
@@ -4552,7 +4524,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/withoutboats/heck",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4582,7 +4554,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/KokaKiwi/rust-hex",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4612,7 +4584,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/ericseppanen/hexfloat2",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4642,7 +4614,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/inspier/hexlit",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4672,7 +4644,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/KDFs/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4702,7 +4674,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/MACs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4732,7 +4704,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/strawlab/iana-time-zone",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4745,7 +4717,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -4762,7 +4734,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4775,7 +4747,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -4792,7 +4764,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4805,7 +4777,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -4822,7 +4794,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4835,7 +4807,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -4852,7 +4824,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4865,7 +4837,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -4882,7 +4854,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4895,7 +4867,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -4912,7 +4884,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4925,7 +4897,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -4942,7 +4914,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -4972,7 +4944,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/TedDriggs/ident_case",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5002,7 +4974,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/servo/rust-url/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5015,7 +4987,7 @@
       "manufacturer": {
         "name": "The rust-url developers",
         "url": [
-          "https://github.com/hsivonen/idna_adapter"
+          "https://docs.rs/crate/idna_adapter/latest"
         ]
       },
       "licenses": [
@@ -5032,7 +5004,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/hsivonen/idna_adapter",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5062,7 +5034,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/yaahc/indenter",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5073,7 +5045,6 @@
       "version": "2.13.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#indexmap@2.13.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/indexmap-rs/indexmap"
         ]
@@ -5092,7 +5063,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/indexmap-rs/indexmap",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5122,7 +5093,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/utils",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5152,7 +5123,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/sunfishcode/is-terminal",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5163,7 +5134,6 @@
       "version": "1.70.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#is_terminal_polyfill@1.70.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/polyfill-rs/is_terminal_polyfill"
         ]
@@ -5182,7 +5152,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/polyfill-rs/is_terminal_polyfill",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5212,7 +5182,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-itertools/itertools",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5242,7 +5212,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/itoa",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5272,7 +5242,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/openwsn-berkeley/lakers/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5302,7 +5272,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/openwsn-berkeley/lakers/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5332,7 +5302,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/openwsn-berkeley/lakers/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5362,7 +5332,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/kaspar030/ld-memory",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5392,7 +5362,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/libc",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5422,7 +5392,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/nagisa/rust_libloading/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5452,7 +5422,7 @@
       "externalReferences": [
         {
           "url": "https://gitlab.com/oscore/liboscore",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5482,7 +5452,7 @@
       "externalReferences": [
         {
           "url": "https://gitlab.com/oscore/liboscore",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5512,7 +5482,7 @@
       "externalReferences": [
         {
           "url": "https://gitlab.com/oscore/liboscore",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5542,7 +5512,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/linkme",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5572,7 +5542,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/linkme",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5602,7 +5572,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/sunfishcode/linux-raw-sys",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5632,7 +5602,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5662,7 +5632,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/LukasKalbertodt/litrs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5692,7 +5662,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/log",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5705,7 +5675,7 @@
       "manufacturer": {
         "name": "whitequark <whitequark@whitequark.org>",
         "url": [
-          "https://github.com/m-labs/rust-managed.git"
+          "https://github.com/m-labs/rust-managed"
         ]
       },
       "licenses": [
@@ -5722,7 +5692,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/m-labs/rust-managed.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5752,7 +5722,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/BurntSushi/memchr",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5782,7 +5752,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/twittner/minicbor",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5793,7 +5763,6 @@
       "version": "0.0.8",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#minicbor-adapters@0.0.8",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/chrysn/minicbor-adapters"
         ]
@@ -5812,7 +5781,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/minicbor-adapters",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5842,7 +5811,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/twittner/minicbor",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5872,7 +5841,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Alexhuszagh/minimal-lexical",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5902,7 +5871,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/nb",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5932,7 +5901,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/nb",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5962,7 +5931,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Geal/nom",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -5973,7 +5942,6 @@
       "version": "0.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#nrf-pac@0.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/nrf-pac"
         ]
@@ -5992,7 +5960,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/nrf-pac",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6022,7 +5990,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-num/num-bigint",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6052,7 +6020,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-num/num-integer",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6082,7 +6050,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-num/num-rational",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6112,7 +6080,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-num/num-traits",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6142,7 +6110,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/matklad/once_cell",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6172,7 +6140,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/utils",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6202,7 +6170,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/roignpar/optfield",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6232,7 +6200,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/elliptic-curves/tree/master/p256",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6262,7 +6230,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/paste",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6292,7 +6260,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/kevinmehall/rust-peg",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6322,7 +6290,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/kevinmehall/rust-peg",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6352,7 +6320,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/kevinmehall/rust-peg",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6382,7 +6350,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/servo/rust-url/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6412,7 +6380,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/universal-hashes",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6442,7 +6410,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/universal-hashes",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6453,7 +6421,6 @@
       "version": "1.13.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#portable-atomic@1.13.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/taiki-e/portable-atomic"
         ]
@@ -6472,7 +6439,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/taiki-e/portable-atomic",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6485,7 +6452,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -6502,7 +6469,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6532,7 +6499,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/cryptocorrosion/cryptocorrosion",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6562,7 +6529,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/wolandr/pretty-hex",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6592,7 +6559,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/prettyplease",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6622,7 +6589,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/elliptic-curves/tree/master/primeorder",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6652,7 +6619,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/bkchr/proc-macro-crate",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6682,7 +6649,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/GnomedDev/proc-macro-error-2",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6712,7 +6679,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/GnomedDev/proc-macro-error-2",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6742,7 +6709,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/proc-macro2",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6772,7 +6739,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/quote",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6785,7 +6752,7 @@
       "manufacturer": {
         "name": "The Rand Project Developers, The Rust Project Developers, The CryptoCorrosion Contributors",
         "url": [
-          "https://github.com/rust-random/rand"
+          "https://rust-random.github.io/book"
         ]
       },
       "licenses": [
@@ -6802,7 +6769,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-random/rand",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6815,7 +6782,7 @@
       "manufacturer": {
         "name": "The Rand Project Developers, The Rust Project Developers",
         "url": [
-          "https://github.com/rust-random/rand"
+          "https://rust-random.github.io/book"
         ]
       },
       "licenses": [
@@ -6832,7 +6799,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-random/rand",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6845,7 +6812,7 @@
       "manufacturer": {
         "name": "The Rand Project Developers, The Rust Project Developers",
         "url": [
-          "https://github.com/rust-random/rand"
+          "https://rust-random.github.io/book"
         ]
       },
       "licenses": [
@@ -6862,7 +6829,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-random/rand",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6875,7 +6842,7 @@
       "manufacturer": {
         "name": "The Rand Project Developers",
         "url": [
-          "https://github.com/rust-random/rand"
+          "https://rust-random.github.io/book"
         ]
       },
       "licenses": [
@@ -6892,7 +6859,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-random/rand",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6922,7 +6889,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/regex",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6952,7 +6919,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/regex/tree/master/regex-automata",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -6982,7 +6949,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/regex/tree/master/regex-syntax",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7012,7 +6979,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/signatures/tree/master/rfc6979",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7042,7 +7009,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-lang/rustc-hash",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7072,7 +7039,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Kimundi/rustc-version-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7102,7 +7069,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/bytecodealliance/rustix",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7132,7 +7099,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/ryu",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7162,7 +7129,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/BurntSushi/same-file",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7192,7 +7159,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/formats/tree/master/sec1",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7203,7 +7170,6 @@
       "version": "0.1.24",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#semihosting@0.1.24",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/taiki-e/semihosting"
         ]
@@ -7222,7 +7188,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/taiki-e/semihosting",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7235,7 +7201,7 @@
       "manufacturer": {
         "name": "Steve Klabnik <steve@steveklabnik.com>, The Rust Project Developers",
         "url": [
-          "https://github.com/steveklabnik/semver"
+          "https://docs.rs/crate/semver/"
         ]
       },
       "licenses": [
@@ -7252,7 +7218,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/steveklabnik/semver",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7282,7 +7248,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/steveklabnik/semver-parser",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7312,7 +7278,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/saghm/rust-separator",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7325,7 +7291,7 @@
       "manufacturer": {
         "name": "Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>",
         "url": [
-          "https://github.com/serde-rs/serde"
+          "https://serde.rs"
         ]
       },
       "licenses": [
@@ -7342,7 +7308,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/serde-rs/serde",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7355,7 +7321,7 @@
       "manufacturer": {
         "name": "Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>",
         "url": [
-          "https://github.com/serde-rs/serde"
+          "https://serde.rs"
         ]
       },
       "licenses": [
@@ -7372,7 +7338,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/serde-rs/serde",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7385,7 +7351,7 @@
       "manufacturer": {
         "name": "Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>",
         "url": [
-          "https://github.com/serde-rs/serde"
+          "https://serde.rs"
         ]
       },
       "licenses": [
@@ -7402,7 +7368,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/serde-rs/serde",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7432,7 +7398,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/serde-rs/json",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7443,7 +7409,6 @@
       "version": "1.0.4",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#serde_spanned@1.0.4",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/toml-rs/toml"
         ]
@@ -7462,7 +7427,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/toml-rs/toml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7492,7 +7457,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/serde-yaml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7522,7 +7487,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/hashes",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7552,7 +7517,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/comex/rust-shlex",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7582,7 +7547,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/traits/tree/master/signature",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7612,7 +7577,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/servo/rust-smallvec",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7625,7 +7590,7 @@
       "manufacturer": {
         "name": "whitequark <whitequark@whitequark.org>",
         "url": [
-          "https://github.com/smoltcp-rs/smoltcp.git"
+          "https://github.com/smoltcp-rs/smoltcp"
         ]
       },
       "licenses": [
@@ -7642,7 +7607,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/smoltcp-rs/smoltcp.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7672,7 +7637,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/storyyeller/stable_deref_trait",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7683,7 +7648,6 @@
       "version": "2.1.1",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#static_cell@2.1.1",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/embassy-rs/static-cell"
         ]
@@ -7702,7 +7666,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/embassy-rs/static-cell",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7732,7 +7696,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rapidfuzz/strsim-rs",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7745,7 +7709,7 @@
       "manufacturer": {
         "name": "Isis Lovecruft <isis@patternsinthevoid.net>, Henry de Valence <hdevalence@hdevalence.ca>",
         "url": [
-          "https://github.com/dalek-cryptography/subtle"
+          "https://dalek.rs/"
         ]
       },
       "licenses": [
@@ -7762,7 +7726,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dalek-cryptography/subtle",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7792,7 +7756,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/syn",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7822,7 +7786,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/mystor/synstructure",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7833,7 +7797,6 @@
       "version": "0.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#tee-embedded-io@0.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://codeberg.org/chrysn/windowed-infinity"
         ]
@@ -7852,7 +7815,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/windowed-infinity",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7865,7 +7828,7 @@
       "manufacturer": {
         "name": "Steven Allen <steven@stebalien.com>, The Rust Project Developers, Ashley Mannix <ashleymannix@live.com.au>, Jason White <me@jasonwhite.io>",
         "url": [
-          "https://github.com/Stebalien/tempfile"
+          "https://stebalien.com/projects/tempfile-rs/"
         ]
       },
       "licenses": [
@@ -7882,7 +7845,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/Stebalien/tempfile",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7912,7 +7875,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/thiserror",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7942,7 +7905,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/thiserror",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7972,7 +7935,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -7983,7 +7946,6 @@
       "version": "0.9.5",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#toml@0.9.5",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/toml-rs/toml"
         ]
@@ -8002,7 +7964,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/toml-rs/toml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8013,7 +7975,6 @@
       "version": "1.0.6+spec-1.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#toml@1.0.6+spec-1.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/toml-rs/toml"
         ]
@@ -8032,7 +7993,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/toml-rs/toml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8043,7 +8004,6 @@
       "version": "0.7.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#toml_datetime@0.7.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/toml-rs/toml"
         ]
@@ -8062,7 +8022,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/toml-rs/toml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8073,7 +8033,6 @@
       "version": "1.0.0+spec-1.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#toml_datetime@1.0.0+spec-1.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/toml-rs/toml"
         ]
@@ -8092,7 +8051,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/toml-rs/toml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8103,7 +8062,6 @@
       "version": "0.23.4",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#toml_edit@0.23.4",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/toml-rs/toml"
         ]
@@ -8122,7 +8080,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/toml-rs/toml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8133,7 +8091,6 @@
       "version": "1.0.9+spec-1.1.0",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#toml_parser@1.0.9+spec-1.1.0",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/toml-rs/toml"
         ]
@@ -8152,7 +8109,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/toml-rs/toml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8182,7 +8139,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/paholg/typenum",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8212,7 +8169,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rodrimati1992/typewit/",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8242,7 +8199,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/unicode-ident",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8272,7 +8229,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/traits",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8302,7 +8259,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/dtolnay/unsafe-libyaml",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8332,7 +8289,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/servo/rust-url",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8345,7 +8302,7 @@
       "manufacturer": {
         "name": "Henri Sivonen <hsivonen@hsivonen.fi>",
         "url": [
-          "https://github.com/hsivonen/utf8_iter"
+          "https://docs.rs/utf8_iter/"
         ]
       },
       "licenses": [
@@ -8362,7 +8319,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/hsivonen/utf8_iter",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8392,7 +8349,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/alacritty/vte",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8422,7 +8379,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/uuid-rs/uuid",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8452,7 +8409,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/japaric/vcell",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8482,7 +8439,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/SergioBenitez/version_check",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8512,7 +8469,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/reem/rust-void.git",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8542,7 +8499,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/rust-embedded/volatile-register",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8572,7 +8529,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/BurntSushi/walkdir",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8602,7 +8559,7 @@
       "externalReferences": [
         {
           "url": "https://codeberg.org/chrysn/windowed-infinity",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8613,7 +8570,6 @@
       "version": "0.7.14",
       "bom-ref": "registry+https://github.com/rust-lang/crates.io-index#winnow@0.7.14",
       "manufacturer": {
-        "name": "",
         "url": [
           "https://github.com/winnow-rs/winnow"
         ]
@@ -8632,7 +8588,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/winnow-rs/winnow",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8662,7 +8618,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8692,7 +8648,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8722,7 +8678,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8752,7 +8708,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/google/zerocopy",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8782,7 +8738,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8812,7 +8768,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8842,7 +8798,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/RustCrypto/utils/tree/master/zeroize",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8855,7 +8811,7 @@
       "manufacturer": {
         "name": "The ICU4X Project Developers",
         "url": [
-          "https://github.com/unicode-org/icu4x"
+          "https://icu4x.unicode.org"
         ]
       },
       "licenses": [
@@ -8872,7 +8828,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8902,7 +8858,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []
@@ -8932,7 +8888,7 @@
       "externalReferences": [
         {
           "url": "https://github.com/unicode-org/icu4x",
-          "type": "source-distribution"
+          "type": "vcs"
         }
       ],
       "properties": []

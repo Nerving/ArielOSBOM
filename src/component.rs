@@ -1,12 +1,14 @@
-use std::collections::HashMap;
+use std::path::Path;
+use std::{collections::HashMap, process::Command};
 
 use cargo_lock::Checksum;
 use cargo_metadata::{Node, Package, PackageId};
+
 use semver::Version;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    CrateId,
+    CrateId, CrateSource,
     tree::{CargoTreeGraph, TreeDependency},
 };
 
@@ -16,18 +18,22 @@ pub struct Component {
     pub version: Version,
     pub id: String,
     pub creators: Vec<String>, // TODO: enhance authors
-    pub filename: Option<String>,
+    // pub filename: Option<String>,
     pub licenses: Option<String>, // more specified later
     pub identifiers: Vec<String>, // more specified later for Hash, SWHID, ...
-    pub executable_property: Option<bool>,
-    pub archive_property: Option<bool>,
-    pub structured_property: Option<bool>,
 
-    pub uri_source_code: Option<String>,
-    pub hash_source_code: Option<String>,
-    pub uri_deployable_form: Option<String>,
-    pub url_security_text: Option<String>,
+    pub vcs: Option<String>,
+    pub metadata_repository: Option<String>,
+    pub metadata_website: Option<String>,
 
+    // pub executable_property: Option<bool>,
+    // pub archive_property: Option<bool>,
+    // pub structured_property: Option<bool>,
+
+    // pub uri_source_code: Option<String>,
+    // pub hash_source_code: Option<String>,
+    // pub uri_deployable_form: Option<String>,
+    // pub url_security_text: Option<String>,
     pub dependencies: Vec<Dependency>,
 }
 
@@ -64,26 +70,87 @@ impl Component {
             }
         }
 
+        let vcs = determine_vcs(&tree_graph.nodes[node_index].source, &package);
+
         Component {
             id: package.id.repr.clone(),
             name: package.name.to_string(),
             version: package.version.clone(),
             creators: package.authors.clone(),
-            filename: None,
+            // filename: None,
             licenses: package.license.clone(),
             identifiers,
-            executable_property: None,
-            archive_property: None,
-            structured_property: None,
+            vcs,
+            metadata_repository: package.repository.clone(),
+            metadata_website: package.homepage.clone(),
+            // executable_property: None,
+            // archive_property: None,
+            // structured_property: None,
 
-            uri_source_code: package.repository.clone(),
-            hash_source_code: None,
-            uri_deployable_form: None,
-            url_security_text: None,
-
+            // uri_source_code: package.repository.clone(),
+            // hash_source_code: None,
+            // uri_deployable_form: None,
+            // url_security_text: None,
             dependencies,
         }
     }
+}
+
+fn determine_vcs(crate_source: &CrateSource, package: &Package) -> Option<String> {
+    match crate_source {
+        CrateSource::CratesIo => package.repository.clone(),
+        CrateSource::External(url) => Some(url.clone().replace("?rev=", "/tree/")),
+        CrateSource::Local(path) => {
+            if package.id.repr.contains("ariel-os/src/") {
+                try_get_local_git_source(&path)
+            } else {
+                None
+            }
+        }
+        CrateSource::LocalNoPath => panic!("unexpected CrateSource type: LocalNoPath"),
+    }
+}
+
+fn try_get_local_git_source(path: &Path) -> Option<String> {
+    let git_url;
+    match Command::new("git")
+        .current_dir(path)
+        .arg("config")
+        .arg("--get")
+        .arg("remote.origin.url")
+        .output()
+    {
+        Ok(output) => {
+            if output.status.success() {
+                git_url = String::from_utf8(output.stdout)
+                    .unwrap()
+                    .trim()
+                    .trim_end_matches(".git")
+                    .to_owned();
+            } else {
+                return None;
+            }
+        }
+        Err(_) => return None,
+    };
+
+    let git_commit_hash;
+    match Command::new("git")
+        .current_dir(path)
+        .arg("rev-parse")
+        .arg("HEAD")
+        .output()
+    {
+        Ok(output) => {
+            if output.status.success() {
+                git_commit_hash = String::from_utf8(output.stdout).unwrap().trim().to_owned();
+            } else {
+                return None;
+            }
+        }
+        Err(_) => return None,
+    };
+    Some(format!("{git_url}/tree/{git_commit_hash}"))
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
