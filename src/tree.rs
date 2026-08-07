@@ -104,7 +104,6 @@ pub fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
         .arg("--manifest-path")
         .arg(&context.manifest_path)
         .arg(&context.build_command.features)
-        .arg("--frozen")
         .output()
         .expect("Something failed with cargo tree")
         .stdout

@@ -310,7 +310,6 @@ fn generate_cargo_metadata(context: &ArielOsBuildContext) -> Result<Metadata, Me
             .map(|feature| feature.into())
             .collect(),
     ));
-    metadata_command.other_options(vec!["--frozen".to_string()]);
     metadata_command.exec()
 }
 
