@@ -189,7 +189,7 @@ fn e2e_out_of_tree() {
 
     let mut component_set: HashSet<CrateId> = HashSet::new();
     let root_component = CrateId::from_package_id(
-        &to_validate["metadata"]["component"]["bom-ref"]
+        to_validate["metadata"]["component"]["bom-ref"]
             .as_str()
             .unwrap(),
     );

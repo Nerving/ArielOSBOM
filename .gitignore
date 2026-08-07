@@ -3,3 +3,4 @@
 /tests/output
 tests/fixtures/out-of-tree-coap-client/compile_commands.json
 build/
+tests/fixtures/ariel-os/compile_commands.json

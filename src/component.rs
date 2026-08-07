@@ -70,7 +70,7 @@ impl Component {
             }
         }
 
-        let vcs = determine_vcs(&tree_graph.nodes[node_index].source, &package);
+        let vcs = determine_vcs(&tree_graph.nodes[node_index].source, package);
 
         Component {
             id: package.id.repr.clone(),
@@ -102,7 +102,7 @@ fn determine_vcs(crate_source: &CrateSource, package: &Package) -> Option<String
         CrateSource::External(url) => Some(url.clone().replace("?rev=", "/tree/")),
         CrateSource::Local(path) => {
             if package.id.repr.contains("ariel-os/src/") {
-                try_get_local_git_source(&path)
+                try_get_local_git_source(path)
             } else {
                 None
             }

@@ -49,7 +49,7 @@ fn enrich_lockfile(
     let main_lockfile_package_set: HashSet<CrateId> = main_lockfile
         .packages
         .iter()
-        .map(|package| CrateId::from_lockfile_package(package))
+        .map(CrateId::from_lockfile_package)
         .collect();
 
     let missing_checksum_list: HashSet<&CrateId> = HashSet::from_iter(
