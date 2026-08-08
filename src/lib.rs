@@ -284,7 +284,7 @@ pub fn generate_raw_sbom(
         None
     };
 
-    let checksum_map = lockfile::generate_checksum_map(context, &parsed_tree);
+    let checksum_map = lockfile::generate_checksum_map(context); //, &parsed_tree);
 
     sbom.convert_cargo_data_to_components(&cargo_metadata, checksum_map, parsed_tree);
 
