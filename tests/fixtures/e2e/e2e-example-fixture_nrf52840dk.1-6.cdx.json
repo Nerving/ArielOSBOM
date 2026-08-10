@@ -17,7 +17,8 @@
           },
           "licenses": [
             {
-              "expression": "MIT License"
+              "expression": "MIT License",
+              "acknowledgement": "declared"
             }
           ],
           "externalReferences": [
@@ -42,7 +43,8 @@
       "manufacturer": {},
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -64,7 +66,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -94,7 +97,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -124,7 +128,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -154,7 +159,8 @@
       },
       "licenses": [
         {
-          "expression": "Unlicense OR MIT"
+          "expression": "Unlicense OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -183,7 +189,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -212,7 +219,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -241,7 +249,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -270,7 +279,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -299,7 +309,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -323,7 +334,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -347,7 +359,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -371,7 +384,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -395,7 +409,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -419,7 +434,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -443,7 +459,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -467,7 +484,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -491,7 +509,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -515,7 +534,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -539,7 +559,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -563,7 +584,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -587,7 +609,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -611,7 +634,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -635,7 +659,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -659,7 +684,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -684,7 +710,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -714,7 +741,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -743,7 +771,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -773,7 +802,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -803,7 +833,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -833,7 +864,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -863,7 +895,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -893,7 +926,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -923,7 +957,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -953,7 +988,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -982,7 +1018,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1011,7 +1048,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1041,7 +1079,8 @@
       },
       "licenses": [
         {
-          "expression": "Zlib OR Apache-2.0 OR MIT"
+          "expression": "Zlib OR Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1071,7 +1110,8 @@
       },
       "licenses": [
         {
-          "expression": "Unlicense OR MIT"
+          "expression": "Unlicense OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1101,7 +1141,8 @@
       },
       "licenses": [
         {
-          "expression": "MPL-2.0"
+          "expression": "MPL-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1130,7 +1171,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1159,7 +1201,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1188,7 +1231,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1217,7 +1261,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1247,7 +1292,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1277,7 +1323,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1307,7 +1354,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0/MIT"
+          "expression": "Apache-2.0/MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1337,7 +1385,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1367,7 +1416,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1397,7 +1447,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1426,7 +1477,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1456,7 +1508,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1486,7 +1539,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0"
+          "expression": "Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1515,7 +1569,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1544,7 +1599,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1573,7 +1629,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1602,7 +1659,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1632,7 +1690,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1662,7 +1721,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1692,7 +1752,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1722,7 +1783,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1752,7 +1814,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1782,7 +1845,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1812,7 +1876,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1842,7 +1907,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1872,7 +1938,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1901,7 +1968,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -1925,7 +1993,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1955,7 +2024,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -1985,7 +2055,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0/MIT"
+          "expression": "Apache-2.0/MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2015,7 +2086,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2045,7 +2117,8 @@
       },
       "licenses": [
         {
-          "expression": "Zlib"
+          "expression": "Zlib",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2075,7 +2148,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2105,7 +2179,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2135,7 +2210,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2165,7 +2241,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2195,7 +2272,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2224,7 +2302,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2254,7 +2333,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2284,7 +2364,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2314,7 +2395,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2344,7 +2426,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2374,7 +2457,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2404,7 +2488,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2434,7 +2519,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2464,7 +2550,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2494,7 +2581,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2524,7 +2612,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2554,7 +2643,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2584,7 +2674,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2614,7 +2705,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2644,7 +2736,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2674,7 +2767,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2704,7 +2798,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2734,7 +2829,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2764,7 +2860,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2794,7 +2891,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2824,7 +2922,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2854,7 +2953,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2884,7 +2984,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2914,7 +3015,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2943,7 +3045,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -2972,7 +3075,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3001,7 +3105,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3030,7 +3135,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3059,7 +3165,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3083,12 +3190,13 @@
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=0feffeb3c90748112a64c6570a39e1251311accb#embassy-hal-internal@0.3.0",
       "manufacturer": {
         "url": [
-          "https://github.com/embassy-rs/embassy"
+          "https://github.com/ariel-os/embassy"
         ]
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -3107,12 +3215,13 @@
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=3b185bf1b3852867e4b932456600621f86f78bce#embassy-net@0.8.0",
       "manufacturer": {
         "url": [
-          "https://github.com/embassy-rs/embassy"
+          "https://github.com/ariel-os/embassy"
         ]
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -3136,7 +3245,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3165,7 +3275,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3189,12 +3300,13 @@
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=3940a79a29ae578a35625cae949bea473abf21d1#embassy-nrf@0.8.0",
       "manufacturer": {
         "url": [
-          "https://github.com/embassy-rs/embassy"
+          "https://github.com/ariel-os/embassy"
         ]
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -3218,7 +3330,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3242,12 +3355,13 @@
       "bom-ref": "git+https://github.com/ariel-os/embassy?rev=32919cd38e4a5ad5fc21dfb339abd45a74bd1dc9#embassy-time@0.5.0",
       "manufacturer": {
         "url": [
-          "https://github.com/embassy-rs/embassy"
+          "https://github.com/ariel-os/embassy"
         ]
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [],
@@ -3271,7 +3385,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3300,7 +3415,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3329,7 +3445,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3358,7 +3475,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3388,7 +3506,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3418,7 +3537,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3448,7 +3568,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3477,7 +3598,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3506,7 +3628,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3535,7 +3658,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3564,7 +3688,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3593,7 +3718,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3623,7 +3749,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3652,7 +3779,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3681,7 +3809,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3711,7 +3840,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3741,7 +3871,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3771,7 +3902,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3801,7 +3933,8 @@
       },
       "licenses": [
         {
-          "expression": "(Apache-2.0 OR MIT) AND BSD-3-Clause"
+          "expression": "(Apache-2.0 OR MIT) AND BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3830,7 +3963,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3859,7 +3993,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3889,7 +4024,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3919,7 +4055,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3948,7 +4085,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -3977,7 +4115,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4007,7 +4146,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4036,7 +4176,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4066,7 +4207,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 / MIT"
+          "expression": "Apache-2.0 / MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4096,7 +4238,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4125,7 +4268,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4154,7 +4298,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4184,7 +4329,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4214,7 +4360,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4244,7 +4391,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4274,7 +4422,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4304,7 +4453,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4334,7 +4484,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4364,7 +4515,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4394,7 +4546,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4424,7 +4577,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4454,7 +4608,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4483,7 +4638,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4513,7 +4669,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4543,7 +4700,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4573,7 +4731,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4603,7 +4762,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4633,7 +4793,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4663,7 +4824,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4693,7 +4855,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4723,7 +4886,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4753,7 +4917,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4783,7 +4948,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4813,7 +4979,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4843,7 +5010,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4873,7 +5041,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4903,7 +5072,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4933,7 +5103,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4963,7 +5134,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -4993,7 +5165,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5022,7 +5195,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5052,7 +5226,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5082,7 +5257,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5111,7 +5287,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5141,7 +5318,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5171,7 +5349,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5201,7 +5380,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5231,7 +5411,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5261,7 +5442,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5291,7 +5473,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5321,7 +5504,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5351,7 +5535,8 @@
       },
       "licenses": [
         {
-          "expression": "ISC"
+          "expression": "ISC",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5381,7 +5566,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5411,7 +5597,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5441,7 +5628,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5471,7 +5659,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5501,7 +5690,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5531,7 +5721,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5561,7 +5752,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5591,7 +5783,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5621,7 +5814,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5651,7 +5845,8 @@
       },
       "licenses": [
         {
-          "expression": "0BSD"
+          "expression": "0BSD",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5681,7 +5876,8 @@
       },
       "licenses": [
         {
-          "expression": "Unlicense OR MIT"
+          "expression": "Unlicense OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5711,7 +5907,8 @@
       },
       "licenses": [
         {
-          "expression": "BlueOak-1.0.0"
+          "expression": "BlueOak-1.0.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5740,7 +5937,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5770,7 +5968,8 @@
       },
       "licenses": [
         {
-          "expression": "BlueOak-1.0.0"
+          "expression": "BlueOak-1.0.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5800,7 +5999,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5830,7 +6030,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5860,7 +6061,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5890,7 +6092,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5919,7 +6122,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5949,7 +6153,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -5979,7 +6184,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6009,7 +6215,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6039,7 +6246,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6069,7 +6277,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6099,7 +6308,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6129,7 +6339,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6159,7 +6370,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6189,7 +6401,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6219,7 +6432,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6249,7 +6463,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6279,7 +6494,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6309,7 +6525,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6339,7 +6556,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6369,7 +6587,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6398,7 +6617,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6428,7 +6648,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6458,7 +6679,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6488,7 +6710,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6518,7 +6741,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6548,7 +6772,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6578,7 +6803,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6608,7 +6834,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6638,7 +6865,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6668,7 +6896,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6698,7 +6927,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6728,7 +6958,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6758,7 +6989,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6788,7 +7020,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6818,7 +7051,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6848,7 +7082,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6878,7 +7113,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6908,7 +7144,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6938,7 +7175,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6968,7 +7206,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -6998,7 +7237,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7028,7 +7268,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7058,7 +7299,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR BSL-1.0"
+          "expression": "Apache-2.0 OR BSL-1.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7088,7 +7330,8 @@
       },
       "licenses": [
         {
-          "expression": "Unlicense/MIT"
+          "expression": "Unlicense/MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7118,7 +7361,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7147,7 +7391,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7177,7 +7422,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7207,7 +7453,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7237,7 +7484,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7267,7 +7515,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7297,7 +7546,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7327,7 +7577,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7357,7 +7608,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7386,7 +7638,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7416,7 +7669,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7446,7 +7700,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7476,7 +7731,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7506,7 +7762,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7536,7 +7793,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7566,7 +7824,8 @@
       },
       "licenses": [
         {
-          "expression": "0BSD"
+          "expression": "0BSD",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7596,7 +7855,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7625,7 +7885,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7655,7 +7916,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7685,7 +7947,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-3-Clause"
+          "expression": "BSD-3-Clause",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7715,7 +7978,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7745,7 +8009,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7774,7 +8039,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7804,7 +8070,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7834,7 +8101,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7864,7 +8132,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7894,7 +8163,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7923,7 +8193,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7952,7 +8223,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -7981,7 +8253,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8010,7 +8283,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8039,7 +8313,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8068,7 +8343,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8098,7 +8374,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8128,7 +8405,8 @@
       },
       "licenses": [
         {
-          "expression": "Zlib"
+          "expression": "Zlib",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8158,7 +8436,8 @@
       },
       "licenses": [
         {
-          "expression": "(MIT OR Apache-2.0) AND Unicode-3.0"
+          "expression": "(MIT OR Apache-2.0) AND Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8188,7 +8467,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8218,7 +8498,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8248,7 +8529,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8278,7 +8560,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8308,7 +8591,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8338,7 +8622,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8368,7 +8653,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8398,7 +8684,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT/Apache-2.0"
+          "expression": "MIT/Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8428,7 +8715,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8458,7 +8746,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8488,7 +8777,8 @@
       },
       "licenses": [
         {
-          "expression": "Unlicense/MIT"
+          "expression": "Unlicense/MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8518,7 +8808,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT OR Apache-2.0"
+          "expression": "MIT OR Apache-2.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8547,7 +8838,8 @@
       },
       "licenses": [
         {
-          "expression": "MIT"
+          "expression": "MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8577,7 +8869,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8607,7 +8900,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8637,7 +8931,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8667,7 +8962,8 @@
       },
       "licenses": [
         {
-          "expression": "BSD-2-Clause OR Apache-2.0 OR MIT"
+          "expression": "BSD-2-Clause OR Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8697,7 +8993,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8727,7 +9024,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8757,7 +9055,8 @@
       },
       "licenses": [
         {
-          "expression": "Apache-2.0 OR MIT"
+          "expression": "Apache-2.0 OR MIT",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8787,7 +9086,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8817,7 +9117,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [
@@ -8847,7 +9148,8 @@
       },
       "licenses": [
         {
-          "expression": "Unicode-3.0"
+          "expression": "Unicode-3.0",
+          "acknowledgement": "declared"
         }
       ],
       "hashes": [

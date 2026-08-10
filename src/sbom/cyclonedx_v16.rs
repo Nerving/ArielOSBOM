@@ -251,30 +251,26 @@ impl CycloneDxManufacturerV1_6 {
     }
 
     fn from_raw_component(raw_component: &RawComponent) -> CycloneDxManufacturerV1_6 {
-        let url = if let Some(url) = raw_component.metadata_website.clone() {
-            url
-        } else if let Some(url) = raw_component.metadata_repository.clone() {
-            url
-        } else if let Some(url) = raw_component.vcs.clone() {
-            if url.contains("/tree/") {
-                url.rsplit_once('/')
-                    .unwrap()
-                    .0
-                    .rsplit_once('/')
-                    .unwrap()
-                    .0
-                    .to_string()
-            } else {
-                url
-            }
-        } else {
-            "".into()
-        };
-
-        let name = if raw_component.creators.is_empty() {
+        let name_if_registy = if raw_component.creators.is_empty() {
             None
         } else {
             Some(raw_component.creators.clone().join(", "))
+        };
+
+        let (url, name) = if !raw_component.id.starts_with("registry+") {
+            // if external: do not provide upstream
+            if let Some(vcs) = raw_component.vcs.clone() {
+                println!("{}", raw_component.id);
+                (vcs.rsplit_once("/tree/").unwrap().0.to_string(), None)
+            } else {
+                ("".into(), None)
+            }
+        } else if let Some(url) = raw_component.metadata_website.clone() {
+            (url, name_if_registy)
+        } else if let Some(url) = raw_component.metadata_repository.clone() {
+            (url, name_if_registy)
+        } else {
+            ("".into(), name_if_registy)
         };
 
         CycloneDxManufacturerV1_6 {
@@ -291,11 +287,15 @@ impl CycloneDxManufacturerV1_6 {
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
 struct CycloneDxLicenseExpressionV1_6 {
     expression: String,
+    acknowledgement: String,
 }
 
 impl From<String> for CycloneDxLicenseExpressionV1_6 {
     fn from(value: String) -> Self {
-        CycloneDxLicenseExpressionV1_6 { expression: value }
+        CycloneDxLicenseExpressionV1_6 {
+            expression: value,
+            acknowledgement: "declared".into(),
+        }
     }
 }
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]

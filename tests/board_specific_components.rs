@@ -19,7 +19,7 @@ fn esp_specific_components() {
         generate_example_build_context(STANDARD_EXAMPLE, "espressif-esp32-c6-devkitc-1");
     generate_build_command_locked(&mut context);
 
-    let generator_output = generate_raw_sbom(&mut context, false);
+    let generator_output = generate_raw_sbom(&mut context, &None, false).unwrap();
 
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example
     // would need more elaborate testing, e. g. of more examples, if wanting to check for those too
@@ -57,7 +57,7 @@ fn nrf_specific_components() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, STANDARD_BUILDER);
     generate_build_command_locked(&mut context);
 
-    let generator_output = generate_raw_sbom(&mut context, false);
+    let generator_output = generate_raw_sbom(&mut context, &None, false).unwrap();
 
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example
     // would need more elaborate testing, e. g. of more examples, if wanting to check for those too
@@ -83,7 +83,7 @@ fn rp_specific_components() {
     let mut context = generate_example_build_context(STANDARD_EXAMPLE, "rpi-pico");
     generate_build_command_locked(&mut context);
 
-    let generator_output = generate_raw_sbom(&mut context, false);
+    let generator_output = generate_raw_sbom(&mut context, &None, false).unwrap();
 
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example
     // would need more elaborate testing, e. g. of more examples, if wanting to check for those too
@@ -109,7 +109,7 @@ fn stm32_specific_components() {
     let mut context = generate_example_build_context("thermometer", "stm32u083c-dk");
     generate_build_command_locked(&mut context);
 
-    let generator_output = generate_raw_sbom(&mut context, false);
+    let generator_output = generate_raw_sbom(&mut context, &None, false).unwrap();
 
     // these should be guaranteed to appear; others exist, but aren't necessarily present for every example
     // would need more elaborate testing, e. g. of more examples, if wanting to check for those too

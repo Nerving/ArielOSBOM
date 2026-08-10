@@ -16,8 +16,8 @@ use semver::Version;
 
 use crate::{
     build_command::{ArielOsBuildCommand, CompileCommandsJson},
-    sbom::{FileFormat, RawSbom},
-    tree::{generate_cargo_tree_output, parse_cargo_tree},
+    sbom::{BomFormat, FileFormat, RawSbom},
+    tree::{generate_cargo_tree_output, parse_cargo_tree, write_tree_to_file},
 };
 
 pub struct ArielOsBuildContext {
@@ -82,6 +82,22 @@ impl ArielOsBuildContext {
 //         &self.name
 //     }
 // }
+
+pub struct OutputConfiguration {
+    output_name: String,
+    output_dir: PathBuf,
+    bom_formats: Vec<BomFormat>,
+}
+
+impl OutputConfiguration {
+    pub fn new(output_name: String, output_dir: PathBuf, bom_formats: Vec<BomFormat>) -> Self {
+        OutputConfiguration {
+            output_name,
+            output_dir,
+            bom_formats,
+        }
+    }
+}
 
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]
 pub struct CrateId {
@@ -258,8 +274,9 @@ pub struct GeneratorOutput {
 
 pub fn generate_raw_sbom(
     context: &mut ArielOsBuildContext,
+    output: &Option<OutputConfiguration>,
     emit_cargo_artifacts: bool,
-) -> GeneratorOutput {
+) -> Option<GeneratorOutput> {
     let mut sbom = RawSbom::empty();
 
     if context.build_command == ArielOsBuildCommand::default() {
@@ -288,10 +305,50 @@ pub fn generate_raw_sbom(
 
     sbom.convert_cargo_data_to_components(&cargo_metadata, checksum_map, parsed_tree);
 
-    GeneratorOutput {
+    let generated = GeneratorOutput {
         sbom,
         metadata: original_metadata,
         tree: original_cargo_tree,
+    };
+
+    match output {
+        Some(output) => {
+            write_files(generated, context, output, emit_cargo_artifacts);
+            None
+        }
+        None => Some(generated),
+    }
+}
+
+fn write_files(
+    generated: GeneratorOutput,
+    context: &ArielOsBuildContext,
+    output: &OutputConfiguration,
+    emit_cargo_artifacts: bool,
+) {
+    let (mut sbom, metadata, tree) = (generated.sbom, generated.metadata, generated.tree);
+    if emit_cargo_artifacts {
+        write_metadata_to_file(
+            metadata.unwrap(),
+            &output.output_name,
+            &output.output_dir,
+            &context.builder,
+        );
+        write_tree_to_file(
+            tree.unwrap(),
+            &output.output_name,
+            &output.output_dir,
+            &context.builder,
+        );
+    }
+    for bom_format in &output.bom_formats {
+        sbom::write_sbom_to_file(
+            &mut sbom,
+            bom_format,
+            &output.output_name,
+            &output.output_dir,
+            &context.builder,
+        );
     }
 }
 

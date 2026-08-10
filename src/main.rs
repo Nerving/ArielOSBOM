@@ -2,9 +2,7 @@ mod cliarg;
 
 use std::fs::create_dir;
 
-use arielosbom::{
-    ArielOsBuildContext, generate_raw_sbom, tree::write_tree_to_file, write_metadata_to_file,
-};
+use arielosbom::{ArielOsBuildContext, OutputConfiguration, generate_raw_sbom};
 use clap::Parser;
 
 use crate::cliarg::Args;
@@ -29,6 +27,12 @@ fn main() {
         };
     }
 
+    let output_config = Some(OutputConfiguration::new(
+        cli_args.output_name.clone(),
+        cli_args.output_dir.clone(),
+        cli_args.bom_formats.clone(),
+    ));
+
     // future: do not generate each sbom entirely seperately but fill "database" of components first and then generate all boms accordingly
 
     for builder in &cli_args.builders {
@@ -40,32 +44,36 @@ fn main() {
             builder,
         );
 
-        let mut generator_output =
-            generate_raw_sbom(&mut build_context, cli_args.emit_cargo_artifacts);
+        //let mut generator_output =
+        generate_raw_sbom(
+            &mut build_context,
+            &output_config,
+            cli_args.emit_cargo_artifacts,
+        );
 
-        if cli_args.emit_cargo_artifacts {
-            write_tree_to_file(
-                generator_output.tree.unwrap(),
-                &cli_args.output_name,
-                &cli_args.output_dir,
-                build_context.builder(),
-            );
-            write_metadata_to_file(
-                generator_output.metadata.unwrap(),
-                &cli_args.output_name,
-                &cli_args.output_dir,
-                build_context.builder(),
-            );
-        }
+        // if cli_args.emit_cargo_artifacts {
+        //     write_tree_to_file(
+        //         generator_output.tree.unwrap(),
+        //         &cli_args.output_name,
+        //         &cli_args.output_dir,
+        //         build_context.builder(),
+        //     );
+        //     write_metadata_to_file(
+        //         generator_output.metadata.unwrap(),
+        //         &cli_args.output_name,
+        //         &cli_args.output_dir,
+        //         build_context.builder(),
+        //     );
+        // }
 
-        for bom_format in &cli_args.bom_formats {
-            arielosbom::sbom::write_sbom_to_file(
-                &mut generator_output.sbom,
-                bom_format,
-                &cli_args.output_name,
-                &cli_args.output_dir,
-                build_context.builder(),
-            );
-        }
+        // for bom_format in &cli_args.bom_formats {
+        //     arielosbom::sbom::write_sbom_to_file(
+        //         &mut generator_output.sbom,
+        //         bom_format,
+        //         &cli_args.output_name,
+        //         &cli_args.output_dir,
+        //         build_context.builder(),
+        //     );
+        // }
     }
 }
