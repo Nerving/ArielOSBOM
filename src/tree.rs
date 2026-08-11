@@ -101,6 +101,8 @@ pub fn generate_cargo_tree_output(context: &ArielOsBuildContext) -> Vec<u8> {
         .arg("tree")
         .arg("--color")
         .arg("never")
+        .arg("--edges")
+        .arg("normal,build")
         .arg("--manifest-path")
         .arg(&context.manifest_path)
         .arg(&context.build_command.features)

@@ -260,7 +260,6 @@ impl CycloneDxManufacturerV1_6 {
         let (url, name) = if !raw_component.id.starts_with("registry+") {
             // if external: do not provide upstream
             if let Some(vcs) = raw_component.vcs.clone() {
-                println!("{}", raw_component.id);
                 (vcs.rsplit_once("/tree/").unwrap().0.to_string(), None)
             } else {
                 ("".into(), None)
