@@ -17,23 +17,12 @@ pub struct Component {
     pub name: String,
     pub version: Version,
     pub id: String,
-    pub creators: Vec<String>, // TODO: enhance authors
-    // pub filename: Option<String>,
-    pub licenses: Option<String>, // more specified later
-    pub identifiers: Vec<String>, // more specified later for Hash, SWHID, ...
-
+    pub creators: Vec<String>,
+    pub licenses: Option<String>,
+    pub identifiers: Vec<String>,
     pub vcs: Option<String>,
     pub metadata_repository: Option<String>,
     pub metadata_website: Option<String>,
-
-    // pub executable_property: Option<bool>,
-    // pub archive_property: Option<bool>,
-    // pub structured_property: Option<bool>,
-
-    // pub uri_source_code: Option<String>,
-    // pub hash_source_code: Option<String>,
-    // pub uri_deployable_form: Option<String>,
-    // pub url_security_text: Option<String>,
     pub dependencies: Vec<Dependency>,
 }
 
@@ -77,20 +66,11 @@ impl Component {
             name: package.name.to_string(),
             version: package.version.clone(),
             creators: package.authors.clone(),
-            // filename: None,
             licenses: package.license.clone(),
             identifiers,
             vcs,
             metadata_repository: package.repository.clone(),
             metadata_website: package.homepage.clone(),
-            // executable_property: None,
-            // archive_property: None,
-            // structured_property: None,
-
-            // uri_source_code: package.repository.clone(),
-            // hash_source_code: None,
-            // uri_deployable_form: None,
-            // url_security_text: None,
             dependencies,
         }
     }

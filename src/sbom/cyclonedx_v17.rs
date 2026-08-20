@@ -135,23 +135,18 @@ struct CycloneDxComponentV1_7 {
     manufacturer: Option<CycloneDxManufacturerV1_7>, // needs manufacturer according to BSI spec for URL if no email to provide
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    licenses: Option<Vec<CycloneDxLicenseExpressionV1_7>>, // just License expression for now
+    licenses: Option<Vec<CycloneDxLicenseExpressionV1_7>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    purl: Option<String>, // proper purl later
+    purl: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    hashes: Option<Vec<CycloneDxHashV1_7>>, // BSI requires SHA-512 hash
+    hashes: Option<Vec<CycloneDxHashV1_7>>,
 
     externalReferences: Vec<CycloneDxExternalReferenceV1_7>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     properties: Option<Vec<CycloneDxPropertyV1_7>>,
-    // to address (for BSI):
-    // filename, SHA-512 hash (of what specifically?)
-    // exec/arch/struc property (default for library: arch/struc; main application: exec)
-    // hash source code
-    // uri deployable/security text
 }
 
 impl CycloneDxComponentV1_7 {

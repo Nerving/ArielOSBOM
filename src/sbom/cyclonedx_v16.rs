@@ -135,23 +135,18 @@ struct CycloneDxComponentV1_6 {
     manufacturer: Option<CycloneDxManufacturerV1_6>, // needs manufacturer according to BSI spec for URL if no email to provide
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    licenses: Option<Vec<CycloneDxLicenseExpressionV1_6>>, // just License expression for now
+    licenses: Option<Vec<CycloneDxLicenseExpressionV1_6>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    purl: Option<String>, // proper purl later
+    purl: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    hashes: Option<Vec<CycloneDxHashV1_6>>, // BSI requires SHA-512 hash
+    hashes: Option<Vec<CycloneDxHashV1_6>>,
 
     externalReferences: Vec<CycloneDxExternalReferenceV1_6>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     properties: Option<Vec<CycloneDxPropertyV1_6>>,
-    // to address (for BSI):
-    // filename, SHA-512 hash (of what specifically?)
-    // exec/arch/struc property (default for library: arch/struc; main application: exec)
-    // hash source code
-    // uri deployable/security text
 }
 
 impl CycloneDxComponentV1_6 {
@@ -233,12 +228,10 @@ struct CycloneDxManufacturerV1_6 {
     name: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    address: Option<String>, // type temporary?
+    address: Option<String>,
 
     #[serde(skip_serializing_if = "Vec::is_empty")]
-    url: Vec<String>, // type temporary?
-
-                      //contact,
+    url: Vec<String>,
 }
 
 impl CycloneDxManufacturerV1_6 {

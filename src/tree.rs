@@ -12,30 +12,7 @@ impl CargoTreeGraph {
     pub fn node_index(&self, node: &CrateId) -> Option<&usize> {
         self.node_index_map.get(node)
     }
-
-    // pub fn node_identifier(&self, node_index: usize) -> Option<&CrateIdentifier> {
-    //     if node_index >= self.nodes.len() {
-    //         None
-    //     } else {
-    //         Some(self.nodes[node_index].identifier())
-    //     }
-    // }
 }
-
-// pub struct TreeNode {
-//     identifier: CrateIdentifier,
-//     _source: Option<String>,
-// }
-
-// impl TreeNode {
-//     pub fn identifier(&self) -> &CrateIdentifier {
-//         &self.identifier
-//     }
-
-//     pub fn name(&self) -> &str {
-//         self.identifier.name()
-//     }
-// }
 
 #[derive(Debug)]
 pub struct TreeDependency {
@@ -160,35 +137,6 @@ pub fn parse_cargo_tree(tree_data: Vec<u8>) -> CargoTreeGraph {
         node_index_map,
     }
 }
-
-// pub fn parse_tree_line(line: &str) -> (TreeNode, bool) {
-//     let end_trimmed = line.trim_end_matches(" (*)");
-//     let mut split_line = end_trimmed.split_whitespace();
-
-//     //we are guaranteed to have name and version; would technically want to check for errors though
-//     let identifier = CrateIdentifier::new(
-//         split_line.next().unwrap().to_string(),
-//         Version::from_str(&split_line.next().unwrap()[1..]).unwrap(),
-//     );
-//     let mut is_proc_macro = false;
-//     let mut _source: Option<String> = None;
-//     for part in split_line {
-//         if part == "(proc-macro)" {
-//             is_proc_macro = true;
-//         } else {
-//             // can't have anything else there afaik with the regular cargo tree call
-//             _source = Some(part[1..part.len() - 1].to_string());
-//         }
-//     }
-
-//     (
-//         TreeNode {
-//             identifier,
-//             _source,
-//         },
-//         is_proc_macro,
-//     )
-// }
 
 pub fn write_tree_to_file(tree: Vec<u8>, file_name: &str, output_dir: &Path, builder: &str) {
     let file_format = FileFormat::Txt;

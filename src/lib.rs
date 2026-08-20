@@ -67,22 +67,6 @@ impl ArielOsBuildContext {
     }
 }
 
-// #[derive(Clone, PartialEq, Eq, Hash, Debug)]
-// pub struct CrateIdentifier {
-//     name: String,
-//     version: Version,
-// }
-
-// impl CrateIdentifier {
-//     pub fn new(name: String, version: Version) -> Self {
-//         CrateIdentifier { name, version }
-//     }
-
-//     pub fn name(&self) -> &str {
-//         &self.name
-//     }
-// }
-
 pub struct OutputConfiguration {
     output_name: String,
     output_dir: PathBuf,

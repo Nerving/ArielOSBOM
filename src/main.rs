@@ -33,8 +33,6 @@ fn main() {
         cli_args.bom_formats.clone(),
     ));
 
-    // future: do not generate each sbom entirely seperately but fill "database" of components first and then generate all boms accordingly
-
     for builder in &cli_args.builders {
         let mut build_context = ArielOsBuildContext::from_paths(
             &cli_args.project_root_path,
@@ -50,30 +48,5 @@ fn main() {
             &output_config,
             cli_args.emit_cargo_artifacts,
         );
-
-        // if cli_args.emit_cargo_artifacts {
-        //     write_tree_to_file(
-        //         generator_output.tree.unwrap(),
-        //         &cli_args.output_name,
-        //         &cli_args.output_dir,
-        //         build_context.builder(),
-        //     );
-        //     write_metadata_to_file(
-        //         generator_output.metadata.unwrap(),
-        //         &cli_args.output_name,
-        //         &cli_args.output_dir,
-        //         build_context.builder(),
-        //     );
-        // }
-
-        // for bom_format in &cli_args.bom_formats {
-        //     arielosbom::sbom::write_sbom_to_file(
-        //         &mut generator_output.sbom,
-        //         bom_format,
-        //         &cli_args.output_name,
-        //         &cli_args.output_dir,
-        //         build_context.builder(),
-        //     );
-        // }
     }
 }
