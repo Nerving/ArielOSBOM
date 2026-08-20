@@ -1,3 +1,5 @@
+**Like the README comparison, this document requires an update that will happen with the eventual rewrite.**
+
 This file provides additional details to the [README's comparison](https://github.com/Nerving/ArielOSBOM?tab=readme-ov-file#comparison).
 
 ## Setup
